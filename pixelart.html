@@ -121,6 +121,41 @@
       display: block;
       margin: auto;
     }
+
+    /* Mobile sidebar styles */
+    @media (max-width: 900px), (orientation: portrait) {
+      #sidebarCloseBtn { display: none; }
+      aside.fixed#sidebarMain.sidebar-open #sidebarCloseBtn { 
+        display: block !important; 
+        position: absolute !important; 
+        top: 1rem !important; 
+        right: 1rem !important; 
+        z-index: 120 !important; 
+      }
+      aside.fixed#sidebarMain { 
+        padding-top: 3.5rem !important; 
+        transform: translateX(-100%);
+      }
+      aside.fixed#sidebarMain.sidebar-open {
+        transform: translateX(0);
+      }
+      main.flex-1 {
+        margin-left: 0 !important;
+      }
+      #sidebarOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 30;
+      }
+      #sidebarOverlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
   </style>
 </head>
 <body class="text-gray-800 transition-colors duration-300">
@@ -129,9 +164,21 @@
         <div class="gradient-overlay"></div>
     </div>
     
+    <!-- Add sidebar overlay -->
+    <div id="sidebarOverlay"></div>
+    
+    <!-- Add hamburger button -->
+    <button id="sidebarHamburger" class="fixed top-4 left-4 z-50 bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg lg:hidden" style="display:none;">
+      <i class="fas fa-bars"></i>
+    </button>
+
     <div class="flex min-h-screen">
       <!-- Sidebar -->
-      <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40">
+      <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40 transition-transform duration-300" id="sidebarMain">
+        <!-- Add close button for mobile -->
+        <button id="sidebarCloseBtn" class="absolute top-4 right-4 text-white hover:text-[#F43F5E] hidden">
+          <i class="fas fa-times text-xl"></i>
+        </button>
         <!-- Top: Profile -->
         <div>
           <div class="flex flex-col items-center mb-7">
@@ -246,5 +293,67 @@
             fb.img.src = fb.frames[fb.idx];
           });
         }, 300);
+
+      // Add sidebar mobile functionality
+      (function() {
+        const sidebar = document.getElementById('sidebarMain');
+        const hamburger = document.getElementById('sidebarHamburger');
+        const overlay = document.getElementById('sidebarOverlay');
+        const closeBtn = document.getElementById('sidebarCloseBtn');
+        let sidebarOpen = false;
+
+        function isMobile() {
+          return window.innerWidth <= 900 || window.matchMedia('(orientation: portrait)').matches;
+        }
+
+        function updateSidebarState() {
+          if (isMobile()) {
+            hamburger.style.display = 'block';
+            if (sidebarOpen) {
+              sidebar.classList.add('sidebar-open');
+              overlay.classList.add('active');
+              document.body.style.overflow = 'hidden';
+            } else {
+              sidebar.classList.remove('sidebar-open');
+              overlay.classList.remove('active');
+              document.body.style.overflow = '';
+            }
+          } else {
+            hamburger.style.display = 'none';
+            sidebar.classList.remove('sidebar-open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        }
+
+        hamburger.addEventListener('click', function() {
+          sidebarOpen = true;
+          updateSidebarState();
+        });
+
+        overlay.addEventListener('click', function() {
+          sidebarOpen = false;
+          updateSidebarState();
+        });
+
+        if (closeBtn) {
+          closeBtn.onclick = function(e) {
+            e.stopPropagation();
+            sidebarOpen = false;
+            updateSidebarState();
+          };
+        }
+
+        sidebar.addEventListener('click', function(e) {
+          if (isMobile() && e.target.closest('.sidebar-link')) {
+            sidebarOpen = false;
+            updateSidebarState();
+          }
+        });
+
+        window.addEventListener('resize', updateSidebarState);
+        window.addEventListener('orientationchange', updateSidebarState);
+        updateSidebarState();
+      })();
     </script>
 </body></html>

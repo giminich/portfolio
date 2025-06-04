@@ -78,6 +78,58 @@
       position: relative;
       z-index: 10;
     }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 900px), (orientation: portrait) {
+      .ml-64 {
+        margin-left: 0 !important;
+      }
+      /* Sidebar adjustments */
+      aside.fixed {
+        width: 100% !important;
+        max-width: 100% !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s ease-out !important;
+      }
+      aside.fixed.sidebar-open {
+        transform: translateX(0) !important;
+      }
+      #sidebarCloseBtn { 
+        display: block !important;
+        position: absolute !important;
+        top: 1rem !important;
+        right: 1rem !important;
+        z-index: 120 !important;
+      }
+      /* Show hamburger menu */
+      #sidebarHamburger {
+        display: block !important;
+        padding: 0.5rem !important;
+        font-size: 1.25rem !important;
+      }
+      aside.fixed {
+        padding-top: 3.5rem !important;
+      }
+    }
+    @media (min-width: 901px) {
+      #sidebarHamburger { display: none !important; }
+      #sidebarCloseBtn { display: none !important; }
+      aside.fixed { transform: translateX(0) !important; width: 16rem !important; max-width: none !important; }
+    }
+    
+    #sidebarOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #sidebarOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body class="text-gray-800 transition-colors duration-300">
@@ -88,45 +140,56 @@
 </div>
 <div class="flex min-h-screen" data-llama-id="20">
   <!-- Sidebar -->
-  <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40">
-        <!-- Top: Profile -->
-        <div>
-          <div class="flex flex-col items-center mb-7">
-            <img src="images/profilepic.png"
-                 alt="Profile"
-                 class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
-            <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
-            <!-- Social Icons Row -->
-            <div class="flex flex-row justify-center gap-3 mb-1">
-              <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
-                <i class="fab fa-linkedin-in text-lg"></i>
-              </a>
-          <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Twitter">
-            <i class="fab fa-twitter text-lg"></i>
-              </a>
-              <a href="mailto:giulianminichiello@gmail.com" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Email">
-                <i class="fas fa-envelope text-lg"></i>
-              </a>
-            </div>
-          </div>
-      <!-- Navigation -->
-      <nav class="flex flex-col gap-1.5 mt-3" id="sidebarNav">
-        <a href="coming soon.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
-          <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Coming Soon
-        </a>
-        <a href="index.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
-          <i class="fas fa-user text-base sidebar-icon"></i> Home
-      </nav>
-      <!-- Resume Button -->
-      <div class="flex justify-center mt-7">
-        <a href="Giulian_Minichiello_CV.pdf"
-           class="w-full text-center py-2.5 px-7 rounded-full font-bold text-base bg-gradient-to-r from-[#7B2FF2] to-[#F357A8] hover:from-[#F357A8] hover:to-[#7B2FF2] transition-colors shadow-lg"
-           style="color: #fff;">
-          Resume
-        </a>
-      </div>
+  <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40 transition-transform duration-300" id="sidebarMain">
+    <!-- Close X button for mobile sidebar -->
+    <button id="sidebarCloseBtn" class="absolute top-4 right-4 z-[120] bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg" aria-label="Close sidebar" style="display:none;">
+      <i class="fas fa-times"></i>
+    </button>
+    <!-- Top: Profile -->
+    <div>
+      <div class="flex flex-col items-center mb-7">
+        <img src="images/profilepic.png"
+             alt="Profile"
+             class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
+        <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
+        <!-- Social Icons Row -->
+        <div class="flex flex-row justify-center gap-3 mb-1">
+          <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in text-lg"></i>
+          </a>
+      <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Twitter">
+        <i class="fab fa-twitter text-lg"></i>
+      </a>
+      <a href="mailto:giulianminichiello@gmail.com" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Email">
+        <i class="fas fa-envelope text-lg"></i>
+      </a>
     </div>
-  </aside>
+  </div>
+  <!-- Navigation -->
+  <nav class="flex flex-col gap-1.5 mt-3" id="sidebarNav">
+    <a href="coming soon.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
+      <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Coming Soon
+    </a>
+    <a href="index.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
+      <i class="fas fa-user text-base sidebar-icon"></i> Home
+  </nav>
+  <!-- Resume Button -->
+  <div class="flex justify-center mt-7">
+    <a href="Giulian_Minichiello_CV.pdf"
+       class="w-full text-center py-2.5 px-7 rounded-full font-bold text-base bg-gradient-to-r from-[#7B2FF2] to-[#F357A8] hover:from-[#F357A8] hover:to-[#7B2FF2] transition-colors shadow-lg"
+       style="color: #fff;">
+      Resume
+    </a>
+  </div>
+</div>
+</aside>
+  
+  <!-- Add sidebar overlay for mobile close functionality -->
+  <div id="sidebarOverlay"></div>
+  <!-- Hamburger menu button (mobile only) -->
+  <button id="sidebarHamburger" class="fixed top-4 left-4 z-50 bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg lg:hidden" style="display:none;">
+    <i class="fas fa-bars"></i>
+  </button>
   
   <!-- Main Content -->
   <main class="flex-1 md:ml-64 ml-0">
@@ -180,5 +243,67 @@ particlesJS("particles-js", {
   "retina_detect": true
 });
 </script>
-</body>
-</html>
+<script>
+// --- SIDEBAR HAMBURGER FOR MOBILE ---
+(function() {
+  const sidebar = document.getElementById('sidebarMain');
+  const hamburger = document.getElementById('sidebarHamburger');
+  const overlay = document.getElementById('sidebarOverlay');
+  const closeBtn = document.getElementById('sidebarCloseBtn');
+  let sidebarOpen = false;
+
+  function isMobile() {
+    return window.innerWidth <= 900 || window.matchMedia('(orientation: portrait)').matches;
+  }
+
+  function updateSidebarState() {
+    if (isMobile()) {
+      hamburger.style.display = 'block';
+      if (sidebarOpen) {
+        sidebar.classList.add('sidebar-open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        sidebar.classList.remove('sidebar-open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    } else {
+      sidebar.classList.remove('sidebar-open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      hamburger.style.display = 'none';
+    }
+  }
+
+  hamburger.addEventListener('click', function() {
+    sidebarOpen = true;
+    updateSidebarState();
+  });
+
+  overlay.addEventListener('click', function() {
+    sidebarOpen = false;
+    updateSidebarState();
+  });
+
+  if (closeBtn) {
+    closeBtn.onclick = function(e) {
+      e.stopPropagation();
+      sidebarOpen = false;
+      updateSidebarState();
+    };
+  }
+
+  sidebar.addEventListener('click', function(e) {
+    if (isMobile() && e.target.closest('.sidebar-link')) {
+      sidebarOpen = false;
+      updateSidebarState();
+    }
+  });
+
+  window.addEventListener('resize', updateSidebarState);
+  window.addEventListener('orientationchange', updateSidebarState);
+  updateSidebarState();
+})();
+</script>
+</body></html>

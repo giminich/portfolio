@@ -206,15 +206,18 @@ section:first-of-type .section-bubble::before {
     
     .mobile-text-center {
         text-align: center;
-    }
-
-    /* Hero section mobile fixes */
+    }    /* Hero section mobile fixes */
     #hero {
-        padding: 4rem 1rem;
+        padding: 6rem 1rem 4rem 1rem;
         min-height: 110vh;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+    }
+
+    /* Ensure hero text has proper spacing on mobile */
+    #hero .text-content {
+        margin-top: 1rem;
     }
 
     /* Portfolio showcase fixes */
@@ -240,9 +243,54 @@ section:first-of-type .section-bubble::before {
         padding: 2rem 1rem;
     }
 
-    #contact form {
-        width: 100%;
-        max-width: 100%;
+    #contact .section-content {
+        padding: 1.5rem;
+    }
+
+    /* Contact information layout */
+    #contact .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* Contact item styling */
+    #contact .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    #contact .contact-item i {
+        font-size: 1.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(127, 29, 29, 0.1);
+        border-radius: 50%;
+    }
+
+    /* Make sure text doesn't overflow */
+    #contact .contact-item span,
+    #contact .contact-item a {
+        font-size: 0.95rem;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        max-width: calc(100% - 3.5rem);
+    }
+
+    /* Adjust spacing for better readability */
+    #contact h2 {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+
+    /* Ensure proper spacing between sections */
+    #contact > div {
+        margin-bottom: 2rem;
     }
 
     /* Game Development Journey section */
@@ -282,18 +330,57 @@ section:first-of-type .section-bubble::before {
         padding: 0.75rem 1rem;
     }
 
-    .floating-icon {
-        width: 48px !important;
-        height: 48px !important;
+    /* Portfolio card responsive text handling */
+    .project-card .description,
+    .relative.group.rounded-2xl .description {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        max-height: none;
+        overflow: visible;
+        padding: 0.5rem;
+        margin: 0.5rem;
     }
 
-    #goalPost {
-        width: 140px !important;
-        height: 56px !important;
+    /* Ensure card content is properly spaced */
+    .project-card .content,
+    .relative.group.rounded-2xl .content {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }    /* Adjust padding for better text visibility */
+    .project-card .relative.z-20,
+    .relative.group.rounded-2xl .relative.z-20 {
+        padding: 1rem;
+        margin: 0.5rem;
     }
 
-    .floating-icon.grabbed {
-        transform: scale(1.2);
+    /* Testimonials mobile adjustments */
+    #testimonials {
+        padding: 2rem 1rem;
+    }
+
+    #testimonials .section-content {
+        padding: 1.5rem;
+    }
+
+    #testimonials blockquote {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin: 1rem 0;
+        padding: 0.5rem;
+    }
+
+    #testimonials blockquote p {
+        margin-bottom: 0.5rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    #testimonials .author {
+        font-size: 1rem;
+        margin-top: 0.5rem;
     }
 }
 
@@ -337,50 +424,4 @@ section:first-of-type .section-bubble::before {
 .project-card img:hover {
     transform: none !important;
     transition: none !important;
-}
-
-/* Game Mechanics Styles */
-@keyframes goalPulse {
-    0% { transform: translateX(-50%) scale(1); }
-    50% { transform: translateX(-50%) scale(1.1); }
-    100% { transform: translateX(-50%) scale(1); }
-}
-
-@keyframes scorePopup {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); }
-}
-
-#goalPost {
-    transition: all 0.3s ease-out;
-}
-
-#goalPost.active {
-    animation: goalPulse 0.5s ease-out;
-}
-
-.floating-icon {
-    cursor: grab;
-    touch-action: none;
-    will-change: transform;
-    transition: transform 0.2s ease-out, filter 0.2s ease-out;
-}
-
-.floating-icon.grabbed {
-    cursor: grabbing;
-    filter: brightness(1.2) drop-shadow(0 0 8px rgba(127, 29, 29, 0.5));
-    transform: scale(1.1);
-}
-
-.floating-icon.flinging {
-    transition: transform 0.1s ease-out;
-}
-
-#scoreCounter {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.score-pop {
-    animation: scorePopup 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

@@ -1,0 +1,224 @@
+/* Global Styles */
+:root {
+    --primary-color: #7F1D1D;
+    --secondary-color: #FCD34D;
+    --dark-bg: #0A101A;
+    --light-bg: #F3F4F6;
+}
+
+/* Essential Styles */
+html { scroll-behavior: smooth; }
+
+/* Optimize transitions */
+.hover-effect, .project-card, .btn-gradient, .custom-link::after {
+    transition: all 0.3s ease;
+    will-change: transform;
+}
+
+/* Combine common animations */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Section container optimization */
+.section-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin: 2rem;
+    contain: content; /* Improve performance */
+}
+
+/* Optimize background patterns */
+#projects, #skills, #journey, #testimonials, #contact {
+    background-blend-mode: soft-light;
+    background-attachment: fixed;
+    contain: paint;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+
+/* Button Hover Animation */
+.btn-gradient {
+    background-size: 200% auto;
+    transition: background-position 0.5s ease;
+}
+
+.btn-gradient:hover {
+    background-position: right center;
+}
+
+/* Skill Progress Animation */
+@keyframes fillProgress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+.progress-bar {
+    transform-origin: left;
+    animation: fillProgress 1.5s ease-out forwards;
+}
+
+/* Custom Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Text Selection */
+::selection {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Focus States */
+input:focus, 
+textarea:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Custom Link Underline */
+.custom-link {
+    position: relative;
+}
+
+.custom-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.custom-link:hover::after {
+    width: 100%;
+}
+
+/* Section Styling */
+.section-bubble {
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.section-bubble::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+/* First section shouldn't have arrow */
+section:first-of-type .section-bubble::before {
+    display: none;
+}
+
+/* Section Backgrounds */
+#projects {
+    background: linear-gradient(120deg, #f0f0f0 0%, #ffffff 100%),
+                radial-gradient(70% 90% at 50% 100%, rgba(127, 29, 29, 0.05) 0%, transparent 100%);
+}
+
+#skills {
+    background: 
+        radial-gradient(circle at 100% 100%, rgba(252, 211, 77, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 0% 0%, rgba(127, 29, 29, 0.05) 0%, transparent 50%),
+        linear-gradient(to bottom right, #ffffff, #f8f9fa);
+}
+
+#journey {
+    background-image: 
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zM36.343 0l8.485 8.485-1.414 1.414L34 .414l2.343-.414zM23.657 0l-8.485 8.485 1.415 1.414L26 .414 23.657 0zm-12.02 0l13.1 13.1-1.414 1.414L9.414 0h2.223zM48.364 0L35.264 13.1l1.414 1.414L50.586 0h-2.222zM0 5.373l.828-.83L2.243 5.96 0 8.2V5.374zm0 5.656l3.657-3.657 1.414 1.414L0 13.857V11.03zm0 5.656l6.485-6.485 1.414 1.414L0 19.9v-2.83zm0 5.657l9.314-9.314 1.414 1.414L0 25.97v-2.83zm0 5.657L13.142 13.14l1.414 1.414L0 32.043v-2.83zm0 5.657L16.97 16.97l1.415 1.414L0 38.116v-2.83zm0 5.657L20.8 20.8l1.414 1.414L0 44.187v-2.83zm0 5.657L24.627 24.627l1.414 1.414L0 50.26v-2.83zm0 5.657l28.456-28.456 1.414 1.414L0 56.333v-2.83zm0 5.657l32.284-32.284 1.414 1.414L0 62.406v-2.83zM0 60.414L34.627 25.787l1.414 1.414L0 65.484v-5.07zm5.373 0L40 25.787l1.414 1.414L5.374 65.484zm5.657 0L45.657 25.787l1.414 1.414L11.03 65.484zm5.657 0l35.7-35.7 1.414 1.414-35.7 35.7zm5.657 0l35.7-35.7 1.414 1.414-35.7 35.7zm5.657 0l35.7-35.7 1.414 1.414-35.7 35.7zm5.657 0l35.7-35.7 1.414 1.414-35.7 35.7zm5.657 0l35.7-35.7 1.414 1.414-35.7 35.7zm5.657 0l35.7-35.7 1.414 1.414-35.7 35.7z' fill='%237F1D1D' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+#testimonials {
+    background: 
+        radial-gradient(circle at 0% 0%, rgba(127, 29, 29, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(252, 211, 77, 0.05) 0%, transparent 50%),
+        linear-gradient(to bottom right, #ffffff, #f8f9fa);
+}
+
+#contact {
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%237F1D1D' fill-opacity='0.03' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.section-content {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    body {
+        color: black;
+        background: white;
+    }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .mobile-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .mobile-text-center {
+        text-align: center;
+    }
+}
+
+/* Remove these scroll animation classes */
+.scroll-reveal,
+.scroll-reveal.visible,
+.reveal,
+.reveal.active {
+    /* remove all of these */
+}
+
+.project-card img:hover {
+  /* Remove any transform or scale effects to disable zoom-in on hover */
+  transform: none !important;
+  transition: none !important;
+}

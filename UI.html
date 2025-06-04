@@ -1,0 +1,468 @@
+<!DOCTYPE html><html lang="en"><head data-llama-id="0">
+<meta charset="utf-8" data-llama-id="1">
+<meta content="Game Design Portfolio of Giuian Mnichiello, a creative professional with expertise in game development, level design, and interactive experiences." data-llama-id="2" name="description">
+<meta content="Game Design, Portfolio, Game Development, Interactive, 3D Modeling, 2D art, pixel art, Game Design, Unreal Engine, UI/UX design, Graphic Design" data-llama-id="3" name="keywords">
+<meta content="Game Designer" data-llama-id="4" name="Giulian">
+<meta content="width=device-width, initial-scale=1.0" data-llama-id="5" name="viewport">
+<meta content="Game Design Portfolio" data-llama-id="6" property="og:title">
+<meta content="Explore professional game design projects and skills." data-llama-id="7" property="og:description">
+<meta content="https://llamapress-ai-image-uploads.s3.us-west-2.amazonaws.com/hero-business-downtown-aerial-shot-ocean-in-background-landscape-dimensions.jpg" data-llama-id="8" property="og:image">
+<meta content="https://yourdomain.com" data-llama-id="9" property="og:url">
+<link data-llama-id="10" href="images/profilepic.png" rel="icon" type="image/png">
+<title data-llama-id="11">Game Design Portfolio</title>
+<script data-llama-id="12" src="https://cdn.tailwindcss.com"></script>
+<script data-llama-id="13" src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+<link data-llama-id="14" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link data-llama-id="15" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+<style data-llama-id="16">
+    body { font-family: 'Inter', sans-serif; background-color: #101624; }
+    h1, h2, h3, .heading { font-family: 'Poppins', sans-serif; }
+    .progress-circle { background: conic-gradient(#fc4d4d calc(var(--value) * 1%), #e5e7eb 0); border-radius: 50%; }
+    .btn-gradient { background: linear-gradient(45deg, #7F1D1D, #fc4d4d); }
+    .btn-gradient:hover { background: linear-gradient(45deg, #fc4d4d, #7F1D1D); }
+    /* Loading overlay */
+    #loadingOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    /* Remove old fade-in-section classes */
+    
+    /* Add new smooth reveal animation */
+    .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    /* New section fade styles */
+    .section-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .section-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .sidebar-selected {
+      background: #181F2A !important;
+      color: #F43F5E !important;
+      font-weight: bold;
+    }
+    .sidebar-selected .sidebar-icon {
+      color: #F43F5E !important;
+    }
+    .sidebar-link {
+      transition: background 0.2s, color 0.2s;
+    }
+    
+    /* Animated fluid gradient background */
+    .fluid-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(125deg, #101624 0%, #232946 60%, #6C63FF 100%);
+      filter: blur(50px);
+      opacity: 0.85;
+      z-index: -1;
+    }
+    .gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 60% 40%, rgba(124,99,255,0.18) 0%, transparent 70%), radial-gradient(circle at 30% 80%, rgba(244,63,94,0.10) 0%, transparent 80%);
+    }
+    
+    /* Tetris-style grid layout */
+    .pixel-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      justify-content: flex-start;
+      /* Add min-height to ensure grid is visible even if empty */
+      min-height: 100px;
+    }
+    
+    .pixel-cell {
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.28s cubic-bezier(.4,2,.6,1), background 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      opacity: 1 !important;
+      transform: none !important;
+      will-change: transform;
+    }
+
+    .pixel-cell:hover {
+      transform: translateY(-6px) scale(1.13);
+      background: rgba(255,255,255,0.16);
+      box-shadow: 0 8px 24px 0 #6C63FF55, 0 4px 8px rgba(0,0,0,0.18);
+      z-index: 2;
+    }
+
+    .pixel-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      max-width: 100%;
+      max-height: 100%;
+      pointer-events: none;
+      user-select: none;
+      transition: transform 0.28s cubic-bezier(.4,2,.6,1);
+      will-change: transform;
+    }
+    .pixel-cell:hover .pixel-img {
+      transform: scale(1.13);
+      z-index: 2;
+    }
+    
+    /* Image info overlay */
+    .img-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      font-size: 10px;
+      padding: 4px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .pixel-cell:hover .img-info {
+      opacity: 1;
+    }
+
+    /* Modal styles */
+    #imgModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 50;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s;
+    }
+
+    #modalContent {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+    }
+
+    #modalImg {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* Prevent blurring when upscaling pixel art */
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    #closeModalBtn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #closeModalBtn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Global expand hint box */
+    .expand-hint-global {
+      position: absolute;
+      top: 24px;
+      right: 36px;
+      z-index: 20;
+      background: rgba(20,22,34,0.65);
+      color: #fff;
+      font-size: 15px;
+      padding: 7px 18px 7px 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.92;
+    }
+    .expand-hint-text i {
+      opacity: 0.7;
+    }
+    @media (max-width: 900px) {
+      .expand-hint-global {
+        top: 12px;
+        right: 10px;
+        font-size: 13px;
+        padding: 5px 10px 5px 10px;
+      }
+    }
+  </style>
+</head>
+<body class="text-gray-800 transition-colors duration-300">
+    <!-- Animated gradient background -->
+    <div class="fluid-gradient">
+        <div class="gradient-overlay"></div>
+    </div>
+    
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40">
+        <!-- Top: Profile -->
+        <div>
+          <div class="flex flex-col items-center mb-7">
+            <img src="images/profilepic.png"
+                 alt="Profile"
+                 class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
+            <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
+            <!-- Social Icons Row -->
+            <div class="flex flex-row justify-center gap-3 mb-1">
+              <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in text-lg"></i>
+              </a>
+          <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Twitter">
+            <i class="fab fa-twitter text-lg"></i>
+              </a>
+              <a href="mailto:giulianminichiello@gmail.com" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Email">
+                <i class="fas fa-envelope text-lg"></i>
+              </a>
+            </div>
+          </div>
+          <!-- Navigation -->
+          <nav class="flex flex-col gap-1.5 mt-3" id="sidebarNav">
+            <a href="UI.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
+              <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> UI/UX Gallery
+            </a>
+            <a href="index.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
+              <i class="fas fa-user text-base sidebar-icon"></i> Home
+          </nav>
+          <!-- Resume Button -->
+          <div class="flex justify-center mt-7">
+            <a href="Giulian_Minichiello_CV.pdf"
+               class="w-full text-center py-2.5 px-7 rounded-full font-bold text-base bg-gradient-to-r from-[#7B2FF2] to-[#F357A8] hover:from-[#F357A8] hover:to-[#7B2FF2] transition-colors shadow-lg"
+               style="color: #fff;">
+              Resume
+            </a>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="mt-8 text-center text-gray-300 text-xs font-semibold">
+          Giulian Minichiello Web Portfolio 2025
+        </div>
+      </aside>
+      
+      <!-- New main content -->
+      <main class="flex-1 ml-64">
+        <!-- "Click to expand" hint box -->
+        <div class="expand-hint-global">
+          <span class="expand-hint-text"><i class="fas fa-mouse-pointer mr-1"></i>Click to expand</span>
+        </div>
+        <div class="pixel-grid" id="pixelGrid"></div>
+        <!-- Modal for enlarged image -->
+        <div id="imgModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 transition-opacity">
+          <div id="modalContent" class="relative max-w-3xl max-h-[90vh] flex items-center justify-center">
+            <img id="modalImg" src="" alt="" class="rounded-lg shadow-2xl max-h-[80vh] max-w-full border-4 border-white" />
+            <button id="closeModalBtn" class="absolute top-2 right-2 bg-black bg-opacity-60 text-white rounded-full p-2 hover:bg-opacity-90 transition" aria-label="Close">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="ui_images.js"></script>
+    <script>
+        // Animate gradient background
+        const gradient = document.querySelector('.fluid-gradient');
+        let angle = 125;
+        function animateGradient() {
+            angle = (angle + 0.1) % 360;
+            gradient.style.background = `linear-gradient(${angle}deg, #0a192f, #112240, #233554)`;
+            requestAnimationFrame(animateGradient);
+        }
+        animateGradient();
+
+        // Clamp image sizes
+        const MIN_SIZE = 48; // px
+        const MAX_SIZE = 256; // px
+
+        function getDimensionsFromFilename(filename) {
+            const match = filename.match(/(\d+)x(\d+)/);
+            if (match) {
+                return {
+                    width: parseInt(match[1], 10),
+                    height: parseInt(match[2], 10)
+                };
+            }
+            return { width: 50, height: 50 };
+        }
+
+        // Sort images by area, largest first
+        function sortImagesByArea(images) {
+            return images.slice().sort((a, b) => {
+                const da = getDimensionsFromFilename(a);
+                const db = getDimensionsFromFilename(b);
+                return (db.width * db.height) - (da.width * da.height);
+            });
+        }
+
+        function clamp(val, min, max) {
+            return Math.max(min, Math.min(max, val));
+        }
+
+        function createMasonryLayout() {
+            const grid = document.getElementById('pixelGrid');
+            grid.innerHTML = '';
+
+            // Sort images by area, largest first
+            const sortedImages = sortImagesByArea(pixelImages);
+
+            sortedImages.forEach(src => {
+                const { width, height } = getDimensionsFromFilename(src);
+
+                // Clamp dimensions
+                let displayWidth = clamp(width, MIN_SIZE, MAX_SIZE);
+                let displayHeight = clamp(height, MIN_SIZE, MAX_SIZE);
+
+                // Responsive: scale down if viewport is too small
+                const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) - 320; // minus sidebar
+                if (displayWidth > vw * 0.8) {
+                    const scale = (vw * 0.8) / displayWidth;
+                    displayWidth = Math.round(displayWidth * scale);
+                    displayHeight = Math.round(displayHeight * scale);
+                }
+
+                const cell = document.createElement('div');
+                cell.className = 'pixel-cell reveal';
+                cell.style.width = `${displayWidth}px`;
+                cell.style.height = `${displayHeight}px`;
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = src.split('/').pop();
+                img.className = 'pixel-img';
+
+                const info = document.createElement('div');
+                info.className = 'img-info';
+                info.textContent = `${width}x${height}`;
+
+                cell.appendChild(img);
+                cell.appendChild(info);
+                grid.appendChild(cell);
+
+                // Add click event to enlarge image
+                cell.addEventListener('click', function(e) {
+                  showModal(src, img.alt);
+                  e.stopPropagation();
+                });
+            });
+        }
+
+        // Make sure pixelImages is defined and loaded before use
+    if (typeof pixelImages === 'undefined' || !Array.isArray(pixelImages) || pixelImages.length === 0) {
+        // Fallback: show a message if no images are loaded
+        document.getElementById('pixelGrid').innerHTML = '<div style="color:white;font-size:1.2em;">No images found. Check ui_images.js.</div>';
+    } else {
+        createMasonryLayout();
+    }
+
+    window.addEventListener('resize', () => {
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(() => {
+            if (typeof pixelImages !== 'undefined' && Array.isArray(pixelImages) && pixelImages.length > 0) {
+                createMasonryLayout();
+            }
+        }, 250);
+    });
+
+    // Modal logic
+    function showModal(src, alt) {
+          const modal = document.getElementById('imgModal');
+          const modalImg = document.getElementById('modalImg');
+          modalImg.src = src;
+          modalImg.alt = alt;
+
+          // Enlarge small images in modal
+          const dims = getDimensionsFromFilename(src);
+          if (dims.width < 100 || dims.height < 100) {
+            // Scale up to at least 250px on the largest side, but keep aspect ratio and don't exceed modal max
+            const scale = Math.max(250 / Math.max(dims.width, dims.height), 1);
+            modalImg.style.width = `${Math.round(dims.width * scale)}px`;
+            modalImg.style.height = `${Math.round(dims.height * scale)}px`;
+            modalImg.style.maxWidth = '90vw';
+            modalImg.style.maxHeight = '80vh';
+            // Ensure pixelated rendering for upscaled small images
+            modalImg.style.imageRendering = 'pixelated';
+          } else {
+            modalImg.style.width = '';
+            modalImg.style.height = '';
+            modalImg.style.maxWidth = '100%';
+            modalImg.style.maxHeight = '80vh';
+            // Use default rendering for larger images
+            modalImg.style.imageRendering = '';
+          }
+
+          modal.style.display = 'flex';
+          setTimeout(() => { modal.style.opacity = '1'; }, 10);
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+          const modal = document.getElementById('imgModal');
+          modal.style.opacity = '0';
+          setTimeout(() => { modal.style.display = 'none'; }, 200);
+          document.body.style.overflow = '';
+        }
+
+        document.getElementById('closeModalBtn').onclick = closeModal;
+        document.getElementById('imgModal').onclick = function(e) {
+          if (e.target === this) closeModal();
+        };
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body></html>

@@ -213,6 +213,8 @@ section:first-of-type .section-bubble::before {
         display: flex;
         align-items: flex-start;
         justify-content: center;
+        /* Add extra top padding for hamburger */
+        padding-top: 4.5rem !important;
     }
 
     /* Ensure hero text has proper spacing on mobile */
@@ -244,53 +246,34 @@ section:first-of-type .section-bubble::before {
     }
 
     #contact .section-content {
-        padding: 1.5rem;
+        padding: 1.5rem !important;
     }
 
-    /* Contact information layout */
-    #contact .contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+    #contact ul.space-y-8 {
+        gap: 1.5rem !important;
     }
 
-    /* Contact item styling */
-    #contact .contact-item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.5rem;
+    #contact li.flex.items-center {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        flex-wrap: wrap !important;
     }
 
-    #contact .contact-item i {
-        font-size: 1.5rem;
-        width: 2.5rem;
-        height: 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(127, 29, 29, 0.1);
-        border-radius: 50%;
+    #contact .font-semibold.text-lg {
+        font-size: 1rem !important;
+        margin-bottom: 0.25rem !important;
     }
 
-    /* Make sure text doesn't overflow */
-    #contact .contact-item span,
-    #contact .contact-item a {
-        font-size: 0.95rem;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        max-width: calc(100% - 3.5rem);
+    #contact .text-black {
+        font-size: 0.97rem !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
     }
 
-    /* Adjust spacing for better readability */
-    #contact h2 {
-        margin-bottom: 2rem;
-        font-size: 2rem;
-    }
-
-    /* Ensure proper spacing between sections */
-    #contact > div {
-        margin-bottom: 2rem;
+    #contact .w-10.h-10 {
+        min-width: 2.5rem !important;
+        min-height: 2.5rem !important;
     }
 
     /* Game Development Journey section */
@@ -348,12 +331,10 @@ section:first-of-type .section-bubble::before {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-    }    /* Adjust padding for better text visibility */
-    .project-card .relative.z-20,
-    .relative.group.rounded-2xl .relative.z-20 {
-        padding: 1rem;
-        margin: 0.5rem;
     }
+
+    /* Adjust padding for better text visibility */
+    .project-card .relative.z-20,
 
     /* Testimonials mobile adjustments */
     #testimonials {
@@ -381,6 +362,29 @@ section:first-of-type .section-bubble::before {
     #testimonials .author {
         font-size: 1rem;
         margin-top: 0.5rem;
+    }
+
+    /* Portfolio card description fix */
+    .group .text-lg,
+    .group .description,
+    .group .card-description {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        display: block !important;
+        max-height: none !important;
+        word-break: break-word !important;
+        line-height: 1.4 !important;
+    }
+
+    /* Testimonials text wrapping */
+    #testimonials .testimonial-slide-new p {
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        font-size: 1.1rem !important;
+        line-height: 1.5 !important;
     }
 }
 

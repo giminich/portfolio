@@ -476,12 +476,13 @@ section:first-of-type .section-bubble::before {
     display: block !important;
     max-height: none !important;
     word-break: break-word !important;
-    line-height: 1.5 !important;
-    font-size: clamp(1rem, 2.5vw, 1.13rem) !important;
-    padding: 0.25rem 0 !important;
+    line-height: 1.35 !important;
+    font-size: clamp(0.93rem, 2vw, 1.05rem) !important;
+    padding: 0.15rem 0 !important;
+    hyphens: auto !important;
 }
 
-/* On mobile, slightly reduce font size for descriptions to avoid cutoff */
+/* On mobile, further reduce font size and tighten wrapping for descriptions */
 @media (max-width: 900px), (orientation: portrait) {
     .group .text-lg,
     .group .description,
@@ -490,18 +491,20 @@ section:first-of-type .section-bubble::before {
     .group .text-lg.font-medium,
     .group .bg-white\/90 span.text-lg,
     .group .bg-white\/90 .text-lg {
-        font-size: clamp(0.97rem, 2vw, 1.07rem) !important;
-        line-height: 1.45 !important;
-        padding: 0.15rem 0.1rem !important;
+        font-size: clamp(0.88rem, 1.7vw, 0.99rem) !important;
+        line-height: 1.28 !important;
+        padding: 0.08rem 0.05rem !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        hyphens: auto !important;
     }
-    /* Ensure card content is not cut off */
     .group .bg-white\/90,
     .group .bg-white\/90.rounded-xl {
-        padding: 0.7rem 0.5rem !important;
-        min-height: 48px !important;
+        padding: 0.6rem 0.3rem !important;
+        min-height: 38px !important;
         max-height: none !important;
     }
     .group .min-h-\[85px\] {
-        min-height: 48px !important;
+        min-height: 38px !important;
     }
 }

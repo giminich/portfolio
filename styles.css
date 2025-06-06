@@ -452,20 +452,20 @@ section:first-of-type .section-bubble::before {
 
 /* Mobile Portfolio Card Fixes */
 @media (max-width: 900px), (orientation: portrait) {
-  /* Larger cards that fit mobile screen */
-  .relative.group.rounded-2xl,
+  /* Larger cards that fit mobile screen */  .relative.group.rounded-2xl,
   .project-card,
   .w-\[460px\] {
-    width: 300px !important;
-    max-width: 300px !important;
-    height: 600px !important;
+    width: 210px !important;
+    max-width: 210px !important;
+    height: 420px !important;
     margin: 2rem auto !important;
     aspect-ratio: 9/19;
     transform: none !important;
-    border-radius: 2rem !important;
+    border-radius: 1.5rem !important;
     overflow: hidden !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
     position: relative !important;
+    left: -10px !important;
   }
 
   /* Fix image centering and sizing */

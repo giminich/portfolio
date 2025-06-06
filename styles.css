@@ -452,7 +452,7 @@ section:first-of-type .section-bubble::before {
 
 /* Mobile Portfolio Card Fixes */
 @media (max-width: 900px), (orientation: portrait) {
-  /* Center grid content */
+  /* Portfolio grid adjustments */
   .grid.gap-x-8.gap-y-12 {
     display: flex !important;
     flex-direction: column !important;
@@ -460,30 +460,46 @@ section:first-of-type .section-bubble::before {
     gap: 2rem !important;
     padding: 1rem !important;
     width: 100% !important;
-    max-width: 100vw !important;
-    margin: 0 auto !important;
   }
 
-  /* Card sizing and centering */
-  .relative.group.rounded-2xl,
-  .project-card,
-  .w-\[460px\] {
-    width: 90vw !important;
+  /* Portfolio project cards */
+  .relative.group.rounded-2xl {
+    width: 92% !important;
     max-width: 460px !important;
-    margin: 0 auto !important;
+    min-width: 280px !important;
+    margin: 0.5rem auto !important;
     aspect-ratio: 1/1 !important;
-    transform: none !important;
+  }
+
+  /* Fix card content container */
+  .projects-content {
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 1rem !important;
   }
 
   /* Container adjustments */
-  .max-w-\[1920px\].mx-auto {
+  .py-24.px-12 {
+    padding: 2rem 0.5rem !important;
+  }
+
+  .max-w-\[1920px\] {
     width: 100% !important;
     padding: 0 !important;
+    margin: 0 auto !important;
     overflow: visible !important;
   }
 
-  /* Fix section padding */
-  .py-24.px-12 {
-    padding: 1.5rem 0.5rem !important;
+  /* Parent section fixes */
+  #projects {
+    overflow: visible !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .section-content {
+    overflow: visible !important;
+    width: 100% !important;
+    padding: 1rem 0 !important;
   }
 }

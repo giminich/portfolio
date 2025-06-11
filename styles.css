@@ -237,7 +237,7 @@ section:first-of-type .section-bubble::before {
         width: 100% !important;
         max-width: 100% !important;
         aspect-ratio: 1/1;
-        margin: 1rem 0;
+        margin: -4rem 0;
     }
 
     /* Contact section mobile adjustments */
@@ -330,7 +330,7 @@ section:first-of-type .section-bubble::before {
         padding: 1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.1rem;
     }
 
     /* Adjust padding for better text visibility */
@@ -415,7 +415,7 @@ section:first-of-type .section-bubble::before {
 /* Safe area insets for notched iPhones */
 @supports (padding: max(0px)) {
     .section-container {
-        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-left: max(0rem, env(safe-area-inset-left));
         padding-right: max(1rem, env(safe-area-inset-right));
         padding-bottom: max(1rem, env(safe-area-inset-bottom));
     }
@@ -438,7 +438,7 @@ section:first-of-type .section-bubble::before {
   .group .bg-white\/90 .text-lg.font-medium,
   .group .bg-white\/90 .description,
   .group .bg-white\/90 .card-description {
-    font-size: 0.85rem !important;
+    font-size: 1rem !important;
     line-height: 1.25 !important;
     white-space: normal !important;
     word-break: break-word !important;
@@ -448,60 +448,62 @@ section:first-of-type .section-bubble::before {
     margin: 0 !important;
     display: block !important;
   }
+
+  /* Portfolio card title adjustments */
+  .group .text-4xl.font-bold,
+  .group span.text-4xl {
+    font-size: 1.7rem !important;
+    line-height: 1.2 !important;
+    padding: 0.5rem !important;
+    margin-bottom: 0.25rem !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+  }
 }
 
 /* Mobile Portfolio Card Fixes */
 @media (max-width: 900px), (orientation: portrait) {
-  /* Larger cards that fit mobile screen */  .relative.group.rounded-2xl,
+  .relative.group.rounded-2xl,
   .project-card,
   .w-\[460px\] {
-    width: 210px !important;
-    max-width: 210px !important;
-    height: 420px !important;
-    margin: 2rem auto !important;
-    aspect-ratio: 9/19;
-    transform: none !important;
-    border-radius: 1.5rem !important;
+    width: min(85vw, 400px) !important;
+    height: min(85vw, 400px) !important;
+    max-width: 400px !important;
+    margin: 1rem -1rem 1rem 0 !important;  /* Adjust left margin */
+    transform: translateX(-11px) !important;  /* Move cards left */
+    aspect-ratio: 1 !important;
+    border-radius: 1rem !important;
     overflow: hidden !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
-    position: relative !important;
-    left: -10px !important;
-  }
-
-  /* Fix image centering and sizing */
-  .group img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
   }
 
   /* Center content in grid */
-  .grid.gap-x-8.gap-y-12 {
+  .grid.gap-x-75.gap-y-12 {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     width: 100% !important;
-    padding: 1rem !important;
-    gap: 2rem !important;
+    padding: -1rem !important;
+    gap: -1rem !important;
   }
 
-  /* Ensure proper spacing between cards */
-  .justify-items-center {
-    width: 100% !important;
-    padding: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-
-  /* Keep overlay text properly positioned */
+  /* Adjust content positioning for square format */
   .group .relative.z-20 {
     position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    padding: 1.5rem !important;
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7)) !important;
-    backdrop-filter: blur(4px) !important;
+    inset: 0 !important;
+    padding: -3rem !important;
+    background: linear-gradient(180deg, 
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.7) 100%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+  }
+
+  /* Better image positioning in square */
+  .group img.object-cover {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
   }
 }

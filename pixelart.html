@@ -122,6 +122,39 @@
       margin: auto;
     }
 
+    /* Fix social icons centering */
+    .social-icons a {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .social-icons a i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    
+    @media (max-width: 900px), (orientation: portrait) {
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
+      .social-icons a {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .social-icons a i {
+        font-size: 1.25rem;
+      }
+    }
     /* Mobile sidebar styles */
     @media (max-width: 900px), (orientation: portrait) {
       #sidebarCloseBtn { display: none; }
@@ -187,7 +220,7 @@
                  class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
             <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
             <!-- Social Icons Row -->
-            <div class="flex flex-row justify-center gap-3 mb-1">
+            <div class="flex flex-row justify-center gap-3 mb-1 social-icons">
               <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
                 <i class="fab fa-linkedin-in text-lg"></i>
               </a>

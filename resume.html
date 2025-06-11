@@ -1,0 +1,584 @@
+<!DOCTYPE html><html lang="en"><head data-llama-id="0">
+<meta charset="utf-8" data-llama-id="1">
+<meta content="Game Design Portfolio of Giuian Mnichiello, a creative professional with expertise in game development, level design, and interactive experiences." data-llama-id="2" name="description">
+<meta content="Game Design, Portfolio, Game Development, Interactive, 3D Modeling, 2D art, pixel art, Game Design, Unreal Engine, UI/UX design, Graphic Design" data-llama-id="3" name="keywords">
+<meta content="Game Designer" data-llama-id="4" name="Giulian">
+<meta content="width=device-width, initial-scale=1.0" data-llama-id="5" name="viewport">
+<meta content="Game Design Portfolio" data-llama-id="6" property="og:title">
+<meta content="Explore professional game design projects and skills." data-llama-id="7" property="og:description">
+<meta content="https://llamapress-ai-image-uploads.s3.us-west-2.amazonaws.com/hero-business-downtown-aerial-shot-ocean-in-background-landscape-dimensions.jpg" data-llama-id="8" property="og:image">
+<meta content="https://yourdomain.com" data-llama-id="9" property="og:url">
+<link data-llama-id="10" href="images/profilepic.png" rel="icon" type="image/png">
+<title data-llama-id="11">Game Design Portfolio</title>
+<script data-llama-id="12" src="https://cdn.tailwindcss.com"></script>
+<script data-llama-id="13" src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+<link data-llama-id="14" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link data-llama-id="15" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+<style data-llama-id="16">
+    body { font-family: 'Inter', sans-serif; background-color: #F3F4F6; }
+    h1, h2, h3, .heading { font-family: 'Poppins', sans-serif; }
+    .progress-circle { background: conic-gradient(#fc4d4d calc(var(--value) * 1%), #e5e7eb 0); border-radius: 50%; }
+    .btn-gradient { background: linear-gradient(45deg, #7F1D1D, #fc4d4d); }
+    .btn-gradient:hover { background: linear-gradient(45deg, #fc4d4d, #7F1D1D); }
+    /* Loading overlay */
+    #loadingOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    /* Remove old fade-in-section classes */
+    
+    /* Add new smooth reveal animation */
+    .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    /* New section fade styles */
+    .section-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .section-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .sidebar-selected {
+      background: #181F2A !important;
+      color: #F43F5E !important;
+      font-weight: bold;
+    }
+    .sidebar-selected .sidebar-icon {
+      color: #F43F5E !important;
+    }
+    .sidebar-link {
+      transition: background 0.2s, color 0.2s;
+    }
+    
+    /* Coming soon specific styles */
+    .coming-soon-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.97), rgba(243,244,246,0.97));
+      z-index: 5;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Fix social icons centering */
+    .social-icons a {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .social-icons a i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    
+    @media (max-width: 900px), (orientation: portrait) {
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
+      .social-icons a {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .social-icons a i {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 900px), (orientation: portrait) {
+      .ml-64 {
+        margin-left: 0 !important;
+      }
+      /* Sidebar adjustments */
+      aside.fixed {
+        width: 100% !important;
+        max-width: 100% !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s ease-out !important;
+      }
+      aside.fixed.sidebar-open {
+        transform: translateX(0) !important;
+      }
+      #sidebarCloseBtn { 
+        display: block !important;
+        position: absolute !important;
+        top: 1rem !important;
+        right: 1rem !important;
+        z-index: 120 !important;
+      }
+      /* Show hamburger menu */
+      #sidebarHamburger {
+        display: block !important;
+        padding: 0.5rem !important;
+        font-size: 1.25rem !important;
+      }
+      aside.fixed {
+        padding-top: 3.5rem !important;
+      }
+    }
+    @media (min-width: 901px) {
+      #sidebarHamburger { display: none !important; }
+      #sidebarCloseBtn { display: none !important; }
+      aside.fixed { transform: translateX(0) !important; width: 16rem !important; max-width: none !important; }
+    }
+    
+    #sidebarOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #sidebarOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body class="text-gray-800 transition-colors duration-300">
+<div id="particles-js" style="position:fixed; inset:0; width:100vw; height:100vh; z-index:0; pointer-events:none;"></div>
+<!-- Loading Animation -->
+<div data-llama-id="18" id="loadingOverlay" style="opacity: 0; display: none;">
+<div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#7F1D1D]" data-llama-id="19"></div>
+</div>
+<div class="flex min-h-screen" data-llama-id="20">
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40 transition-transform duration-300" id="sidebarMain">
+    <!-- Close X button for mobile sidebar -->
+    <button id="sidebarCloseBtn" class="absolute top-4 right-4 z-[120] bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg" aria-label="Close sidebar" style="display:none;">
+      <i class="fas fa-times"></i>
+    </button>
+    <!-- Top: Profile -->
+    <div>
+      <div class="flex flex-col items-center mb-7">
+        <img src="images/profilepic.png"
+             alt="Profile"
+             class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
+        <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
+        <!-- Social Icons Row -->
+        <div class="flex flex-row justify-center gap-3 mb-1 social-icons">
+          <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in text-lg"></i>
+          </a>
+      <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Twitter">
+        <i class="fab fa-twitter text-lg"></i>
+      </a>
+      <a href="mailto:giulianminichiello@gmail.com" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Email">
+        <i class="fas fa-envelope text-lg"></i>
+      </a>
+    </div>
+  </div>
+  <!-- Navigation -->
+  <nav class="flex flex-col gap-1.5 mt-3" id="sidebarNav">
+    <a href="coming soon.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
+      <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Resume
+    </a>
+    <a href="index.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
+      <i class="fas fa-user text-base sidebar-icon"></i> Home
+  </nav>
+  <!-- Resume Button -->
+  <div class="flex justify-center mt-7">
+    <a href="Giulian_Minichiello_CV.pdf"
+       class="w-full text-center py-2.5 px-7 rounded-full font-bold text-base bg-gradient-to-r from-[#7B2FF2] to-[#F357A8] hover:from-[#F357A8] hover:to-[#7B2FF2] transition-colors shadow-lg"
+       style="color: #fff;">
+      Resume
+    </a>
+  </div>
+</div>
+</aside>
+  
+  <!-- Add sidebar overlay for mobile close functionality -->
+  <div id="sidebarOverlay"></div>
+  <!-- Hamburger menu button (mobile only) -->
+  <button id="sidebarHamburger" class="fixed top-4 left-4 z-50 bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg lg:hidden" style="display:none;">
+    <i class="fas fa-bars"></i>
+  </button>
+  
+  <!-- Main Content -->
+  <main class="flex-1 md:ml-64 ml-0">
+    <div class="flex items-center justify-center min-h-screen p-4 md:p-8 bg-gradient-to-br from-[#f3f4f6] to-[#fff]">
+      <div class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl p-8 md:p-12 border border-[#e5e7eb]">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-[#7F1D1D] mb-1">Giulian Minichiello</h1>
+            <div class="text-lg text-gray-700 font-semibold mb-2">Game Designer · Gameplay Tools Developer · Creative Systems Designer</div>
+            <div class="flex flex-wrap gap-3 text-gray-500 text-sm">
+              <span><i class="fas fa-map-marker-alt mr-1"></i>Florida, United States</span>
+              <span><i class="fas fa-envelope mr-1"></i><a href="mailto:giulianminichiello@gmail.com" class="hover:underline">giulianminichiello@gmail.com</a></span>
+              <span><i class="fab fa-linkedin-in mr-1"></i><a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" class="hover:underline">LinkedIn</a></span>
+              <span><i class="fas fa-globe mr-1"></i><a href="https://giminich.github.io/portfolio" target="_blank" class="hover:underline">Portfolio</a></span>
+            </div>
+          </div>
+          <img src="images/profilepic.png" alt="Profile" class="rounded-full border-4 border-[#7F1D1D] shadow-lg w-32 h-32 object-cover mx-auto md:mx-0" />
+        </div>
+        <!-- Profile -->
+        <section class="mb-8">
+          <h2 class="text-xl font-bold text-[#7F1D1D] mb-2">Profile</h2>
+          <p class="text-gray-700 leading-relaxed">Creative, player-driven game designer with 4+ years of solo development experience building a complete 2D action-platformer as well as level builder in Unreal Engine 5. Strong expertise in player experience, level design, system architecture, and intuitive in-game creation tools. Known for combining mechanical depth with playful aesthetics and building feature-rich tools that empower players. Experienced in UE5, Blueprints, mobile/PC development, and intricate sandbox systems development, with hands-on experience in leading a solo indie game to production and working with 2D pixel environments. Actively involved in AI prompt engineering research and solo dev projects, while consistently achieving positive results in player reviews. Passionate about continuous learning, with a drive to leverage emerging technologies to solve complex challenges.</p>
+        </section>
+        <!-- Experience -->
+        <section class="mb-8">
+          <h2 class="text-xl font-bold text-[#7F1D1D] mb-2">Experience</h2>
+          <div class="mb-4">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+              <div>
+                <span class="font-semibold">SlimeClimb - Story-Mode</span> <span class="text-gray-500">| Lead Game Designer / Developer</span>
+              </div>
+              <span class="text-gray-400 text-sm">Jul 2022 – Mar 2024 · Florida, US</span>
+            </div>
+            <ul class="list-disc ml-6 text-gray-700 mt-1">
+              <li>Designed and built a full 2D platformer from scratch in Unreal Engine 5 using Blueprints, including combat, climbing physics, power-ups, enemy behaviors, and boss fights.</li>
+              <li>Developed procedural "story-mode" with randomly arranged handcrafted segments, scaling difficulty, and dynamic day/night system.</li>
+              <li>Built all assets and content (pixel art, UI, audio, and promotional materials) and handled publishing across Steam, iOS, and Android.</li>
+              <li>Designed 100% of UI/UX, ensuring intuitive flow on both mobile and desktop, including HUDs, editor tools, menus, and touch controls with interactive tutorials.</li>
+              <li>Implemented narrative delivery through environment, unique story with NPCs, and hidden collectibles.</li>
+              <li>Published and maintained the game on iOS and Android stores, managing all pixel art, music, and promotional content as a solo developer.</li>
+              <li>Led all aspects of production: game design, art, marketing, QA, and publishing.</li>
+              <li class="text-xs text-gray-500 mt-1">Skills: C++ Blueprints, UX Design, Packaging, Mobile Optimization, Pixel Art</li>
+            </ul>
+          </div>
+          <div class="mb-4">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+              <div>
+                <span class="font-semibold">SlimeClimb - Create-Mode</span> <span class="text-gray-500">| Technical Designer, Systems Designer</span>
+              </div>
+              <span class="text-gray-400 text-sm">Jan 2025 – Present · Florida, US</span>
+            </div>
+            <ul class="list-disc ml-6 text-gray-700 mt-1">
+              <li>Developed modular sandbox level builder systems for creators to place, resize, and rotate objects including enemies, traps, bosses, platforms, and hazards.</li>
+              <li>Built a visual scripting-like trigger system for player-driven object interactions without coding.</li>
+              <li>Engineered a cross-platform save format for custom levels, making them portable between PC and mobile.</li>
+              <li>Conducted testing and validation, improving system performance through iterative optimization.</li>
+              <li class="text-xs text-gray-500 mt-1">Skills: UE Blueprints, In-Engine Tool Development, UI/UX for Tooling, Sandbox Mechanics Design, Custom Save/Load Systems, Cross-Platform Data Sync</li>
+            </ul>
+          </div>
+          <div class="mb-4">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+              <div>
+                <span class="font-semibold">Freelance</span> <span class="text-gray-500">| Controller Support Integrator</span>
+              </div>
+              <span class="text-gray-400 text-sm">Feb 2025 – Mar 2025 · Online</span>
+            </div>
+            <ul class="list-disc ml-6 text-gray-700 mt-1">
+              <li>Mapped keyboard controls to controller, built settings UI/UX for intuitive button mapping.</li>
+              <li class="text-xs text-gray-500 mt-1">Skills: Button Mapping, UI/UX, UE Blueprints</li>
+            </ul>
+          </div>
+          <div>
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+              <div>
+                <span class="font-semibold">Jackboys</span> <span class="text-gray-500">| Freelance Voice Actor</span>
+              </div>
+            </div>
+            <ul class="list-disc ml-6 text-gray-700 mt-1">
+              <li>Completed client scripts, SFX, and unique voice-lines.</li>
+              <li class="text-xs text-gray-500 mt-1">Skills: Voice Acting, Audio Engineering, Audio Mixing, Pro-Tools</li>
+            </ul>
+          </div>
+        </section>
+        <!-- Projects -->
+        <section class="mb-8">
+          <h2 class="text-xl font-bold text-[#7F1D1D] mb-2">Projects</h2>
+          <ul class="list-disc ml-6 text-gray-700">
+            <li><span class="font-semibold">SlimeClimb - Story-Mode:</span> 2D pixel-platformer, endless jumper, mobile game built on Unreal Engine 5. Action platformer inspired by Terraria and Leap Day, featuring boss battles, story, NPCs, dialogue, collectibles, and unique creatures/obstacles.</li>
+            <li>More projects and detailed information available on my <a href="https://giminich.github.io/portfolio" class="text-[#7F1D1D] underline hover:text-[#F357A8]">website</a>.</li>
+          </ul>
+        </section>
+        <!-- Skills -->
+        <section class="mb-8">
+          <h2 class="text-xl font-bold text-[#7F1D1D] mb-2">Skills</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Technical Skills (progress circles) -->
+            <div>
+              <h3 class="text-2xl font-semibold mb-4">Technical Skills</h3>
+              <div class="flex flex-wrap gap-6 mb-8">
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 progress-circle" style="--value:90;">
+                    <p class="text-center pt-8 font-bold">90%</p>
+                  </div>
+                  <p class="mt-2 font-semibold">Game Design</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 progress-circle" style="--value:85;">
+                    <p class="text-center pt-8 font-bold">85%</p>
+                  </div>
+                  <p class="mt-2 font-semibold">Level Design</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 progress-circle" style="--value:95;">
+                    <p class="text-center pt-8 font-bold">95%</p>
+                  </div>
+                  <p class="mt-2 font-semibold">World Building</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 progress-circle" style="--value:85;">
+                    <p class="text-center pt-8 font-bold">85%</p>
+                  </div>
+                  <p class="mt-2 font-semibold">UI/UX</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 progress-circle" style="--value:80;">
+                    <p class="text-center pt-8 font-bold">80%</p>
+                  </div>
+                  <p class="mt-2 font-semibold">C++</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 h-24 progress-circle" style="--value:90;">
+                    <p class="text-center pt-8 font-bold">90%</p>
+                  </div>
+                  <p class="mt-2 font-semibold">Blueprints</p>
+                </div>
+              </div>
+            </div>
+            <!-- Tools, Technologies, Hardware, Soft Skills -->
+            <div>
+              <h3 class="text-2xl font-semibold mb-4">Tools & Platforms</h3>
+              <div class="flex flex-wrap gap-4 mb-6">
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fab fa-unity mr-2"></i>Unreal Engine 5</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fas fa-image mr-2"></i>Photoshop</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fas fa-film mr-2"></i>Premiere Pro</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fab fa-github mr-2"></i>Git/GitHub</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fas fa-layer-group mr-2"></i>UMG Widgets</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fas fa-code mr-2"></i>VSCode</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fas fa-music mr-2"></i>FL Studio</span>
+                <span class="inline-flex items-center bg-gray-100 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2"><i class="fas fa-file-word mr-2"></i>Google Docs/Word</span>
+              </div>
+              <h4 class="text-lg font-semibold mb-2 text-[#7F1D1D]">Technologies</h4>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">AI Prompt Engineering</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Audio Design</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">iOS SDK</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Android SDK</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Steamworks SDK</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Admob</span>
+              </div>
+              <h4 class="text-lg font-semibold mb-2 text-[#7F1D1D]">Hardware & Devices</h4>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">iOS</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Android</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Tablets & Phones</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">PC</span>
+              </div>
+              <h4 class="text-lg font-semibold mb-2 text-[#7F1D1D]">Soft Skills</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Googling</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Teamwork</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Problem-solving</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Documentation</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Adaptability</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Research</span>
+                <span class="inline-flex items-center bg-gray-50 text-[#7F1D1D] px-3 py-1 rounded-full font-medium mr-2 mb-2">Working Under Pressure</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Interests -->
+        <section class="mb-8">
+          <h2 class="text-xl font-bold text-[#7F1D1D] mb-2">Interests</h2>
+          <ul class="list-disc ml-6 text-gray-700">
+            <li><span class="font-semibold">Research:</span> Efficiently searching and finding information, enhancing learning and problem-solving abilities.</li>
+            <li><span class="font-semibold">Basketball:</span> Improves strategic thinking, decision-making, and teamwork.</li>
+            <li><span class="font-semibold">Bouldering:</span> Keeps physically fit, teaches discipline and focus.</li>
+          </ul>
+        </section>
+        <!-- Education -->
+        <section class="mb-4">
+          <h2 class="text-xl font-bold text-[#7F1D1D] mb-2">Education</h2>
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+            <div>
+              <span class="font-semibold">Palmetto Ridge High School</span> <span class="text-gray-500">| Graduated 2023</span>
+            </div>
+          </div>
+        </section>
+        <div class="text-xs text-gray-400 mt-6">References available upon request.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Particles JS Config -->
+<script>
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value": 40 },
+    "color": { "value": "#7F1D1D" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.5 },
+    "size": { "value": 3 },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#FCD34D",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": { "enable": true, "speed": 2 }
+  },
+  "interactivity": {
+    "detect_on": "window",
+    "events": { "resize": true },
+    "modes": {}
+  },
+  "retina_detect": true
+});
+</script>
+<script>
+// --- SIDEBAR HAMBURGER FOR MOBILE ---
+(function() {
+  const sidebar = document.getElementById('sidebarMain');
+  const hamburger = document.getElementById('sidebarHamburger');
+  const overlay = document.getElementById('sidebarOverlay');
+  const closeBtn = document.getElementById('sidebarCloseBtn');
+  let sidebarOpen = false;
+
+  function isMobile() {
+    return window.innerWidth <= 900 || window.matchMedia('(orientation: portrait)').matches;
+  }
+
+  function updateSidebarState() {
+    if (isMobile()) {
+      hamburger.style.display = 'block';
+      if (sidebarOpen) {
+        sidebar.classList.add('sidebar-open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        sidebar.classList.remove('sidebar-open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    } else {
+      sidebar.classList.remove('sidebar-open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      hamburger.style.display = 'none';
+    }
+  }
+
+  hamburger.addEventListener('click', function() {
+    sidebarOpen = true;
+    updateSidebarState();
+  });
+
+  overlay.addEventListener('click', function() {
+    sidebarOpen = false;
+    updateSidebarState();
+  });
+
+  if (closeBtn) {
+    closeBtn.onclick = function(e) {
+      e.stopPropagation();
+      sidebarOpen = false;
+      updateSidebarState();
+    };
+  }
+
+  sidebar.addEventListener('click', function(e) {
+    if (isMobile() && e.target.closest('.sidebar-link')) {
+      sidebarOpen = false;
+      updateSidebarState();
+    }
+  });
+
+  window.addEventListener('resize', updateSidebarState);
+  window.addEventListener('orientationchange', updateSidebarState);
+  updateSidebarState();
+})();
+</script>
+<!-- Floating Resume Download Button -->
+<a href="Giulian_Minichiello_CV.pdf" target="_blank" id="floatingResumeBtn"
+   class="fixed z-50 flex items-center gap-3 px-6 py-3 rounded-full shadow-2xl font-normal text-base transition-transform duration-200 hover:scale-105 hover:shadow-3xl"
+   style="backdrop-filter: blur(3px); background: rgba(123,47,242,0.13); border: 2px solid #a78bfa; box-shadow: 0 8px 32px 0 rgba(124,29,29,0.13); color: #412929; pointer-events:auto; outline: 1.5px solid #a78bfa; outline-offset: -2px; font-family: 'Inter', 'Arial', sans-serif; letter-spacing: 0.01em;">
+  <i class="fas fa-file-pdf text-xl" style="color:#000000; filter: drop-shadow(0 0 4px #a78bfa88);"></i>
+  <span style="text-shadow:0 1px 8px #a78bfa33; font-weight:400;">Full Resume PDF</span>
+</a>
+<script>
+// Floating button physics (icon game style) with hover repulsion
+(function() {
+  const btn = document.getElementById('floatingResumeBtn');
+  let x = window.innerWidth - 320;
+  let y = window.innerHeight - 120;
+  let vx = (Math.random() - 0.5) * 2;
+  let vy = (Math.random() - 0.5) * 2;
+  const btnWidth = 260;
+  const btnHeight = 56;
+  function animate() {
+    // Clamp velocity to a max speed
+    const maxSpeed = 3.5; // pixels per frame, adjust as needed for smooth but not too fast
+    vx = Math.max(Math.min(vx, maxSpeed), -maxSpeed);
+    vy = Math.max(Math.min(vy, maxSpeed), -maxSpeed);
+    x += vx;
+    y += vy;
+    // Bounce off edges
+    if (x < 16) { x = 16; vx = -vx * 0.95 + (Math.random()-0.5)*0.5; }
+    if (x > window.innerWidth - btnWidth - 16) { x = window.innerWidth - btnWidth - 16; vx = -vx * 0.95 + (Math.random()-0.5)*0.5; }
+    if (y < 16) { y = 16; vy = -vy * 0.95 + (Math.random()-0.5)*0.5; }
+    if (y > window.innerHeight - btnHeight - 16) { y = window.innerHeight - btnHeight - 16; vy = -vy * 0.95 + (Math.random()-0.5)*0.5; }
+    btn.style.left = x + 'px';
+    btn.style.top = y + 'px';
+    requestAnimationFrame(animate);
+  }
+  btn.style.position = 'fixed';
+  btn.style.left = x + 'px';
+  btn.style.top = y + 'px';
+  btn.style.bottom = '';
+  btn.style.right = '';
+  animate();
+  // Repel on mouse proximity
+  window.addEventListener('mousemove', function(e) {
+    const mx = e.clientX;
+    const my = e.clientY;
+    // Center of button
+    const bx = x + btnWidth / 2;
+    const by = y + btnHeight / 2;
+    const dx = mx - bx;
+    const dy = my - by;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const repelRadius = 60; // slightly smaller radius
+    if (dist < repelRadius) {
+      // Repel with much subtler force
+      const force = (repelRadius - dist) / repelRadius * 2.2; // reduced multiplier for subtle push
+      vx -= (dx / dist) * force;
+      vy -= (dy / dist) * force;
+    }
+  });
+  // Responsive: keep inside window
+  window.addEventListener('resize', function() {
+    x = Math.min(x, window.innerWidth - btnWidth - 16);
+    y = Math.min(y, window.innerHeight - btnHeight - 16);
+  });
+})();
+</script>
+</body></html>

@@ -341,6 +341,40 @@
       }
     }
 
+    /* Fix social icons centering */
+    .social-icons a {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .social-icons a i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    
+    @media (max-width: 900px), (orientation: portrait) {
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
+      .social-icons a {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .social-icons a i {
+        font-size: 1.25rem;
+      }
+    }
+
     /* Existing styles... */
   </style>
 </head>
@@ -370,7 +404,7 @@
                  class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
             <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
             <!-- Social Icons Row -->
-            <div class="flex flex-row justify-center gap-3 mb-1">
+            <div class="flex flex-row justify-center gap-3 mb-1 social-icons">
               <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
                 <i class="fab fa-linkedin-in text-lg"></i>
               </a>
@@ -387,10 +421,10 @@
         <a href="#hero" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
           <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Home
         </a>
-        <a href="about.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
+        <a href="coming soon.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
           <i class="fas fa-user text-base sidebar-icon"></i> About
         </a>
-        <a href="#resume" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="resume">
+        <a href="resume.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="resume">
           <i class="fas fa-file-alt text-base sidebar-icon"></i> Resume
         </a>
         <a href="#projects" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="projects">
@@ -443,7 +477,7 @@
     <a class="border border-[#7F1D1D] text-[#7F1D1D] px-7 py-3 rounded-lg hover:bg-gray-100 transition duration-300" data-llama-id="69" href="#projects">View Projects</a></div>
     <!-- Animated Skill Badges -->
     <div class="flex gap-4 mb-12 justify-between" data-llama-id="70" style="flex-wrap:nowrap; overflow-x:unset;">
-      <a class="transform hover:scale-105 transition duration-300 bg-white rounded-full px-5 py-3 shadow-md inline-flex items-center hover:shadow-2xl flex-shrink-0" data-llama-id="71" href="#builder">
+      <a class="transform hover:scale-105 transition duration-300 bg-white rounded-full px-5 py-3 shadow-md inline-flex items-center hover:shadow-2xl flex-shrink-0" data-llama-id="71" href="coming soon.html">
         <i class="fas fa-hammer text-2xl text-[#7F1D1D] mr-3" data-llama-id="72"></i>
         <span class="text-[#7F1D1D] font-semibold" data-llama-id="73">In-Game Builder</span>
       </a>
@@ -451,7 +485,7 @@
         <i class="fas fa-user-friends text-2xl text-[#7F1D1D] mr-3" data-llama-id="75"></i>
         <span class="text-[#7F1D1D] font-semibold" data-llama-id="76">Character Design</span>
       </a>
-      <a class="transform hover:scale-105 transition duration-300 bg-white rounded-full px-5 py-3 shadow-md inline-flex items-center hover:shadow-2xl flex-shrink-0" data-llama-id="77" href="#level">
+      <a class="transform hover:scale-105 transition duration-300 bg-white rounded-full px-5 py-3 shadow-md inline-flex items-center hover:shadow-2xl flex-shrink-0" data-llama-id="77" href="coming soon.html">
         <i class="fas fa-layer-group text-2xl text-[#7F1D1D] mr-3" data-llama-id="78"></i>
         <span class="text-[#7F1D1D] font-semibold" data-llama-id="79">Level Design</span>
       </a>
@@ -459,7 +493,7 @@
         <i class="fas fa-desktop text-2xl text-[#7F1D1D] mr-3" data-llama-id="81"></i>
         <span class="text-[#7F1D1D] font-semibold" data-llama-id="82">UI/UX Design</span>
       </a>
-      <a class="transform hover:scale-105 transition duration-300 bg-white rounded-full px-5 py-3 shadow-md inline-flex items-center hover:shadow-2xl flex-shrink-0" data-llama-id="83" href="#promotion">
+      <a class="transform hover:scale-105 transition duration-300 bg-white rounded-full px-5 py-3 shadow-md inline-flex items-center hover:shadow-2xl flex-shrink-0" data-llama-id="83" href="https://drive.google.com/drive/u/2/folders/1G2Nvms5HLonOuKrBDNV7i3JYwocIY2KM">
         <i class="fas fa-bullhorn text-2xl text-[#7F1D1D] mr-3" data-llama-id="84"></i>
         <span class="text-[#7F1D1D] font-semibold" data-llama-id="85">Graphic Design</span>
       </a>
@@ -1041,6 +1075,9 @@ if (document.getElementById('background-particles')) {
       iconCenterY > goalRect.top && iconCenterY < goalRect.bottom
     );
   }
+  // Store all floating icons for explosion logic
+  const floatingIcons = [];
+
   function spawnFloatingIcon() {
     // Enforce hard limit
     if (container.querySelectorAll('img.floating-icon').length >= MAX_ICONS) return;
@@ -1054,7 +1091,7 @@ if (document.getElementById('background-particles')) {
       img.style.transform = 'scaleX(-1)';
     }
     img.className = 'floating-icon';
-    img.style.opacity = '0'; // Start transparent
+    img.style.opacity = '0';
     img.style.position = 'absolute';
     // Adjust left position calculation to use the correct width
     const imgWidth = parseInt(img.style.width);
@@ -1067,23 +1104,94 @@ if (document.getElementById('background-particles')) {
     // Fade in after a short delay to trigger transition
     setTimeout(() => { img.style.opacity = '0.85'; }, 30);
 
-    // Random movement direction
-    let dx = (Math.random() - 0.5) * 1.5;
-    let dy = (Math.random() - 0.5) * 1.5;
+    // --- NEW: Push mechanics ---
+    // Give a random initial velocity (move on spawn)
+    let dx = (Math.random() - 0.5) * 6 + (Math.random() < 0.5 ? -2 : 2);
+    let dy = (Math.random() - 0.5) * 6 + (Math.random() < 0.5 ? -2 : 2);
     let x = parseFloat(img.style.left);
     let y = parseFloat(img.style.top);
     let alive = true;
     let frame = 0;
     let hasScored = false;
+
+    // Register this icon for explosion logic
+    floatingIcons.push({img, 
+      get x() { return x; }, 
+      get y() { return y; }, 
+      get dx() { return dx; }, 
+      get dy() { return dy; }, 
+      set dx(val) { dx = val; }, 
+      set dy(val) { dy = val; }
+    });
+
     function animate() {
       if (!alive) return;
+      // Mouse push effect
+      if (window._mousePos) {
+        const mx = window._mousePos.x;
+        const my = window._mousePos.y;
+        const cx = x + 20;
+        const cy = y + 20;
+        const dist = Math.hypot(mx - cx, my - cy);
+        if (dist < 100) {
+          // Push away from mouse, stronger when closer
+          const angle = Math.atan2(cy - my, cx - mx);
+          const force = (100 - dist) / 100 * 2.5; // max force 2.5
+          dx += Math.cos(angle) * force * 0.15;
+          dy += Math.sin(angle) * force * 0.15;
+        }
+      }
+
       x += dx;
       y += dy;
+
+      // Add a little random wandering to make icons move around on their own
+      dx += (Math.random() - 0.5) * 0.3;
+      dy += (Math.random() - 0.5) * 0.3;
+
+      dx *= 0.98; // friction
+      dy *= 0.98;
+
+      // --- Rotation and flip logic ---
+      // Only rotate when near mouse, but keep last rotation after
+      if (typeof img._rotation !== "number") img._rotation = 0;
+      if (typeof img._flip !== "number") img._flip = 1;
+      if (typeof img._rotationVel !== "number") img._rotationVel = 0;
+
+      if (window._mousePos) {
+        const mx = window._mousePos.x;
+        const my = window._mousePos.y;
+        const cx = x + 20;
+        const cy = y + 20;
+        const dist = Math.hypot(mx - cx, my - cy);
+        if (dist < 100) {
+          // Calculate angle from icon to mouse
+          const angleToMouse = Math.atan2(cy - my, cx - mx) * 180 / Math.PI;
+          // Find the difference between current rotation and target
+          let diff = angleToMouse - img._rotation;
+          // Normalize to [-180,180]
+          diff = ((diff + 180) % 360) - 180;
+          // Add a "tipping" effect: the closer the mouse, the more it tips
+          const tipStrength = Math.max(0.12, (100 - dist) / 100 * 0.45);
+          img._rotationVel += diff * tipStrength * 0.03;
+        }
+      }
+      // Add some "damping" and natural bobble
+      img._rotationVel *= 0.92;
+      img._rotation += img._rotationVel;
+      // Add a little random bobble
+      img._rotation += (Math.random() - 0.5) * 0.18;
+
+      img.style.transform = `rotate(${img._rotation}deg) scaleX(${img._flip})`;
+
       // Bounce off edges
-      if (x < 0 || x > window.innerWidth - 40) dx *= -1;
-      if (y < 0 || y > window.innerHeight - 40) dy *= -1;
+      if (x < 0) { x = 0; dx *= -0.8; }
+      if (x > window.innerWidth - 40) { x = window.innerWidth - 40; dx *= -0.8; }
+      if (y < 0) { y = 0; dy *= -0.8; }
+      if (y > window.innerHeight - 40) { y = window.innerHeight - 40; dy *= -0.8; }
       img.style.left = x + 'px';
       img.style.top = y + 'px';
+
       // --- GOAL CHECK ---
       if (!hasScored && isInGoal(x, y, 40, 40)) {
         hasScored = true;
@@ -1094,7 +1202,12 @@ if (document.getElementById('background-particles')) {
         img.style.transform += ' scale(1.5)';
         img.style.opacity = '0';
         alive = false;
-        setTimeout(() => img.remove(), 700);
+        setTimeout(() => {
+          img.remove();
+          // Remove from floatingIcons array
+          const idx = floatingIcons.findIndex(f => f.img === img);
+          if (idx !== -1) floatingIcons.splice(idx, 1);
+        }, 700);
         return;
       }
       frame++;
@@ -1103,128 +1216,49 @@ if (document.getElementById('background-particles')) {
         img.style.transition = 'opacity 1s';
         img.style.opacity = '0';
         alive = false;
-        setTimeout(() => img.remove(), 1200);
+        setTimeout(() => {
+          img.remove();
+          const idx = floatingIcons.findIndex(f => f.img === img);
+          if (idx !== -1) floatingIcons.splice(idx, 1);
+        }, 1200);
         return;
       }
       requestAnimationFrame(animate);
     }
     animate();
-    // Mouse orbit and fling effect
-    let isOrbiting = false;
-    let orbitAngle = 0;
-    let currentRotation = 0;
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-    let mouseVelocityX = 0;
-    let mouseVelocityY = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let currentOrbitRadius = 0;
-    let initialGrabProgress = 0;  // Track initial grab transition
-    const ORBIT_RADIUS = 50;
-    const ORBIT_EXPAND_SPEED = 0.1;
-    const MAX_ROTATION_SPEED = 0.05;
-    const ROTATION_SMOOTHING = 0.92;
-    const POSITION_SMOOTHING = 0.15;
-    const INITIAL_GRAB_SPEED = 0.08;  // How fast we move to initial position
-    const GRAB_ACCELERATION = 0.04;    // How fast we ramp up grab speed
-    const VELOCITY_MULTIPLIER = 0.5;
-
-    // Add touch/click handling
-    let isSelected = false;
-    img.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      isSelected = true;
-      initialGrabProgress = 0;
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
-      // Add active visual state
-     
-      img.style.filter = 'brightness(1.2)';
-      img.style.transform = 'scale(1.1)';
-    });
-
-    window.addEventListener('pointerup', () => {
-      if (isSelected) {
-        isSelected = false;
-        isOrbiting = false;
-        // Reset visual state
-        img.style.filter = '';
-        img.style.transform = '';
-        // Apply fling velocity if moving fast enough
-        const velocity = Math.sqrt(mouseVelocityX * mouseVelocityX + mouseVelocityY * mouseVelocityY);
-        if (velocity > 5) {
-          dx = mouseVelocityX * VELOCITY_MULTIPLIER;
-          dy = mouseVelocityY * VELOCITY_MULTIPLIER;
-        }
-      }
-    });
-
-    function onPointerMove(e) {
-      const currentMouseX = e.clientX;
-      const currentMouseY = e.clientY;
-      
-      mouseVelocityX = currentMouseX - lastMouseX;
-      mouseVelocityY = currentMouseY - lastMouseY;
-      lastMouseX = currentMouseX;
-      lastMouseY = currentMouseY;
-
-      const rect = img.getBoundingClientRect();
-      const iconCenterX = rect.left + rect.width/2;
-      const iconCenterY = rect.top + rect.height/2;
-      const distX = currentMouseX - iconCenterX;
-      const distY = currentMouseY - iconCenterY;
-      const dist = Math.sqrt(distX * distX + distY * distY);
-
-      // Check for both hover and click conditions
-      if ((dist < 100 && !isSelected) || isSelected) {
-        if (!isOrbiting) {
-          // Progressive smoothing for initial grab
-          initialGrabProgress = Math.min(1, initialGrabProgress + GRAB_ACCELERATION);
-          const smoothing = INITIAL_GRAB_SPEED * (1 - Math.pow(1 - initialGrabProgress, 3));
-          x += (currentMouseX - x) * smoothing;
-          y += (currentMouseY - y) * smoothing;
-          
-          if (initialGrabProgress >= 0.95) {
-            isOrbiting = true;
-            currentOrbitRadius = 0;
-          }
-        } else {
-          // Gradually expand orbit radius
-          currentOrbitRadius = Math.min(ORBIT_RADIUS, currentOrbitRadius + ORBIT_EXPAND_SPEED * ORBIT_RADIUS);
-          orbitAngle += MAX_ROTATION_SPEED;
-          
-          // Calculate orbit position with expanding radius
-          targetX = currentMouseX + Math.cos(orbitAngle) * currentOrbitRadius;
-          targetY = currentMouseY + Math.sin(orbitAngle) * currentOrbitRadius;
-          
-          x += (targetX - x) * POSITION_SMOOTHING;
-          y += (targetY - y) * POSITION_SMOOTHING;
-        }
-        
-        const targetRotation = (orbitAngle * 57.2958) % 360;
-        currentRotation = currentRotation * ROTATION_SMOOTHING + targetRotation * (1 - ROTATION_SMOOTHING);
-        img.style.transform = `rotate(${currentRotation}deg)`;
-      } else if (isOrbiting && dist >= 100) { // Fling when mouse moves away quickly
-        isOrbiting = false;
-        const velocity = Math.sqrt(mouseVelocityX * mouseVelocityX + mouseVelocityY * mouseVelocityY);
-        if (velocity > 10) { // Only fling if mouse moved fast enough
-          dx = mouseVelocityX * VELOCITY_MULTIPLIER;
-          dy = mouseVelocityY * VELOCITY_MULTIPLIER;
-        }
-        img.style.transform = ''; // Reset rotation
-      }
-    }
-    // Listen globally for pointermove, not just on the image
-    window.addEventListener('pointermove', onPointerMove);
-    // Clean up listener when image is removed
-    img.addEventListener('transitionend', function cleanup() {
-      if (!img.parentNode) {
-        window.removeEventListener('pointermove', onPointerMove);
-        img.removeEventListener('transitionend', cleanup);
-      }
-    });
   }
+
+  // --- Mouse tracking for push effect ---
+  window._mousePos = {x: window.innerWidth/2, y: window.innerHeight/2};
+  window.addEventListener('mousemove', function(e) {
+    window._mousePos = {x: e.clientX, y: e.clientY};
+  });
+
+  // --- Mouse click explosion effect ---
+  window.addEventListener('mousedown', function(e) {
+    const mx = e.clientX;
+    const my = e.clientY;
+    floatingIcons.forEach(icon => {
+      const cx = icon.x + 20;
+      const cy = icon.y + 20;
+      const dist = Math.hypot(mx - cx, my - cy);
+      if (dist < 220) { // explosion radius
+        const angle = Math.atan2(cy - my, cx - mx);
+        const force = (220 - dist) / 220 * 18; // max force
+        icon.dx += Math.cos(angle) * force;
+        icon.dy += Math.sin(angle) * force;
+        // Add a visual explosion effect
+        icon.img.style.transition = 'box-shadow 0.2s';
+        icon.img.style.boxShadow = '0 0 32px 12px #FCD34D88';
+        setTimeout(() => { icon.img.style.boxShadow = ''; }, 200);
+        // Flip horizontally on explosion
+        icon.img._flip = (icon.img._flip === -1 ? 1 : -1);
+        // Keep current rotation
+        icon.img.style.transform = `rotate(${icon.img._rotation || 0}deg) scaleX(${icon.img._flip})`;
+      }
+    });
+  });
+
   // Spawn a new icon every 3-7 seconds
   setInterval(spawnFloatingIcon, 3000 + Math.random() * 4000);
   // Spawn one at start

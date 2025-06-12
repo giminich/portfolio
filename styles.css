@@ -401,8 +401,8 @@ section:first-of-type .section-bubble::before {
 
     .project-card, 
     .relative.group.rounded-2xl {
-        width: calc(100% - 2rem) !important;
-        margin: 1rem;
+        width: calc(100% - 1.8rem) !important;
+        margin: .5rem;
     }
 
     /* Adjust font sizes for better readability */

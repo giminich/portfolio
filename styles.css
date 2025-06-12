@@ -452,7 +452,7 @@ section:first-of-type .section-bubble::before {
   /* Portfolio card title adjustments */
   .group .text-4xl.font-bold,
   .group span.text-4xl {
-    font-size: 1.7rem !important;
+    font-size: 1.5rem !important;
     line-height: 1.2 !important;
     padding: 0.5rem !important;
     margin-bottom: 0.25rem !important;
@@ -465,8 +465,8 @@ section:first-of-type .section-bubble::before {
   .relative.group.rounded-2xl,
   .project-card,
   .w-\[460px\] {
-    width: min(85vw, 400px) !important;
-    height: min(85vw, 400px) !important;
+    width: min(85vw, 350px) !important;
+    height: min(85vw, 350px) !important;
     max-width: 400px !important;
     margin: 1rem -1rem 1rem 0 !important;  /* Adjust left margin */
     transform: translateX(-11px) !important;  /* Move cards left */

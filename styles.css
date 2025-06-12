@@ -564,9 +564,9 @@ html, body {
 
 .project-card, 
 .relative.group.rounded-2xl {
-  margin: 1rem 0 !important;
+  margin: .5rem 0 !important;
   transform: none !important;
-  width: 90% !important;
+  width: 100% !important;
   max-width: 360px !important;
   aspect-ratio: 1 / 1 !important;
 }
@@ -584,7 +584,7 @@ body {
 
 /* Prevent zoom on form fields */
 input, textarea, select {
-  font-size: 16px;
+  font-size: 8px;
 }
 
 /* Improve consistency on hover/focus behavior */

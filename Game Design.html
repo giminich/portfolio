@@ -1,0 +1,802 @@
+<!DOCTYPE html><html lang="en"><head data-llama-id="0">
+<meta charset="utf-8" data-llama-id="1">
+<meta content="Game Design Portfolio of Giuian Mnichiello, a creative professional with expertise in game development, level design, and interactive experiences." data-llama-id="2" name="description">
+<meta content="Game Design, Portfolio, Game Development, Interactive, 3D Modeling, 2D art, pixel art, Game Design, Unreal Engine, UI/UX design, Graphic Design" data-llama-id="3" name="keywords">
+<meta content="Game Designer" data-llama-id="4" name="Giulian">
+<meta content="width=device-width, initial-scale=1.0" data-llama-id="5" name="viewport">
+<meta content="Game Design Portfolio" data-llama-id="6" property="og:title">
+<meta content="Explore professional game design projects and skills." data-llama-id="7" property="og:description">
+<meta content="https://llamapress-ai-image-uploads.s3.us-west-2.amazonaws.com/hero-business-downtown-aerial-shot-ocean-in-background-landscape-dimensions.jpg" data-llama-id="8" property="og:image">
+<meta content="https://yourdomain.com" data-llama-id="9" property="og:url">
+<link data-llama-id="10" href="images/profilepic.png" rel="icon" type="image/png">
+<title data-llama-id="11">Game Design Portfolio</title>
+<script data-llama-id="12" src="https://cdn.tailwindcss.com"></script>
+<script data-llama-id="13" src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+<link data-llama-id="14" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link data-llama-id="15" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+<link href="styles_design.css" rel="stylesheet">
+<style data-llama-id="16">
+    body { font-family: 'Inter', sans-serif; background-color: #101624; }
+    h1, h2, h3, .heading { font-family: 'Poppins', sans-serif; }
+    .progress-circle { background: conic-gradient(#fc4d4d calc(var(--value) * 1%), #e5e7eb 0); border-radius: 50%; }
+    .btn-gradient { background: linear-gradient(45deg, #7F1D1D, #fc4d4d); }
+    .btn-gradient:hover { background: linear-gradient(45deg, #fc4d4d, #7F1D1D); }
+    /* Loading overlay */
+    #loadingOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    /* Remove old fade-in-section classes */
+    
+    /* Add new smooth reveal animation */
+    .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    /* New section fade styles */
+    .section-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .section-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .sidebar-selected {
+      background: #181F2A !important;
+      color: #F43F5E !important;
+      font-weight: bold;
+    }
+    .sidebar-selected .sidebar-icon {
+      color: #F43F5E !important;
+    }
+    .sidebar-link {
+      transition: background 0.2s, color 0.2s;
+    }
+    
+    /* Animated fluid gradient background */
+    .fluid-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(125deg, #101624 0%, #232946 60%, #6C63FF 100%);
+      filter: blur(50px);
+      opacity: 0.85;
+      z-index: -1;
+    }
+    .gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 60% 40%, rgba(124,99,255,0.18) 0%, transparent 70%), radial-gradient(circle at 30% 80%, rgba(244,63,94,0.10) 0%, transparent 80%);
+    }
+    
+    /* Tetris-style grid layout */
+    .pixel-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      justify-content: flex-start;
+      /* Add min-height to ensure grid is visible even if empty */
+      min-height: 100px;
+    }
+    
+    .pixel-cell {
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.28s cubic-bezier(.4,2,.6,1), background 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      opacity: 1 !important;
+      transform: none !important;
+      will-change: transform;
+    }
+
+    .pixel-cell:hover {
+      transform: translateY(-6px) scale(1.13);
+      background: rgba(255,255,255,0.16);
+      box-shadow: 0 8px 24px 0 #6C63FF55, 0 4px 8px rgba(0,0,0,0.18);
+      z-index: 2;
+    }
+
+    .pixel-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      max-width: 100%;
+      max-height: 100%;
+      pointer-events: none;
+      user-select: none;
+      transition: transform 0.28s cubic-bezier(.4,2,.6,1);
+      will-change: transform;
+    }
+    .pixel-cell:hover .pixel-img {
+      transform: scale(1.13);
+      z-index: 2;
+    }
+    
+    /* Image info overlay */
+    .img-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      font-size: 10px;
+      padding: 4px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .pixel-cell:hover .img-info {
+      opacity: 1;
+    }
+
+    /* Modal styles */
+    #imgModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 50;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s;
+    }
+
+    #modalContent {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+    }
+
+    #modalImg {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* Prevent blurring when upscaling pixel art */
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    #closeModalBtn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #closeModalBtn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Global expand hint box */
+    .expand-hint-global {
+      position: absolute;
+      top: 24px;
+      right: 36px;
+      z-index: 20;
+      background: rgba(20,22,34,0.65);
+      color: #fff;
+      font-size: 15px;
+      padding: 7px 18px 7px 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.92;
+    }
+    .expand-hint-text i {
+      opacity: 0.7;
+    }
+    
+    /* Mobile Responsive Styles */
+    @media (max-width: 900px), (orientation: portrait) {
+      .ml-64 {
+        margin-left: 0 !important;
+      }
+      /* Sidebar adjustments */
+      aside.fixed {
+        width: 100% !important;
+        max-width: 100% !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s ease-out !important;
+      }
+      aside.fixed.sidebar-open {
+        transform: translateX(0) !important;
+      }
+      #sidebarCloseBtn { 
+        display: block !important;
+        position: absolute !important;
+        top: 1rem !important;
+        right: 1rem !important;
+        z-index: 120 !important;
+      }
+      /* Show hamburger menu */
+      #sidebarHamburger {
+        display: block !important;
+        padding: 0.5rem !important;
+        font-size: 1.25rem !important;
+      }
+      aside.fixed {
+        padding-top: 3.5rem !important;
+      }
+      /* Global expand hint box */
+      .expand-hint-global {
+        top: 12px;
+        right: 10px;
+        font-size: 13px;
+        padding: 5px 10px 5px 10px;
+      }
+    }
+    @media (min-width: 901px) {
+      #sidebarHamburger { display: none !important; }
+      #sidebarCloseBtn { display: none !important; }
+      aside.fixed { transform: translateX(0) !important; width: 16rem !important; max-width: none !important; }
+    }
+    
+    #sidebarOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #sidebarOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Fix social icons centering */
+    .social-icons a {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .social-icons a i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    
+    @media (max-width: 900px), (orientation: portrait) {
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
+      .social-icons a {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .social-icons a i {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body class="text-gray-800 transition-colors duration-300">
+    <div class="collage-bg">
+        <img src="images/SlimeClimb Screenshot (4).png" class="collage-img img1" alt="Gallery City">
+        <img src="images/SlimeClimb Screenshot (2).png" class="collage-img img2" alt="Gallery City 2">
+        <img src="images/SlimeClimb Screenshot (3).png" class="collage-img img3" alt="Gallery City 3">
+        <img src="images/SlimeClimb Screenshot (1).png" class="collage-img img4" alt="Gallery City 4">
+        <!-- Add more images as desired, or use different images from your gallery -->
+    </div>
+    
+    <!-- Animated gradient background -->
+    <div class="fluid-gradient">
+        <div class="gradient-overlay"></div>
+    </div>
+    
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="fixed top-0 left-0 h-screen w-64 bg-[#0A101A] text-white flex flex-col justify-between py-7 px-5 rounded-none shadow-2xl z-40 transition-transform duration-300" id="sidebarMain">
+        <!-- Close X button for mobile sidebar -->
+        <button id="sidebarCloseBtn" class="absolute top-4 right-4 z-[120] bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg" aria-label="Close sidebar" style="display:none;">
+          <i class="fas fa-times"></i>
+        </button>
+        <!-- Top: Profile -->
+        <div>
+          <div class="flex flex-col items-center mb-7">
+            <img src="images/profilepic.png"
+                 alt="Profile"
+                 class="rounded-full border-4 border-[#232946] shadow-lg w-28 h-28 object-cover mb-3 transition-transform duration-300 hover:scale-105" />
+            <div class="text-xl font-bold mb-3 text-center">Giulian Minichiello</div>
+            <!-- Social Icons Row -->
+            <div class="flex flex-row justify-center gap-3 mb-1 social-icons">
+              <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" rel="noopener" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in text-lg"></i>
+              </a>
+          <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Twitter">
+            <i class="fab fa-twitter text-lg"></i>
+              </a>
+              <a href="mailto:giulianminichiello@gmail.com" class="bg-[#232946] hover:bg-[#6C63FF] rounded-full p-1.5 transition-colors" aria-label="Email">
+                <i class="fas fa-envelope text-lg"></i>
+              </a>
+            </div>
+          </div>
+          <!-- Navigation -->
+          <nav class="flex flex-col gap-1.5 mt-3" id="sidebarNav">
+            <a href="UI.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
+              <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Level Design & Implementation
+            </a>
+            <a href="index.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
+              <i class="fas fa-user text-base sidebar-icon"></i> Home
+          </nav>
+          <!-- Resume Button -->
+          <div class="flex justify-center mt-7">
+            <a href="Giulian_Minichiello_CV.pdf"
+               class="w-full text-center py-2.5 px-7 rounded-full font-bold text-base bg-gradient-to-r from-[#7B2FF2] to-[#F357A8] hover:from-[#F357A8] hover:to-[#7B2FF2] transition-colors shadow-lg"
+               style="color: #fff;">
+              Resume
+            </a>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="mt-8 text-center text-gray-300 text-xs font-semibold">
+          Giulian Minichiello Web Portfolio 2025
+        </div>
+      </aside>
+      
+      <!-- Add sidebar overlay for mobile close functionality -->
+      <div id="sidebarOverlay"></div>
+      <!-- Hamburger menu button (mobile only) -->
+      <button id="sidebarHamburger" class="fixed top-4 left-4 z-50 bg-[#7F1D1D] text-white p-3 rounded-full shadow-lg lg:hidden" style="display:none;">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <!-- New main content -->
+      <main class="flex-1 ml-64">
+        <!-- "Click to expand" hint box -->
+        <div class="expand-hint-global">
+          <span class="expand-hint-text"><i class="fas fa-mouse-pointer mr-1"></i>Click to expand</span>
+        </div>
+        
+        <!-- Level Design Content -->
+        <div class="level-design-content">
+          <p>
+            <br>
+            </p>
+          <!-- Background Information Section -->
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Game Design for SlimeClimb & General Philosophy</h2>
+            </div>
+            <div class="design-principle">
+              <h3>Background Information</h3>
+                <p><i>SlimeClimb is a <span class="highlight">2D action platformer</span> avaliable on iOS, Android & Steam; the objective is to climb as high as possible.</i></p>
+              <hr class="line">
+                <p>For the case of this portfolio I'll only be covering the <span class="highlight">main version</span> of the game, which is the<span class="highlight"> mobile version</span>, a portrait only game.</p>
+                  To summarize simple mechanics of SlimeClimb, the player can jump, backflip, stick to walls, explode off the ground, and can die.</p>
+              <br>
+              <p>Project Information:</p>
+              <ul class="bullet-points">
+                <li><b>Genre:</b> 2D vertical action platformer with physics-based movement</li>
+                <li><b>Platform Focus:</b> Mobile-first (portrait orientation), designed for touchscreen input</li>
+                <li><b>Key Mechanics Introduced:</b> Jumping, backflipping, wall-sticking, bounce pads, lift platforms</li>
+                <li><b>Design Goals:</b> Teach mechanics through play, minimize player frustration, encourage exploration and choice</li>
+              </ul>
+            </div>
+            </section>
+
+          <!-- Game Design Philosophy Section -->
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Game Design Philosophy</h2>
+            </div>
+            <div class="level-row">
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3><span class="highlight">Catching Eyes & Being Distinct</span></h3>
+                  <p>To get any game out I fully believe that you need to <span class="highlight">catch eyes</span> and be <span class="highlight">distinct</span>. I've seen so many posts of people trying to release their indie game without anything that's catching eyes—whether it's branding or just the game itself. For <span class="highlight">SlimeClimb</span>, I'm really happy with how the game's look and style just works. When I make anything now, more than anything I want it to be <span class="highlight">distinct</span> over anything.</p>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">Setting the Tone Instantly</span></h3>
+                  <p>From as soon as you open the game, the <span class="highlight">UI is dynamic, fluid</span> and is over a <span class="highlight">pink backdrop</span> that instantly sets the tone. The name is everywhere and you can't miss the characters, which drills in the branding of SlimeClimb. <span class="highlight">Color is everything</span>—when you look at SlimeClimb you see pinks, lilacs, and purples.</p>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">User Familiarity & Inspiration</span></h3>
+                  <p>For the mobile game market, you have to keep in mind how familiar users are to the UI designs companies like Apple use—which are undeniably some of the best on the internet. With this in mind, I've been taking inspiration and making things as <span class="highlight">user friendly and familiar</span> as I can.</p>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">Smart Design for Promotion</span></h3>
+                  <p>The result of designing smart like this is that every time I or a player goes to make a post, it's <span class="highlight">eye catching</span> and instantly tells whoever is watching what the game is called. It's easy to promote and recognize since the <span class="highlight">color palette</span> is already established.</p>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">Marketable, Memorable Characters</span></h3>
+                  <p>The characters are all <span class="highlight">marketable</span> and have simple designs that are easy to remember and fit into the world. I was heavily inspired by games like <span class="highlight">Minecraft</span> that have every silhouette and design so easy to recognize. Down the line, I want to be able to release plushies and merchandise—which would be really cool to have sitting on my desk and also super easy since the design is already <span class="highlight">merch ready</span> in a sense.</p>
+                </div>
+              </div>
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/branding_ui.png', 'SlimeClimb Branding and UI')">
+                  <img src="images/branding_ui.png" alt="SlimeClimb Branding and UI">
+                  <div class="image-caption">SlimeClimb's bold branding and UI set the tone from the first screen.</div>
+                </div>
+              </div>
+            </div>
+            <div class="level-row">
+              <div class="level-text">
+                <a href="Level Design.html" style="display:block; background:linear-gradient(90deg,#7B2FF2,#F357A8); color:#fff; font-size:1.3rem; font-weight:bold; text-align:center; padding:1.2rem 0; border-radius:12px; margin:2rem 0; text-decoration:none; box-shadow:0 4px 18px #F357A822; letter-spacing:0.04em; transition:background 0.2s;" onmouseover="this.style.background='linear-gradient(90deg,#F357A8,#7B2FF2)'" onmouseout="this.style.background='linear-gradient(90deg,#7B2FF2,#F357A8)'">
+                  Explore the full <span class="highlight">Level Design</span> breakdown &rarr;
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Gameplay Design Section -->
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Gameplay Design: Mechanics & Discovery</h2>
+            </div>
+            <div class="level-row reverse">
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/gameplay_core.png', 'Core Gameplay Loop')">
+                  <img src="images/gameplay_core.png" alt="Core Gameplay Loop">
+                  <div class="image-caption">One-finger controls make SlimeClimb accessible, but mastery takes skill.</div>
+                </div>
+              </div>
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3><span class="highlight">Fun Comes First</span></h3>
+                  <p>Gameplay design comes first imo since almost every game that is successful is <span class="highlight">inherently fun</span>. For the gameplay I wanted it to be <span class="highlight">player focused</span> and open to <span class="highlight">skill improvement</span>. When you play SlimeClimb all you need to do is tap with one finger to jump and climb walls—super easy to understand and opens the game up to anyone from age 5 to 100.</p>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">Peeling Back the Mechanics</span></h3>
+                  <ul class="bullet-points">
+                    <li>As you keep playing, you can <span class="highlight">peel back the mechanics</span> and find better ways to climb using what you're given.</li>
+                    <li>For example, you can <span class="highlight">backflip</span>—sometimes it's more fun to have that fail safe to fall back on.</li>
+                    <li>If you use it more than 6 in a row, you get an <span class="highlight">explosion</span> where if you hit the ground it bounces you up. In the game it's never mentioned to the player that this is a thing; instead, I wanted this to be a <span class="highlight">natural discovery</span> from spamming backflip or just on accident.</li>
+                  </ul>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">Discovery Over Explanation</span></h3>
+                  <p>If the game explained every mechanic and feature, I feel like it makes things less special sometimes. Games like <span class="highlight">Elden Ring</span> work so well because of how fun it is to explore and naturally find out those mechanics and features. (Who else opened the tp chest and was terrified of the crystal cave lmao)</p>
+                </div>
+                <div class="design-principle">
+                  <h3><span class="highlight">Replayability & Emergent Play</span></h3>
+                  <ul class="bullet-points">
+                    <li>Speedrunners have made use of these more niche mechanics, which is kinda cool.</li>
+                    <li>For example, in the game there is a strat where you can get an extra boost if you tap as soon as you hit a bounce pad—my beta testers found this!</li>
+                    <li>Stuff like that really helps build some interesting ways to keep the game <span class="highlight">replayable</span>.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Designing the Sandbox: Objects, Obstacles, and Emergent Play</h2>
+              <p>SlimeClimb's world is a true sandbox, built from a simple set of player actions and expanded into a playground of interactive objects and challenges.</p>
+            </div>
+            <div class="level-row">
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/mapshowcase_1.png', 'Map Screenshot: Interactive Objects')">
+                  <img src="images/mapshowcase_1.png" alt="Map Screenshot: Interactive Objects">
+                  <div class="image-caption">A map packed with interactive elements: vines, Box Jellies, bouncy walls, coins, and more.</div>
+                </div>
+              </div>
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3>Building Blocks of Play</h3>
+                  <ul class="bullet-points">
+                    <li>Platforms to jump on</li>
+                    <li>Walls to stick and slide on</li>
+                    <li>Hazards and objects that can kill the player</li>
+                    <li>Bouncy floors, auto-climb walls, spinning/moving/breakable walls, and interactive creatures</li>
+                  </ul>
+                  <p>By layering these elements, the world becomes flexible, replayable, and full of surprises. Every object is designed to fit into the sandbox and interact with others in interesting ways.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Procedural Generation: Infinite Variety, Modular Design</h2>
+              <p>To keep the game fresh and replayable, I built a vertical, randomly generating, infinite level system. The world is constructed from modular maps, each categorized by biome, shape, and difficulty, and slotted together based on player progression.</p>
+            </div>
+            <div class="level-row reverse">
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3>Modular Map System</h3>
+                  <p>As a solo developer, I needed a way to create massive levels without handcrafting every inch. By breaking the world into modular maps, I can mix and match pieces to create endless variety. Each map is tagged by biome, shape, and difficulty, and the system chooses which to spawn based on the player's height and progress.</p>
+                  <ul class="bullet-points">
+                    <li>Maps are categorized and slotted together like puzzle pieces</li>
+                    <li>Randomness ensures every run feels fresh</li>
+                    <li>Subsystems for objects, creatures, and maps allow for easy expansion and configuration</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/leveldesign_mapcategories.png', 'Map Categories')">
+                  <img src="images/leveldesign_mapcategories.png" alt="Map Categories">
+                  <div class="image-caption">Maps are organized by biome, shape, and difficulty for endless variety.</div>
+                </div>
+              </div>
+            </div>
+            <div class="level-row">
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3>Randomness & Freshness</h3>
+                  <p>The biggest thing that helped the game feel fresh every time was the randomness of map spawning. Every object, creature, and map is built with subsystems that can be configured, making everything fit together like a puzzle piece. This lets me create new content quickly and keep the sandbox feeling alive.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Boss Battles & Event Maps: Designing for Challenge and Surprise</h2>
+              <p>Event maps and boss battles are designed to break up the flow and challenge the player in new ways, reflecting the core mechanics of SlimeClimb.</p>
+            </div>
+            <div class="level-row">
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/slimeclimb_gameplaygallery_eventmapsalt.png', 'Boss Battle Event Map')">
+                  <img src="images/slimeclimb_gameplaygallery_eventmapsalt.png" alt="Boss Battle Event Map">
+                  <div class="image-caption">Boss battle event map: survive by climbing and using your abilities wisely.</div>
+                </div>
+              </div>
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3>Dynamic Events & Boss Design</h3>
+                  <ul class="bullet-points">
+                    <li>Event maps can appear after certain milestones (e.g., after 2000m), adding surprise and variety.</li>
+                    <li>Bosses force players to use all their skills, especially the unique mechanics they've discovered.</li>
+                    <li>Players must dodge hazards or use their explosion ability strategically to survive.</li>
+                  </ul>
+                  <p>Boss battles are a reflection of the game's core: climbing and adapting. By making event maps and bosses modular, I can easily add new content and keep the game feeling fresh for players.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="level-section">
+            <div class="section-header">
+              <h2>Looking Forward: Expanding the Sandbox</h2>
+              <p>With the core systems in place, SlimeClimb is ready to grow. Future plans include expanding to PC, adding a story mode, and releasing merchandise based on the game's iconic characters.</p>
+            </div>
+            <div class="level-row">
+              <div class="level-media" style="display:flex; gap:16px;">
+                <div class="image-container" onclick="showModal('images/slimeclimb_gameplaygallery_7.png', 'NPC Event')">
+                  <img src="images/slimeclimb_gameplaygallery_7.png" alt="NPC Event">
+                  <div class="image-caption">Nighttime gameplay with NPCs and new challenges.</div>
+                </div>
+                <div class="image-container" onclick="showModal('images/SlimeClimb Steam Gameplay Gallery City.png', 'Story Element')">
+                  <img src="images/SlimeClimb Steam Gameplay Gallery City.png" alt="Story Element">
+                  <div class="image-caption">Prototype of the planned story mode for PC expansion.</div>
+                </div>
+              </div>
+              <div class="level-text">
+                <div class="design-principle">
+                  <h3>Future-Proof Design</h3>
+                  <p>Every system in SlimeClimb is built to be modular and expandable. Whether it's adding new biomes, mechanics, or story content, the foundation is in place for the game to grow with its audience.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Modal for enlarged image -->
+        <div id="imgModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 transition-opacity">
+          <div id="modalContent" class="relative max-w-3xl max-h-[90vh] flex items-center justify-center">
+            <img id="modalImg" src="" alt="" class="rounded-lg shadow-2xl max-h-[80vh] max-w-full border-4 border-white" />
+            <button id="closeModalBtn" class="absolute top-2 right-2 bg-black bg-opacity-60 text-white rounded-full p-2 hover:bg-opacity-90 transition" aria-label="Close">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="ui_images.js"></script>
+    <script>
+        // Animate gradient background
+        const gradient = document.querySelector('.fluid-gradient');
+        let angle = 125;
+        function animateGradient() {
+            angle = (angle + 0.1) % 360;
+            gradient.style.background = `linear-gradient(${angle}deg, #0a192f, #112240, #233554)`;
+            requestAnimationFrame(animateGradient);
+        }
+        animateGradient();
+
+        // Section reveal animation
+        function revealSections() {
+            const sections = document.querySelectorAll('.level-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // Initialize section reveal
+        document.addEventListener('DOMContentLoaded', () => {
+            revealSections();
+        });
+
+        // Modal functionality
+        function showModal(src, alt) {
+            const modal = document.getElementById('imgModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = src;
+            modalImg.alt = alt;
+
+            // Always reset sizing to let browser handle aspect ratio
+            modalImg.style.width = '';
+            modalImg.style.height = '';
+            modalImg.style.maxWidth = '90vw';
+            modalImg.style.maxHeight = '80vh';
+            modalImg.style.imageRendering = 'pixelated';
+
+            // Set modal position to where the user is scrolled (mobile only)
+            if (window.innerWidth <= 900 || window.matchMedia('(orientation: portrait)').matches) {
+                modal.style.top = window.scrollY + 'px';
+            } else {
+                modal.style.top = '0';
+            }
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.style.opacity = '1'; }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imgModal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.top = '0'; // reset for next open
+            }, 200);
+            document.body.style.overflow = '';
+        }
+
+        // Modal event listeners
+        document.getElementById('closeModalBtn').onclick = closeModal;
+        document.getElementById('imgModal').onclick = function(e) {
+            if (e.target === this) closeModal();
+        };
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Helper function for image dimensions
+        function getDimensionsFromFilename(filename) {
+            const match = filename.match(/(\d+)x(\d+)/);
+            if (match) {
+                return {
+                    width: parseInt(match[1], 10),
+                    height: parseInt(match[2], 10)
+                };
+            }
+            return { width: 50, height: 50 };
+        }
+    </script>
+    <script>
+        // --- SIDEBAR HAMBURGER FOR MOBILE ---
+        (function() {
+          const sidebar = document.getElementById('sidebarMain');
+          const hamburger = document.getElementById('sidebarHamburger');
+          const overlay = document.getElementById('sidebarOverlay');
+          const closeBtn = document.getElementById('sidebarCloseBtn');
+          let sidebarOpen = false;
+
+          function isMobile() {
+            return window.innerWidth <= 900 || window.matchMedia('(orientation: portrait)').matches;
+          }
+
+          function updateSidebarState() {
+            if (isMobile()) {
+              hamburger.style.display = 'block';
+              if (sidebarOpen) {
+                sidebar.classList.add('sidebar-open');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+              } else {
+                sidebar.classList.remove('sidebar-open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+              }
+            } else {
+              sidebar.classList.remove('sidebar-open');
+              overlay.classList.remove('active');
+              document.body.style.overflow = '';
+              hamburger.style.display = 'none';
+            }
+          }
+
+          hamburger.addEventListener('click', function() {
+            sidebarOpen = true;
+            updateSidebarState();
+          });
+
+          overlay.addEventListener('click', function() {
+            sidebarOpen = false;
+            updateSidebarState();
+          });
+
+          if (closeBtn) {
+            closeBtn.onclick = function(e) {
+              e.stopPropagation();
+              sidebarOpen = false;
+              updateSidebarState();
+            };
+          }
+
+          sidebar.addEventListener('click', function(e) {
+            if (isMobile() && e.target.closest('.sidebar-link')) {
+              sidebarOpen = false;
+              updateSidebarState();
+            }
+          });
+
+          window.addEventListener('resize', updateSidebarState);
+          window.addEventListener('orientationchange', updateSidebarState);
+          updateSidebarState();
+        })();
+    </script>
+    </body></html>
+

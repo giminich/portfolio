@@ -525,43 +525,83 @@
               <p>This tutorial level acts not only as a mechanical introduction, but also as a thesis for the design philosophy behind SlimeClimb: clarity through exploration, teaching through play, and respect for player agency.</p>
             </div>
           
-            <div class="level-row">
-              <div class="level-media" style="display:flex; gap:16px; flex:1;">
-                <div class="design-principle">
-                  <h3>SlimeClimb Gameplay Showcase</h3>
-                  <div class="video-container vertical">
-                    <iframe 
-                      src="https://www.youtube.com/embed/6VbOMy4GaIs?autoplay=1&mute=1" 
-                      title="SlimeClimb Gameplay Showcase"
-                      frameborder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                      allowfullscreen>
-                    </iframe>
-                  </div>
-                </div>
-              </div>
-              <div class="level-text" style="flex:2;">
+
+              <!-- use for text to appear on right side of video -->
+              <!-- <div class="level-text" style="flex:2;">
                 <div class="design-principle">
                   <h3>Gameplay of the tutorial level</h3>
                 </div>
                 <hr class="line">
+              </div> -->
+
+          <!--Gameplay Showcase Media Gallery Start -->
+          <div class="media-gallery">
+            <div class="gallery-item">
+              <div class="video-container vertical">
+                <iframe 
+                  src="https://www.youtube.com/embed/6VbOMy4GaIs?autoplay=1&mute=1&loop=1&playlist=6VbOMy4GaIs" 
+                  title="SlimeClimb Gameplay Showcase 1"
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="image-caption">Gameplay video for the tutorial level.</div>
+            </div>
+            <div class="gallery-item">
+              <div class="video-container vertical">
+                <iframe 
+                  src="https://www.youtube.com/embed/gGXB8sYUKRQ?autoplay=1&mute=1&loop=1&playlist=gGXB8sYUKRQ" 
+                  title="SlimeClimb Gameplay Showcase 2"
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="image-caption">Gameplay video of general gameplay.</div>
+            </div>
+            <div class="gallery-item">
+              <div class="video-container vertical">
+                <iframe 
+                  src="https://www.youtube.com/embed/19JMzeAIL14?autoplay=1&mute=1&loop=1&playlist=19JMzeAIL14" 
+                  title="SlimeClimb Gameplay Showcase 2"
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="image-caption">Gameplay video of general gameplay.</div>
+          </div>
+          <!-- Gameplay Showcase Media Gallery End -->
+
+          <!--Image Format Start-->
+            <div class="image-gallery">
+              <div class="gallery-item" onclick="showModal('images/mapshowcase_1.png', 'Map Showcase')">
+                <img src="images/mapshowcase_1.png" alt="Map Showcase">
+                <div class="image-caption">Map Showcase</div>
+              </div>
+              <div class="gallery-item" onclick="showModal('images/mapshowcase_2.png', 'Map Showcase')">
+                <img src="images/mapshowcase_2.png" alt="Map Showcase">
+                <div class="image-caption">Map Showcase</div>
+              </div>
+              <div class="gallery-item" onclick="showModal('images/mapshowcase_3.png', 'Map Showcase')">
+                <img src="images/mapshowcase_3.png" alt="Map Showcase">
+                <div class="image-caption">Map Showcase</div>
+              </div>
+              <div class="gallery-item" onclick="showModal('images/mapshowcase_7.png', 'Map Showcase')">
+                <img src="images/mapshowcase_7.png" alt="Map Showcase">
+                <div class="image-caption">Map Showcase</div>
+              </div>
+              <div class="gallery-item" onclick="showModal('images/mapshowcase_6.png', 'Map Showcase')">
+                <img src="images/mapshowcase_6.png" alt="Map Showcase">
+                <div class="image-caption">Map Showcase</div>
+              </div>
+              <div class="gallery-item" onclick="showModal('images/mapshowcase_4.png', 'Map Showcase')">
+                <img src="images/mapshowcase_4.png" alt="Map Showcase">
+                <div class="image-caption">Map Showcase</div>
               </div>
             </div>
-          <!--Image Then Text Format Start-->
-            <div class="level-row">
-              <div class="level-media" style="display:flex; flex:1;">
-                <div class="image-container" onclick="showModal('images/SlimeClimb Steam Gameplay Gallery City.png', '*placeholder text*')">
-                  <img src="images/SlimeClimb Steam Gameplay Gallery City.png" alt="*placeholder text*">
-                  <div class="image-caption">*placeholder text, the image is also placeholder*</div>
-                </div>
-              </div>
-              <div class="level-text" style="flex:2;">
-                <div class="design-principle">
-                  <p>*placeholder text*</p>
-                </div>
-              </div>
-            </div>
-          <!--Image Then Text Format End-->
+          <!--Image Format End-->
 
           </section>
           <!-- Level Structure & Generation: Wide text, image below -->
@@ -581,9 +621,9 @@
                 <li>Depending on the biome, height and difficulty it's <span class="highlight">chosen</span> <span class="highlight">to</span> <span class="highlight">be</span> <span class="highlight">spawned</span> in on top of a already spawned map</li>
               </ul>
             </div>
-            <div class="image-container" style="margin: 32px auto; max-width: 600px;" onclick="showModal('images/SlimeClimb Steam Gameplay Gallery City.png', 'Map Example')">
-              <img src="images/SlimeClimb Steam Gameplay Gallery City.png" alt="Map Example">
-              <div class="image-caption">Screenshot of a map, inside you can see a variety of different objects the player can interact with.</div>
+            <div class="image-container" style="margin: 32px auto; max-width: 800px;" onclick="showModal('images/leveldesign_mapcategories.png', 'Map Example')">
+              <img src="images/leveldesign_mapcategories.png" alt="Map Example">
+              <div class="image-caption">Demonstration of the map categories.</div>
             </div>
             <div class="design-principle">
               <h3>Randomness & Freshness</h3>
@@ -592,12 +632,36 @@
             </div>
           </section>
 
+        <section>
+          <div class="level-row">
+            <div class="level-text">
+              <div class="section-header">
+                <h2>Day/Night Cycle</h2>
+              </div>
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/slimeclimb_gameplaygallery_3.png', 'Boss Battle')">
+                  <img src="images/slimeclimb_gameplaygallery_3.png" alt="Boss Battle">
+                  <div class="image-caption">Every map's gameplay is made in mind to be both playable in the day and night.</div>
+                </div>
+              </div>
+              <div class="design-principle">
+                <p>SlimeClimb's day/night cycle is a simple system that changes the world's lighting and the player's ability to see. This adds a layer of depth to the game and makes the player have to adapt to the changing environment and makes the familiar maps feel new.</p>
+              </div>
+            </div>
+          </div>
+        </section>
           <!-- Event Maps & Boss Battles: Text left, image right -->
           <section class="level-section">
             <div class="level-row">
               <div class="level-text">
                 <div class="section-header">
                   <h2>Event Maps & Boss Battles</h2>
+                </div>
+                <div class="level-media">
+                  <div class="image-container" onclick="showModal('images/slimeclimb_gameplaygallery_eventmapsalt.png', 'Boss Battle')">
+                    <img src="images/slimeclimb_gameplaygallery_eventmapsalt.png" alt="Boss Battle">
+                    <div class="image-caption">Boss battle event map</div>
+                  </div>
                 </div>
                 <div class="design-principle">
                   <p>While the level is <i>technically infinite</i>, I've implimented a <span class="highlight">slotting system</span> that allows me to have set <span class="highlight">"event maps"</span> to spawn at anytime, which opens even more interesting level design and progression possibilities.</p>
@@ -618,26 +682,21 @@
                   <p>To get to the boss, it's event map is configured to have a chance to spawn any time after 2000m, this goes back to the "event map" system and why opening assets to be configured is super useful when adding things to your game.</p>
                 </div>
               </div>
-              <div class="level-media">
-                <div class="image-container" onclick="showModal('images/SlimeClimb Steam Gameplay Gallery City.png', 'Boss Battle')">
-                  <img src="images/SlimeClimb Steam Gameplay Gallery City.png" alt="Boss Battle">
-                  <div class="image-caption">Boss battle event map</div>
-                </div>
-              </div>
             </div>
+            
           </section>
 
           <!-- Final Section: Two images side by side, wide text below -->
           <section class="level-section">
             <div class="level-row" style="justify-content:center;">
               <div class="level-media" style="display:flex; gap:16px;">
-                <div class="image-container" onclick="showModal('images/SlimeClimb Steam Gameplay Gallery City.png', 'NPC Event')">
-                  <img src="images/SlimeClimb Steam Gameplay Gallery City.png" alt="NPC Event">
-                  <div class="image-caption">NPC event</div>
+                <div class="image-container" onclick="showModal('images/slimeclimb_gameplaygallery_7.png', 'NPC Event')">
+                  <img src="images/slimeclimb_gameplaygallery_7.png" alt="NPC Event">
+                  <div class="image-caption">Some more nightime gameplay</div>
                 </div>
                 <div class="image-container" onclick="showModal('images/SlimeClimb Steam Gameplay Gallery City.png', 'Story Element')">
                   <img src="images/SlimeClimb Steam Gameplay Gallery City.png" alt="Story Element">
-                  <div class="image-caption">Story element</div>
+                  <div class="image-caption">For the future of SlimeClimb, I'm planning on expanding the game for PC and adding a story mode when I obtain more funding, this is what the prototype looks like in game atm.</div>
                 </div>
               </div>
             </div>

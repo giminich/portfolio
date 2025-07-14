@@ -613,3 +613,47 @@
 }
 
 
+/* Buttons for Nav */
+/* Responsive info buttons */
+.info-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.info-btn {
+  display: inline-block;
+  padding: 0.5em 1.2em;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7B2FF2 0%, #F357A8 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px 0 #6C63FF22;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  margin: 0;
+  white-space: nowrap;
+}
+.info-btn:hover {
+  background: linear-gradient(90deg, #F357A8 0%, #7B2FF2 100%);
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+
+@media (max-width: 600px) {
+  .info-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .info-btn {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 0.7em 1em;
+    text-align: center;
+  }
+}

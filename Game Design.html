@@ -16,6 +16,7 @@
 <link data-llama-id="15" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
 <link href="styles.css" rel="stylesheet">
 <link href="styles_design.css" rel="stylesheet">
+<link href="pixel_gif.css" rel="stylesheet">
 <style data-llama-id="16">
     body { font-family: 'Inter', sans-serif; background-color: #101624; }
     h1, h2, h3, .heading { font-family: 'Poppins', sans-serif; }
@@ -371,7 +372,7 @@
           <!-- Navigation -->
           <nav class="flex flex-col gap-1.5 mt-3" id="sidebarNav">
             <a href="UI.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal sidebar-selected" data-section="hero">
-              <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Level Design & Implementation
+              <i class="fas fa-home text-base sidebar-icon" style="color:#F43F5E"></i> Game Design
             </a>
             <a href="index.html" class="sidebar-link flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors text-gray-300 hover:bg-[#232946] text-base font-normal" data-section="about">
               <i class="fas fa-user text-base sidebar-icon"></i> Home
@@ -415,21 +416,67 @@
             <div class="section-header">
               <h2>Game Design for SlimeClimb & General Philosophy</h2>
             </div>
+            <div class="image-container" onclick="showModal('images/920x430 Corner Alt2 SlimeClimb_appstore_graphic.png', 'SlimeClimb Gameplay')">
+              <img src="images/RedditBannerALT2 4000x192.png" alt="SlimeClimb Gameplay">
+            </div>
             <div class="design-principle">
               <h3>Background Information</h3>
-                <p><i>SlimeClimb is a <span class="highlight">2D action platformer</span> avaliable on iOS, Android & Steam; the objective is to climb as high as possible.</i></p>
+              <p><i>SlimeClimb is a <span class="highlight">2D action platformer</span> avaliable on iOS, Android & Steam; the objective is to climb as high as possible.</i></p>
               <hr class="line">
                 <p>For the case of this portfolio I'll only be covering the <span class="highlight">main version</span> of the game, which is the<span class="highlight"> mobile version</span>, a portrait only game.</p>
-                  To summarize simple mechanics of SlimeClimb, the player can jump, backflip, stick to walls, explode off the ground, and can die.</p>
+                  To summarize simple mechanics of SlimeClimb, the player can jump, backflip, stick to walls, explode off the ground, and can die with a goal to climb as high as possible.</p>
               <br>
               <p>Project Information:</p>
               <ul class="bullet-points">
                 <li><b>Genre:</b> 2D vertical action platformer with physics-based movement</li>
                 <li><b>Platform Focus:</b> Mobile-first (portrait orientation), designed for touchscreen input</li>
-                <li><b>Key Mechanics Introduced:</b> Jumping, backflipping, wall-sticking, bounce pads, lift platforms</li>
-                <li><b>Design Goals:</b> Teach mechanics through play, minimize player frustration, encourage exploration and choice</li>
               </ul>
+              <div class="info-buttons" style="display:flex; align-items:center; gap:0.7rem; margin-bottom:1rem;">
+                <a href="#Gameplay Design Section" class="info-btn">Gameplay</a>
+                <a href="Level Design.html" class="info-btn">Level Design</a>
+                <a href="Level Design.html" class="info-btn">Sandbox</a>
+                <a href="https://play.google.com/store/apps/details?id=com.Handtapstudios.SlimeClimb&hl=en_US" class="info-btn">Project Link</a>
+              </div>
             </div>
+            
+          <!--Gameplay Showcase Media Gallery Start -->
+          <div class="media-gallery">
+            <div class="gallery-item">
+              <div class="video-container vertical">
+                <iframe 
+                  src="https://www.youtube.com/embed/6VbOMy4GaIs?autoplay=1&mute=1&loop=1&playlist=6VbOMy4GaIs" 
+                  title="SlimeClimb Gameplay Showcase 1"
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="image-caption">Gameplay video for the tutorial level.</div>
+            </div>
+            <div class="gallery-item">
+              <div class="video-container vertical">
+                <iframe 
+                  src="https://www.youtube.com/embed/cajY-J4c8oU?autoplay=1&mute=1&loop=1&playlist=cajY-J4c8oU" 
+                  title="SlimeClimb Gameplay Showcase 2"
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="image-caption">Gameplay video of general gameplay.</div>
+            </div>
+            <div class="gallery-item">
+              <div class="video-container vertical">
+                <iframe 
+                  src="https://www.youtube.com/embed/19JMzeAIL14?autoplay=1&mute=1&loop=1&playlist=19JMzeAIL14" 
+                  title="SlimeClimb Gameplay Showcase 2"
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="image-caption">Gameplay video of general gameplay.</div>
+          </div>
             </section>
 
           <!-- Game Design Philosophy Section -->
@@ -438,42 +485,46 @@
               <h2>Game Design Philosophy</h2>
             </div>
             <div class="level-row">
+              <div class="level-media">
+                <div class="image-container" onclick="showModal('images/SlimeClimb Gameplay Gallery 1.PNG', 'SlimeClimb Gameplay')">
+                  <img src="images/SlimeClimb Gameplay Gallery 1.PNG" alt="SlimeClimb Gameplay">
+                  <div class="image-caption">SlimeClimb's distinctive visual style and gameplay.</div>
+                </div>
+              </div>
               <div class="level-text">
                 <div class="design-principle">
                   <h3><span class="highlight">Catching Eyes & Being Distinct</span></h3>
-                  <p>To get any game out I fully believe that you need to <span class="highlight">catch eyes</span> and be <span class="highlight">distinct</span>. I've seen so many posts of people trying to release their indie game without anything that's catching eyes—whether it's branding or just the game itself. For <span class="highlight">SlimeClimb</span>, I'm really happy with how the game's look and style just works. When I make anything now, more than anything I want it to be <span class="highlight">distinct</span> over anything.</p>
+                  <p>To get any game out I fully believe that you need to <span class="highlight">catch eyes</span> and be <span class="highlight">distinct</span>. I've seen so many posts of people trying to release their indie game without anything that's catching eyes, whether it's branding or just the game itself. For <span class="highlight">SlimeClimb</span>, I'm really happy with how the game's look and style just works. When I make anything now, more than anything I want it to be <span class="highlight">distinct</span> over anything.</p>
                 </div>
-                <div class="design-principle">
-                  <h3><span class="highlight">Setting the Tone Instantly</span></h3>
-                  <p>From as soon as you open the game, the <span class="highlight">UI is dynamic, fluid</span> and is over a <span class="highlight">pink backdrop</span> that instantly sets the tone. The name is everywhere and you can't miss the characters, which drills in the branding of SlimeClimb. <span class="highlight">Color is everything</span>—when you look at SlimeClimb you see pinks, lilacs, and purples.</p>
-                </div>
-                <div class="design-principle">
-                  <h3><span class="highlight">User Familiarity & Inspiration</span></h3>
-                  <p>For the mobile game market, you have to keep in mind how familiar users are to the UI designs companies like Apple use—which are undeniably some of the best on the internet. With this in mind, I've been taking inspiration and making things as <span class="highlight">user friendly and familiar</span> as I can.</p>
-                </div>
+              </div>
+            </div>
+            <div class="level-row">
+              <div class="level-text">
+                <h3><span class="highlight">Setting the Tone Instantly</span></h3>
+                <p>From as soon as you open the game, the <span class="highlight">UI is dynamic, fluid</span> and is over a <span class="highlight">pink backdrop</span> that instantly sets the tone. The name is everywhere and you can't miss the characters, which drills in the branding of SlimeClimb. <span class="highlight">Color is everything</span>,when you look at SlimeClimb you see pinks, lilacs, and purples.</p>
+              </div>
+            </div>
+            <div class="level-row reverse">
+              <div class="level-text">
                 <div class="design-principle">
                   <h3><span class="highlight">Smart Design for Promotion</span></h3>
                   <p>The result of designing smart like this is that every time I or a player goes to make a post, it's <span class="highlight">eye catching</span> and instantly tells whoever is watching what the game is called. It's easy to promote and recognize since the <span class="highlight">color palette</span> is already established.</p>
                 </div>
-                <div class="design-principle">
-                  <h3><span class="highlight">Marketable, Memorable Characters</span></h3>
-                  <p>The characters are all <span class="highlight">marketable</span> and have simple designs that are easy to remember and fit into the world. I was heavily inspired by games like <span class="highlight">Minecraft</span> that have every silhouette and design so easy to recognize. Down the line, I want to be able to release plushies and merchandise—which would be really cool to have sitting on my desk and also super easy since the design is already <span class="highlight">merch ready</span> in a sense.</p>
-                </div>
               </div>
               <div class="level-media">
-                <div class="image-container" onclick="showModal('images/branding_ui.png', 'SlimeClimb Branding and UI')">
-                  <img src="images/branding_ui.png" alt="SlimeClimb Branding and UI">
+                <div class="image-container" onclick="showModal('images/slimeclimb_gameplaygallery_6.png', 'SlimeClimb Branding and UI')">
+                  <img src="images/slimeclimb_gameplaygallery_6.png" alt="SlimeClimb Branding and UI">
                   <div class="image-caption">SlimeClimb's bold branding and UI set the tone from the first screen.</div>
                 </div>
               </div>
             </div>
             <div class="level-row">
               <div class="level-text">
-                <a href="Level Design.html" style="display:block; background:linear-gradient(90deg,#7B2FF2,#F357A8); color:#fff; font-size:1.3rem; font-weight:bold; text-align:center; padding:1.2rem 0; border-radius:12px; margin:2rem 0; text-decoration:none; box-shadow:0 4px 18px #F357A822; letter-spacing:0.04em; transition:background 0.2s;" onmouseover="this.style.background='linear-gradient(90deg,#F357A8,#7B2FF2)'" onmouseout="this.style.background='linear-gradient(90deg,#7B2FF2,#F357A8)'">
-                  Explore the full <span class="highlight">Level Design</span> breakdown &rarr;
-                </a>
+                <div class="design-principle">
+                  <h3><span class="highlight">Marketable, Memorable Characters</span></h3>
+                  <p>The characters are all <span class="highlight">marketable</span> and have simple designs that are easy to remember and fit into the world. I was heavily inspired by games like <span class="highlight">Minecraft</span> that have every silhouette and design so easy to recognize. Down the line, I want to be able to release plushies and merchandise,which would be really cool to have sitting on my desk and also super easy since the design is already <span class="highlight">merch ready</span> in a sense.</p>
+                </div>
               </div>
-            </div>
           </section>
 
           <!-- Gameplay Design Section -->
@@ -484,20 +535,38 @@
             <div class="level-row reverse">
               <div class="level-media">
                 <div class="image-container" onclick="showModal('images/gameplay_core.png', 'Core Gameplay Loop')">
-                  <img src="images/gameplay_core.png" alt="Core Gameplay Loop">
+                  <img src="images/TV Default.gif" alt="Core Gameplay Loop">
                   <div class="image-caption">One-finger controls make SlimeClimb accessible, but mastery takes skill.</div>
+                </div>
+                <div style="margin: 40px 0 0 -10; display: flex; justify-content: center;">
+                  <div class="imagegif-box" id="demoImageGif"
+                       data-folder="pixel_images/tv2/"
+                       data-root="TV_spikebreak_"
+                       data-ext="png"
+                       data-imagegif-left="-2%"
+                       data-imagegif-top="0%"
+                       data-imagegif-width="100%"
+                       data-imagegif-height="100%"
+                       data-overlay="pixel_images/TV Default.png"
+                       data-overlay-left="-0%"
+                       data-overlay-top="2%"
+                       data-overlay-width="100%"
+                       data-overlay-height="90%"
+                       style="width: 378px; height: 210px; scale: 1.4;">
+                    <!-- The animation and overlay will be injected by JS -->
+                  </div>
                 </div>
               </div>
               <div class="level-text">
                 <div class="design-principle">
                   <h3><span class="highlight">Fun Comes First</span></h3>
-                  <p>Gameplay design comes first imo since almost every game that is successful is <span class="highlight">inherently fun</span>. For the gameplay I wanted it to be <span class="highlight">player focused</span> and open to <span class="highlight">skill improvement</span>. When you play SlimeClimb all you need to do is tap with one finger to jump and climb walls—super easy to understand and opens the game up to anyone from age 5 to 100.</p>
+                  <p>Gameplay design comes first imo since almost every game that is successful is <span class="highlight">inherently fun</span>. For the gameplay I wanted it to be <span class="highlight">player focused</span> and open to <span class="highlight">skill improvement</span>. When you play SlimeClimb all you need to do is tap with one finger to jump and climb walls,super easy to understand and opens the game up to anyone from age 5 to 100.</p>
                 </div>
                 <div class="design-principle">
                   <h3><span class="highlight">Peeling Back the Mechanics</span></h3>
                   <ul class="bullet-points">
                     <li>As you keep playing, you can <span class="highlight">peel back the mechanics</span> and find better ways to climb using what you're given.</li>
-                    <li>For example, you can <span class="highlight">backflip</span>—sometimes it's more fun to have that fail safe to fall back on.</li>
+                    <li>For example, you can <span class="highlight">backflip</span>,sometimes it's more fun to have that fail safe to fall back on.</li>
                     <li>If you use it more than 6 in a row, you get an <span class="highlight">explosion</span> where if you hit the ground it bounces you up. In the game it's never mentioned to the player that this is a thing; instead, I wanted this to be a <span class="highlight">natural discovery</span> from spamming backflip or just on accident.</li>
                   </ul>
                 </div>
@@ -509,7 +578,7 @@
                   <h3><span class="highlight">Replayability & Emergent Play</span></h3>
                   <ul class="bullet-points">
                     <li>Speedrunners have made use of these more niche mechanics, which is kinda cool.</li>
-                    <li>For example, in the game there is a strat where you can get an extra boost if you tap as soon as you hit a bounce pad—my beta testers found this!</li>
+                    <li>For example, in the game there is a strat where you can get an extra boost if you tap as soon as you hit a bounce pad,my beta testers found this!</li>
                     <li>Stuff like that really helps build some interesting ways to keep the game <span class="highlight">replayable</span>.</li>
                   </ul>
                 </div>
@@ -607,7 +676,7 @@
           <section class="level-section">
             <div class="section-header">
               <h2>Looking Forward: Expanding the Sandbox</h2>
-              <p>With the core systems in place, SlimeClimb is ready to grow. Future plans include expanding to PC, adding a story mode, and releasing merchandise based on the game's iconic characters.</p>
+              <p>With the core systems in place, SlimeClimb is ready to grow. Future plans include expanding to PC, adding a story mode, and releasing merchandise based on the game's characters.(hopefully lol)</p>
             </div>
             <div class="level-row">
               <div class="level-media" style="display:flex; gap:16px;">
@@ -798,5 +867,104 @@
           updateSidebarState();
         })();
     </script>
+    <!-- === DEMO: Pixel Art Animation Box with Overlay === -->
+
+<script>
+(function() {
+  // Helper: Get all frame files in the folder that match the root name
+  async function getFrameList(folder, root, ext) {
+    // For demo: We'll assume frames are named root + frameNum + .ext, and are sequential from 1 up
+    // In production, you could fetch a manifest or use server-side listing
+    let frames = [];
+    let promises = [];
+    for (let i = 1; i <= 25; i++) {
+      let fname = `${folder}${root}${i}.${ext}`;
+      // Preload and check if image exists
+      promises.push(new Promise((resolve) => {
+        const img = new window.Image();
+        img.onload = () => resolve(fname);
+        img.onerror = () => resolve(null);
+        img.src = fname;
+      }));
+    }
+    const results = await Promise.all(promises);
+    return results.filter(Boolean); // Only valid images
+  }
+
+  // Helper: Load image and get its natural size
+  function getImageSize(src) {
+    return new Promise((resolve) => {
+      const img = new window.Image();
+      img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+      img.onerror = () => resolve({ width: 64, height: 64 });
+      img.src = src;
+    });
+  }
+
+  // Main: Setup imagegif animation
+  async function setupImageGif(box) {
+    const folder = box.getAttribute('data-folder');
+    const root = box.getAttribute('data-root');
+    const ext = box.getAttribute('data-ext') || 'png';
+    const overlay = box.getAttribute('data-overlay');
+    const overlayLeft = box.getAttribute('data-overlay-left') || '0';
+    const overlayTop = box.getAttribute('data-overlay-top') || '0';
+    const overlayWidth = box.getAttribute('data-overlay-width') || '100%';
+    const overlayHeight = box.getAttribute('data-overlay-height') || '100%';
+    const fps = 15;
+
+    // Get frame list (for demo, just 1-25)
+    const frames = await getFrameList(folder, root, ext);
+    // Preload first frame to get size
+    const size = await getImageSize(frames[0]);
+    box.style.width = box.style.width || size.width + 'px';
+    box.style.height = box.style.height || size.height + 'px';
+
+    // Create img element for animation
+    const img = document.createElement('img');
+    img.className = 'imagegif';
+    img.src = frames[0];
+    img.width = size.width;
+    img.height = size.height;
+    // Apply custom position/size if specified
+    const gifLeft = box.getAttribute('data-imagegif-left');
+    const gifTop = box.getAttribute('data-imagegif-top');
+    const gifWidth = box.getAttribute('data-imagegif-width');
+    const gifHeight = box.getAttribute('data-imagegif-height');
+    if (gifLeft) img.style.left = gifLeft;
+    if (gifTop) img.style.top = gifTop;
+    if (gifWidth) img.style.width = gifWidth;
+    if (gifHeight) img.style.height = gifHeight;
+    if (gifLeft || gifTop) img.style.position = 'absolute';
+    box.appendChild(img);
+
+    // Overlay
+    let overlayImg = null;
+    if (overlay) {
+      overlayImg = document.createElement('img');
+      overlayImg.className = 'imageoverlay';
+      overlayImg.src = overlay;
+      overlayImg.style.left = overlayLeft;
+      overlayImg.style.top = overlayTop;
+      overlayImg.style.width = overlayWidth;
+      overlayImg.style.height = overlayHeight;
+      box.appendChild(overlayImg);
+    }
+
+    // Animation loop
+    let frameIdx = 0;
+    setInterval(() => {
+      img.src = frames[frameIdx];
+      frameIdx = (frameIdx + 1) % frames.length;
+    }, 1000 / fps);
+  }
+
+  // Find all .imagegif-box elements and set up
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.imagegif-box').forEach(setupImageGif);
+  });
+})();
+</script>
+<!-- === END DEMO === -->
     </body></html>
 

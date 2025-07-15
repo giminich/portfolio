@@ -660,16 +660,56 @@
 
 /* Hide collage-bg and first philosophy image on mobile */
 @media (max-width: 900px), (orientation: portrait) {
-  .collage-bg {
-    display: none !important;
-  }
+  .collage-bg,
   .philosophy-main-img {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    pointer-events: none !important;
+    -webkit-mask-image: none !important;
+    -webkit-appearance: none !important;
   }
 }
 
-.philosophy-mobile-img { display: none !important; }
+.philosophy-mobile-img {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  pointer-events: none !important;
+  -webkit-mask-image: none !important;
+  -webkit-appearance: none !important;
+}
 @media (max-width: 900px), (orientation: portrait) {
-  .philosophy-desktop-img { display: none !important; }
-  .philosophy-mobile-img { display: block !important; }
+  .philosophy-desktop-img {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    pointer-events: none !important;
+    -webkit-mask-image: none !important;
+    -webkit-appearance: none !important;
+  }
+  .philosophy-mobile-img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: unset !important;
+    pointer-events: auto !important;
+    -webkit-mask-image: none !important;
+    -webkit-appearance: auto !important;
+  }
 }

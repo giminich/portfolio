@@ -657,3 +657,19 @@
     text-align: center;
   }
 }
+
+/* Hide collage-bg and first philosophy image on mobile */
+@media (max-width: 900px), (orientation: portrait) {
+  .collage-bg {
+    display: none !important;
+  }
+  .philosophy-main-img {
+    display: none !important;
+  }
+}
+
+.philosophy-mobile-img { display: none !important; }
+@media (max-width: 900px), (orientation: portrait) {
+  .philosophy-desktop-img { display: none !important; }
+  .philosophy-mobile-img { display: block !important; }
+}

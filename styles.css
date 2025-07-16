@@ -197,6 +197,12 @@ section:first-of-type .section-bubble::before {
     }
 }
 
+.highlight {
+  -webkit-text-fill-color: #000000;
+  -webkit-text-stroke: #434343;
+  -webkit-text-stroke-width: .05rem;
+}
+
 /* --- Universal Portfolio Card Styles --- */
 .portfolio-card, .relative.group.rounded-2xl {
     width: 100%;
@@ -703,6 +709,55 @@ img, video, canvas {
 * {
   -webkit-backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+
+/* Safari Mobile Portfolio Card Width Fix */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 900px), (orientation: portrait) {
+    /* Make portfolio cards much wider on Safari mobile */
+    .relative.group.rounded-2xl,
+    .project-card,
+    .w-\[460px\] {
+      width: 90vw !important;
+      max-width: 450px !important;
+      height: 90vw !important;
+      max-height: 450px !important;
+      margin: 1rem auto !important;
+      transform: none !important;
+      aspect-ratio: 1 !important;
+    }
+
+    /* Ensure grid centers the wider cards */
+    .grid.gap-x-8.gap-y-12,
+    .grid.gap-x-75.gap-y-12 {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      padding: 0 1rem !important;
+      gap: 2rem !important;
+    }
+
+    /* Adjust section padding to accommodate wider cards */
+    #projects .section-content {
+      padding: 2rem 0.5rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* Ensure proper spacing around cards */
+    #projects .py-24 {
+      padding-top: 2rem !important;
+      padding-bottom: 2rem !important;
+    }
+
+    #projects .px-12 {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+  }
 }
 
 /* End Safari iOS Fixes */

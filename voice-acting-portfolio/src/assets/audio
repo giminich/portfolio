@@ -1,0 +1,18 @@
+voice-acting-portfolio
+├── src
+│   ├── assets
+│   │   ├── audio
+│   │   └── images
+│   ├── css
+│   │   ├── main.css
+│   │   └── styles.css
+│   ├── js
+│   │   ├── audio-player.js
+│   │   └── main.js
+│   └── pages
+│       ├── characters.html
+│       ├── index.html 
+│       └── projects.html
+├── LICENSE
+├── README.md
+└── index.html

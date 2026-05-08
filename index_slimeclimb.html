@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#b8a0ff" />
+  <title>SlimeClimb by HanditapStudios</title>
+  <meta name="description"
+    content="SlimeClimb is a colorful 2D pixel platformer where you climb as a slime! 50+ unique slimes, boss battles, level builder. Free on iOS & Android." />
+  <meta property="og:title" content="SlimeClimb" />
+  <meta property="og:description" content="Climb as high as you can! Free on iOS & Android." />
+  <meta property="og:image" content="images/promo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="images/icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Nunito:wght@400;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Vivid, punchy palette — no grey allowed */
+      --lilac: #c49fff;
+      /* main brand lilac        */
+      --lilac-bright: #b47fff;
+      /* slightly richer          */
+      --lilac-deep: #8855ee;
+      /* buttons, accents         */
+      --lilac-text: #5522aa;
+      /* headings                 */
+      --purple-pop: #7733dd;
+      /* bold highlights          */
+      --pink: #ff88cc;
+      /* warm accent              */
+      --mint: #66eebb;
+      /* cool accent              */
+      --yellow: #ffe94d;
+      /* Impact pop colour        */
+      --sky: #aad4ff;
+      /* background sky tint      */
+      --white: #ffffff;
+      --text-body: #5533aa;
+      --text-muted: #8866cc;
+      --card-bg: rgba(226, 204, 255, 0.62);
+      --card-border: rgba(180, 140, 255, 0.65);
+      --shadow: 0 8px 36px rgba(100, 50, 220, 0.18);
+      --box-max: 1060px;
+      --pad: clamp(16px, 4vw, 52px);
+      --r-lg: 22px;
+      --r-md: 14px;
+      --r-pill: 9999px;
+
+      /* HERO PANEL CUSTOMIZATION OPTIONS */
+      /* Change these values to customize your hero panel: */
+
+      /* HEIGHT OPTIONS: 
+         - 100vh = full screen height
+         - 80vh = 80% of screen height  
+         - 600px = fixed 600 pixels tall */
+      --hero-height: 100vh;
+
+      /* VERTICAL ALIGNMENT:
+         - center = content in middle
+         - flex-start = content at top
+         - flex-end = content at bottom */
+      --hero-align: center;
+
+      /* PADDING (spacing around content):
+         Format: top right bottom left
+         - 120px var(--pad) 60px = current settings
+         - 80px var(--pad) 40px = less spacing
+         - 160px var(--pad) 80px = more spacing */
+      --hero-padding: 120px var(--pad) 60px;
+
+      /* BACKGROUND POSITION:
+         - center center = image centered
+         - top center = image aligned to top
+         - bottom center = image aligned to bottom
+         - left center = image aligned to left */
+      --hero-bg-position: center center;
+
+      /* BACKGROUND SIZE:
+         - cover = fills entire area (may crop image)
+         - contain = shows full image (may have empty space)
+         - 100% 100% = stretches to fit exactly */
+      --hero-bg-size: cover;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Nunito", "Trebuchet MS", sans-serif;
+      background: #4479ff;
+      /* vivid sky fallback while bg loads */
+      color: var(--text-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ═══════════════════════════════════════
+       FIXED WORLD LAYERS
+    ═══════════════════════════════════════ */
+
+    #world-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      /* Use Ambient_steam_graphic as the main background */
+      background: url("images/LargeBackground.png") center center / cover no-repeat;
+      width: 100vw;
+      height: 111vh;
+    }
+
+    /* Header background layer with Floor.png */
+    #header-bg {
+      position: fixed;
+      width: 100vw;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      z-index: 60;
+      pointer-events: none;
+      background: url("images/Floor.png") center top / auto 100% repeat-x;
+      rotate: 180deg;
+      opacity: 1;
+    }
+
+    /* Beautiful gradient overlay inspired by feature cards */
+    #gradient-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(135deg,
+          rgba(196, 159, 255, 0.25) 0%,
+          rgba(255, 136, 204, 0.2) 25%,
+          rgba(102, 238, 187, 0.15) 50%,
+          rgba(255, 233, 77, 0.2) 75%,
+          rgba(180, 127, 255, 0.25) 100%);
+      background-size: 400% 400%;
+      animation: gradient-flow 15s ease-in-out infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* ── Cloud layer ──
+       The source image is 1024×256.
+       We tile it horizontally at its natural ratio so it never blurs.
+       Two copies sit side-by-side (200% width) and we translate -50% to loop. */
+    #cloud-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .cloud-track {
+      /* height matches the image's natural aspect: 256/1024 = 25vw tall */
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* two tile-widths wide, each tile = 100vw wide preserving 4:1 ratio */
+      width: 200vw;
+      height: 50vw;
+      /* 1024×256 → height = width/4; one tile = 100vw → 25vw tall */
+      display: flex;
+      mix-blend-mode: screen;
+      opacity: 0.62;
+      animation: cloud-drift 86s linear infinite;
+      will-change: transform;
+    }
+
+    .cloud-track img {
+      width: 100vw;
+      /* each copy = exactly one tile width  */
+      height: 25vw;
+      /* natural aspect ratio preserved       */
+      flex-shrink: 0;
+      image-rendering: auto;
+      /* let browser smooth-scale, not pixel  */
+      object-fit: fill;
+      /* fill exactly, no cropping            */
+    }
+
+    /* Second row — offset so the sky looks layered */
+    .cloud-track.b {
+      top: auto;
+      bottom: 0;
+      height: 50vw;
+      opacity: 0.4;
+      animation-duration: 152s;
+      animation-direction: reverse;
+    }
+
+    @keyframes cloud-drift {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-100vw);
+      }
+    }
+
+    /* ── Sparkle particles (sparkle.png) ── */
+    #sparkles {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sp {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0;
+      animation: sp-rise linear infinite;
+    }
+
+    @keyframes sp-rise {
+      0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg) scale(0.6);
+      }
+
+      18% {
+        opacity: 0.95;
+      }
+
+      80% {
+        opacity: 0.7;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-180px) rotate(360deg) scale(1.2);
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       LAYOUT HELPERS
+    ═══════════════════════════════════════ */
+    #page {
+      position: relative;
+      z-index: 3;
+    }
+
+    .box {
+      max-width: var(--box-max);
+      margin: 0 auto;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    /* Frosted glass card — every section lives in one */
+    .glass {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .sec {
+      padding: 64px 0;
+    }
+
+    .sec0 {
+      padding: 0 0 64px;
+    }
+
+    /* Typography system */
+    .pill {
+      display: inline-block;
+      background: rgba(140, 90, 240, 0.18);
+      border: 1.5px solid rgba(140, 90, 240, 0.45);
+      color: var(--purple-pop);
+      font-family: "Chewy", cursive;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      padding: 5px 16px;
+      border-radius: var(--r-pill);
+      margin-bottom: 12px;
+    }
+
+    /* Impact headings with candy outline */
+    .h-impact {
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: clamp(28px, 5.5vw, 46px);
+      color: var(--lilac-text);
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      /* white text-stroke for readability on light bg */
+      -webkit-text-stroke: 3px rgba(255, 255, 255, 0.85);
+      paint-order: stroke fill;
+      margin-bottom: 8px;
+    }
+
+    .h-impact .hi {
+      color: var(--purple-pop);
+    }
+
+    .h-impact .yel {
+      color: var(--yellow);
+      -webkit-text-stroke: 2px rgba(180, 120, 0, 0.5);
+    }
+
+    .chewy-sub {
+      font-family: "Chewy", cursive;
+      font-size: clamp(15px, 2.8vw, 19px);
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+      line-height: 1.55;
+    }
+
+    /* ═══════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════ */
+    #topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 3.5vw, 44px);
+      background: #c3afffd1;
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
+      border-bottom: 1px solid rgba(170, 130, 255, 0);
+      transition: background 0.35s, backdrop-filter 0.35s,
+        -webkit-backdrop-filter 0.35s, border-color 0.35s;
+    }
+
+    #topnav.on {
+      background: #ac90ffd1;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: rgba(170, 130, 255, 0.45);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-stamp {
+      height: 32px;
+      width: auto;
+      opacity: 0;
+      transition: opacity 0.3s;
+      filter: drop-shadow(0 2px 8px rgba(130, 80, 240, 0.5));
+    }
+
+    #topnav.on .nav-stamp {
+      opacity: 1;
+    }
+
+    /* Social icons in nav */
+    .nav-socials {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .nav-soc {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.45);
+      border: 1.5px solid rgba(170, 130, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-pop);
+      transition: background 0.18s, transform 0.18s;
+    }
+
+    .nav-soc:hover {
+      background: rgba(180, 140, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .nav-soc svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 700px) {
+      .nav-socials {
+        display: none;
+      }
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-link {
+      font-family: "Chewy", cursive;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      color: var(--lilac-text);
+      padding: 6px 12px;
+      border-radius: var(--r-pill);
+      transition: background 0.18s;
+    }
+
+    .nav-link:hover {
+      background: rgba(160, 110, 240, 0.18);
+    }
+
+    .nav-cta {
+      background: var(--lilac-deep) !important;
+      color: var(--white) !important;
+      padding: 7px 18px !important;
+      border-radius: var(--r-pill) !important;
+      box-shadow: 0 3px 14px rgba(120, 60, 220, 0.38);
+      font-family: "Chewy", cursive !important;
+      font-size: 14px !important;
+      transition: background 0.18s, transform 0.18s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--purple-pop) !important;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .nav-link:not(.nav-cta) {
+        display: none;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       HERO SECTION (redesigned side-by-side layout)
+    ═══════════════════════════════════════ */
+
+    /* Steam background layer - behind clouds and sparkles */
+    #steam-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: url("images/1000x725_Background.png") var(--hero-bg-position) / var(--hero-bg-size) no-repeat;
+      opacity: 1;
+    }
+
+    #hero-panel {
+      min-height: var(--hero-height);
+      display: flex;
+      flex-direction: column;
+      justify-content: var(--hero-align);
+      padding: var(--hero-padding);
+      position: relative;
+      gap: 0;
+      background: linear-gradient(135deg, rgba(196, 159, 255, 0.15), rgba(180, 127, 255, 0.1));
+      backdrop-filter: blur(2px);
+      overflow: hidden;
+      /* Want shorter height? */
+      --hero-height: 80vh;
+
+      /* Want content at the top? */
+      --hero-align: flex-start;
+
+      /* Want less padding? */
+      --hero-padding: 120px var(--pad) 40px;
+
+      /* Want background image at the top? */
+      --hero-bg-position: top center;
+
+    }
+
+    /* Top section - Logo and Screenshots side by side */
+    .hero-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: var(--box-max);
+      margin: 0 auto 60px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Logo section */
+    .hero-logo-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-logo {
+      width: min(700px, 120%);
+      filter: drop-shadow(0 15px 50px rgba(150, 80, 255, 0.6));
+      animation: float 7s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    /* Screenshots section */
+    .hero-screenshots-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Bottom section - Horizontal pink info bar (Crossy Road style) */
+    .hero-info-bar {
+      background: linear-gradient(135deg, #ff88cc 0%, #ff6b9d 50%, #e91e63 100%);
+      border-radius: var(--r-lg);
+      padding: 40px 50px;
+      margin: 0 auto;
+      max-width: var(--box-max);
+      width: 100%;
+      position: relative;
+      z-index: 2;
+      box-shadow:
+        0 20px 60px rgba(255, 107, 157, 0.4),
+        0 0 0 3px rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      overflow: hidden;
+    }
+
+    .hero-info-bar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("images/Floor.png") center center / cover no-repeat;
+      opacity: 0.1;
+      mix-blend-mode: overlay;
+      z-index: 1;
+    }
+
+    .info-bar-content {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Stamp icon */
+    .info-bar-icon {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+    }
+
+    /* Game info section */
+    .info-bar-text {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .info-bar-title {
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: clamp(28px, 5vw, 42px);
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      -webkit-text-stroke: 2px rgba(0, 0, 0, 0.2);
+      paint-order: stroke fill;
+      text-shadow:
+        0 4px 0px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.4);
+      margin: 0;
+    }
+
+    .info-bar-description {
+      font-family: 'Chewy', cursive;
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      max-width: 500px;
+      text-shadow:
+        0 2px 0px rgba(0, 0, 0, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Download buttons in info bar */
+    .info-bar-downloads {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Simplified Hero Layout - Just Logo and Screenshots */
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: var(--box-max);
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Left side - Just the big logo */
+    .hero-left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-logo {
+      width: min(450px, 90%);
+      filter: drop-shadow(0 15px 50px rgba(150, 80, 255, 0.6));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Right side - Screenshots and download buttons */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      position: relative;
+    }
+
+    /* Enhanced screenshots layout */
+    .hero-screens {
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .triptych {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: clamp(12px, 3vw, 28px);
+      margin-bottom: 8px;
+    }
+
+    .tript {
+      flex: 0 0 auto;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.6);
+      box-shadow:
+        0 20px 50px rgba(110, 50, 220, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .tript:nth-child(1) {
+      width: clamp(85px, 18vw, 140px);
+      transform: rotate(-8deg) translateY(20px) scale(0.9);
+    }
+
+    .tript:nth-child(2) {
+      width: clamp(110px, 25vw, 180px);
+      transform: rotate(0deg) translateY(0) scale(1);
+      z-index: 3;
+    }
+
+    .tript:nth-child(3) {
+      width: clamp(85px, 18vw, 140px);
+      transform: rotate(8deg) translateY(20px) scale(0.9);
+    }
+
+    .tript:hover {
+      transform: rotate(0deg) translateY(-15px) scale(1.08) !important;
+      box-shadow:
+        0 30px 80px rgba(150, 80, 255, 0.5),
+        0 0 0 2px rgba(255, 255, 255, 0.4);
+      z-index: 10;
+    }
+
+    .tript img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Enhanced download buttons */
+    .dl-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dl-btn {
+      display: block;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
+
+    .dl-btn::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      background: linear-gradient(135deg, rgba(196, 159, 255, 0.3), rgba(255, 136, 204, 0.2));
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .dl-btn:hover::before {
+      opacity: 1;
+    }
+
+    .dl-btn img {
+      height: clamp(55px, 12vw, 72px);
+      width: auto;
+      border-radius: 16px;
+      filter: drop-shadow(0 8px 24px rgba(100, 50, 220, 0.4));
+    }
+
+    .dl-btn:hover {
+      transform: translateY(-6px) scale(1.08);
+    }
+
+    .dl-btn:active {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    /* Floating game elements for visual interest */
+    .hero-decorations {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-decoration {
+      position: absolute;
+      opacity: 0.1;
+      animation: float-decoration 6s ease-in-out infinite;
+    }
+
+    .hero-decoration:nth-child(1) {
+      top: 15%;
+      left: 5%;
+      width: 60px;
+      height: 60px;
+      background: url("images/sparkle.png") center center / contain no-repeat;
+      animation-delay: 0s;
+    }
+
+    .hero-decoration:nth-child(2) {
+      bottom: 20%;
+      right: 8%;
+      width: 80px;
+      height: 80px;
+      background: url("images/heart.png") center center / contain no-repeat;
+      animation-delay: 2s;
+    }
+
+    .hero-decoration:nth-child(3) {
+      top: 60%;
+      left: 2%;
+      width: 50px;
+      height: 50px;
+      background: url("images/sparkle.png") center center / contain no-repeat;
+      animation-delay: 4s;
+    }
+
+    @keyframes float-decoration {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.1;
+      }
+
+      50% {
+        transform: translateY(-25px) rotate(180deg);
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+
+      .hero-left {
+        align-items: center;
+        order: 1;
+      }
+
+      .hero-right {
+        order: 2;
+      }
+    }
+
+    .hero-tag {
+      font-family: "Chewy", cursive;
+      font-size: clamp(16px, 4vw, 21px);
+      color: var(--purple-pop);
+      letter-spacing: 0.06em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 2px 8px rgba(180, 140, 255, 0.4);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── download buttons ── */
+    .dl-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 36px;
+    }
+
+    .dl-btn {
+      display: block;
+      transition: transform 0.18s, filter 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .dl-btn img {
+      height: clamp(50px, 11vw, 66px);
+      width: auto;
+      border-radius: 12px;
+      filter: drop-shadow(0 5px 16px rgba(100, 50, 220, 0.35));
+    }
+
+    .dl-btn:hover {
+      transform: translateY(-4px) scale(1.06);
+    }
+
+    .dl-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ── screenshots triptych directly below dl buttons ── */
+    .hero-screens {
+      width: 100%;
+      max-width: 820px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .triptych {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: clamp(8px, 2vw, 22px);
+    }
+
+    .tript {
+      flex: 0 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2.5px solid rgba(200, 160, 255, 0.6);
+      box-shadow: 0 14px 40px rgba(110, 50, 220, 0.28);
+      background: rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .tript:nth-child(1) {
+      width: clamp(90px, 19vw, 175px);
+      transform: rotate(-5deg) translateY(12px);
+    }
+
+    .tript:nth-child(2) {
+      width: clamp(105px, 24vw, 210px);
+      transform: rotate(0deg) translateY(0);
+      z-index: 2;
+    }
+
+    .tript:nth-child(3) {
+      width: clamp(90px, 19vw, 175px);
+      transform: rotate(5deg) translateY(12px);
+    }
+
+    .tript:hover {
+      transform: rotate(0) translateY(-10px) scale(1.05) !important;
+      box-shadow: 0 24px 60px rgba(150, 80, 255, 0.45);
+      z-index: 10;
+    }
+
+    .tript img {
+      width: 100%;
+      display: block;
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute;
+      bottom: max(20px, env(safe-area-inset-bottom, 20px));
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      opacity: 0.5;
+      cursor: pointer;
+      border: none;
+      background: none;
+      animation: bob 2.2s ease-in-out infinite;
+    }
+
+    .scroll-cue span {
+      font-family: "Chewy", cursive;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--purple-pop);
+    }
+
+    .s-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2.5px solid var(--lilac-deep);
+      border-bottom: 2.5px solid var(--lilac-deep);
+      transform: rotate(45deg);
+    }
+
+    @keyframes bob {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       GALLERY scroll strip (below hero panel)
+    ═══════════════════════════════════════ */
+    #gallery {}
+
+    .gal-scroll {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 10px 4px 20px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--lilac) transparent;
+    }
+
+    .gal-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .gal-scroll::-webkit-scrollbar-thumb {
+      background: var(--lilac);
+      border-radius: 99px;
+    }
+
+    .gal-item {
+      flex: 0 0 auto;
+      width: clamp(240px, 52vw, 390px);
+      scroll-snap-align: center;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      border: 2px solid rgba(190, 155, 255, 0.45);
+      box-shadow: 0 6px 24px rgba(100, 50, 220, 0.18);
+      background: rgba(255, 255, 255, 0.25);
+      transition: transform 0.22s;
+    }
+
+    .gal-item:hover {
+      transform: scale(1.025);
+    }
+
+    .gal-item img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       FEATURES (Crossy Road inspired design!)
+    ═══════════════════════════════════════ */
+    #features {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 0;
+      overflow: visible;
+    }
+
+    /* Features container with floor borders */
+    .features-container {
+      position: relative;
+      width: 100vw;
+    }
+
+    /* Top floor border - positioned independently, behind the bar */
+    .features-floor-top {
+      position: absolute;
+      top: -226px;
+      left: 0;
+      width: 100vw;
+      height: 280px;
+      background: url("images/Floor.png") center center / auto 100% repeat-x;
+      z-index: 1;
+      opacity: 1;
+    }
+
+    /* Bottom floor border - positioned independently, behind the bar */
+    .features-floor-bottom {
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      width: 100vw;
+      height: 1000px;
+      background: url("images/Floor.png") center center / auto 100% repeat-x;
+      transform: rotate(180deg);
+      z-index: 1;
+      opacity: .1;
+    }
+
+    /* Main features bar (Crossy Road style) */
+    .features-bar {
+      width: 100vw;
+      background: linear-gradient(135deg, var(--lilac) 0%, #b47fff59 50%, #9966ee 100%);
+      padding: 80px 0;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .features-bar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("images/Floor.png") center center / cover no-repeat;
+      opacity: 0.08;
+      mix-blend-mode: overlay;
+      z-index: 1;
+    }
+
+    /* Main content grid */
+    .features-content {
+      max-width: var(--box-max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 50px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 50px;
+    }
+
+    /* Stamp icon */
+    .features-icon {
+      width: 100px;
+      height: 100px;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+    }
+
+    /* Game info section */
+    .features-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .features-title {
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: clamp(32px, 6vw, 48px);
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      -webkit-text-stroke: 2px rgba(0, 0, 0, 0.2);
+      paint-order: stroke fill;
+      text-shadow:
+        0 4px 0px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.4);
+      margin: 0;
+    }
+
+    .features-description {
+      font-family: 'Chewy', cursive;
+      font-size: clamp(18px, 3vw, 24px);
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      max-width: 600px;
+      text-shadow:
+        0 2px 0px rgba(0, 0, 0, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Download buttons in features bar */
+    .features-downloads {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .features-downloads .dl-btn img {
+      height: clamp(60px, 14vw, 80px);
+    }
+
+    /* Feature subsections grid - contained within max-width */
+    .features-grid {
+      max-width: var(--box-max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Individual feature cards */
+    .feature-card {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--r-md);
+      padding: 24px 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .feature-card-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+    }
+
+    .feature-card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .feature-card-title {
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: clamp(16px, 3vw, 20px);
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+      paint-order: stroke fill;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-card-text {
+      font-family: 'Chewy', cursive;
+      font-size: clamp(13px, 2.2vw, 16px);
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .features-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .features-bar {
+        padding: 40px 30px;
+      }
+
+      .features-floor-top,
+      .features-floor-bottom {
+        height: 60px;
+      }
+
+      .features-floor-top {
+        top: -30px;
+      }
+
+      .features-floor-bottom {
+        bottom: -30px;
+      }
+    }
+
+    .card-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .highlight {
+      background: rgba(140, 90, 240, 0.15);
+      border: 1px solid rgba(140, 90, 240, 0.3);
+      color: var(--purple-pop);
+      font-family: 'Chewy', cursive;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      letter-spacing: 0.02em;
+    }
+
+    /* Specific card styling */
+    .story-card {
+      background: linear-gradient(135deg, rgba(196, 159, 255, 0.7), rgba(180, 127, 255, 0.5));
+    }
+
+    .create-card {
+      background: linear-gradient(135deg, rgba(255, 136, 204, 0.7), rgba(196, 159, 255, 0.5));
+    }
+
+    .slimes-card {
+      background: linear-gradient(135deg, rgba(102, 238, 187, 0.7), rgba(180, 127, 255, 0.5));
+    }
+
+    .gameplay-card {
+      background: linear-gradient(135deg, rgba(255, 233, 77, 0.7), rgba(196, 159, 255, 0.5));
+    }
+
+    /* Bottom CTA section */
+    .features-cta {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .free-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--lilac-deep), var(--purple-pop));
+      color: var(--white);
+      padding: 16px 32px;
+      border-radius: var(--r-lg);
+      box-shadow: 0 8px 30px rgba(120, 60, 220, 0.4);
+      transform: rotate(-2deg);
+      transition: transform 0.3s ease;
+    }
+
+    .free-badge:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .badge-text {
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .badge-sub {
+      font-family: 'Chewy', cursive;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       PROMO BANNER
+    ═══════════════════════════════════════ */
+    .promo-wrap {
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 2px solid rgba(190, 155, 255, 0.45);
+    }
+
+    .promo-wrap img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       DOWNLOAD CTA
+    ═══════════════════════════════════════ */
+    .dl-icon {
+      width: clamp(72px, 18vw, 96px);
+      border-radius: 24px;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 30px rgba(140, 70, 240, 0.4);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .free-tag {
+      display: inline-block;
+      background: rgba(140, 90, 240, 0.16);
+      border: 1.5px solid rgba(140, 90, 240, 0.4);
+      color: var(--purple-pop);
+      font-family: "Chewy", cursive;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      padding: 6px 20px;
+      border-radius: var(--r-pill);
+      margin-top: 20px;
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      background: rgba(195, 170, 255, 0.42);
+      border-top: 2px solid rgba(170, 130, 255, 0.4);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 52px 0 28px;
+    }
+
+    .ft-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px;
+      justify-content: space-between;
+      margin-bottom: 44px;
+    }
+
+    .ft-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ft-stamp {
+      width: 66px;
+      filter: drop-shadow(0 2px 8px rgba(140, 80, 220, 0.35));
+    }
+
+    .ft-name {
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: 22px;
+      text-transform: uppercase;
+      color: var(--lilac-text);
+      letter-spacing: 0.06em;
+    }
+
+    .ft-tagline {
+      font-family: "Chewy", cursive;
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 195px;
+      line-height: 1.5;
+    }
+
+    .ft-heart {
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 2px;
+      animation: hb 1.5s ease-in-out infinite;
+    }
+
+    @keyframes hb {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      14% {
+        transform: scale(1.32);
+      }
+
+      28% {
+        transform: scale(1);
+      }
+
+      42% {
+        transform: scale(1.18);
+      }
+    }
+
+    .ft-col h4 {
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--lilac-text);
+      margin-bottom: 14px;
+    }
+
+    .ft-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .ft-links a {
+      font-family: "Chewy", cursive;
+      font-size: 15px;
+      color: var(--text-muted);
+      transition: color 0.18s;
+      letter-spacing: 0.03em;
+    }
+
+    .ft-links a:hover {
+      color: var(--lilac-text);
+    }
+
+    .soc-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .soc {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1.5px solid rgba(170, 130, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-pop);
+      transition: background 0.18s, transform 0.18s, border-color 0.18s;
+    }
+
+    .soc:hover {
+      background: rgba(165, 120, 255, 0.28);
+      border-color: var(--lilac-deep);
+      transform: translateY(-3px);
+    }
+
+    .soc svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .ft-bottom {
+      border-top: 1px solid rgba(170, 130, 255, 0.28);
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ft-bottom p,
+    .ft-legal a {
+      font-family: "Chewy", cursive;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .ft-legal {
+      display: flex;
+      gap: 18px;
+    }
+
+    .ft-legal a:hover {
+      color: var(--lilac-text);
+    }
+
+    /* ═══════════════════════════════════════
+       FADE-UP
+    ═══════════════════════════════════════ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.vis {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE MISC
+    ═══════════════════════════════════════ */
+    @media (max-width: 640px) {
+      .ft-grid {
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .feat-art {
+        position: static;
+        margin-bottom: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- World background -->
+  <div id="world-bg" aria-hidden="true"></div>
+
+  <!-- Steam background layer - behind clouds and sparkles -->
+  <div id="steam-bg" aria-hidden="true"></div>
+
+  <!-- Header background layer with Floor.png -->
+  <div id="header-bg" aria-hidden="true"></div>
+
+  <!-- Beautiful gradient overlay inspired by feature cards -->
+  <div id="gradient-overlay" aria-hidden="true"></div>
+
+  <!-- Cloud layer — two rows, natural aspect ratio, seamless loop -->
+  <div id="cloud-layer" aria-hidden="true"></div>
+  <div class="cloud-track">
+    <img src="images/cloud_1024x256.png" alt="" />
+    <img src="images/cloud_1024x256.png" alt="" />
+  </div>
+  <div class="cloud-track b">
+    <img src="images/cloud_1024x256.png" alt="" />
+    <img src="images/cloud_1024x256.png" alt="" />
+  </div>
+  </div>
+
+  <!-- Sparkles -->
+  <div id="sparkles" aria-hidden="true"></div>
+
+  <!-- ═══ NAV ═══ -->
+  <nav id="topnav" aria-label="Site navigation">
+    <div class="nav-left">
+      <img src="images/stamp-logo.png" alt="SlimeClimb" class="nav-stamp" />
+      <!-- Social icons in nav -->
+      <div class="nav-socials">
+        <a href="https://discord.gg/4jh5EmZjF9" target="_blank" rel="noopener" class="nav-soc" aria-label="Discord">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UCflv3KtCk_tY86wmIIFdyxw" target="_blank" rel="noopener"
+          class="nav-soc" aria-label="YouTube">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.3 3.5-6.3 3.5z" />
+          </svg>
+        </a>
+        <a href="https://www.instagram.com/slimeclimbgame/" target="_blank" rel="noopener" class="nav-soc"
+          aria-label="Instagram">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 2.2c3.2 0 3.6 0 4.8.1 3.2.1 4.7 1.7 4.8 4.8.1 1.3.1 1.6.1 4.9 0 3.2 0 3.6-.1 4.8-.1 3.1-1.6 4.7-4.8 4.8-1.3.1-1.6.1-4.8.1-3.2 0-3.6 0-4.8-.1-3.2-.1-4.7-1.7-4.8-4.8C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8.1-3.2 1.7-4.7 4.8-4.8C8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7C24 15.7 24 15.3 24 12s0-3.7-.1-4.9c-.2-4.3-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z" />
+          </svg>
+        </a>
+        <a href="https://tiktok.com/@handtapstudios" target="_blank" rel="noopener" class="nav-soc" aria-label="TikTok">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19.6 3.3A4.6 4.6 0 0 1 15.1 0h-3.4v16.6c0 1.5-1.3 2.8-2.9 2.8s-2.9-1.3-2.9-2.8 1.3-2.8 2.9-2.8c.3 0 .6 0 .9.1V10.4c-.3 0-.6-.1-.9-.1a6.5 6.5 0 0 0-6.5 6.3 6.5 6.5 0 0 0 6.5 6.3 6.5 6.5 0 0 0 6.5-6.3V8.4c1.3.8 2.7 1.2 4.2 1.2V6.2a4.6 4.6 0 0 1-2.9-2.9z" />
+          </svg>
+        </a>
+        <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" target="_blank" rel="noopener" class="nav-soc"
+          aria-label="Bluesky">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z" />
+          </svg>
+        </a>
+        <a href="https://www.reddit.com/r/SlimeClimb/" target="_blank" rel="noopener" class="nav-soc"
+          aria-label="Reddit">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#download" class="nav-link nav-cta">Download Free ↓</a>
+    </div>
+  </nav>
+
+  <div id="page">
+    <!-- ═══ HERO SECTION (redesigned side-by-side) ═══ -->
+    <section id="hero-panel">
+      <!-- Floating decorative elements -->
+      <div class="hero-decorations">
+        <div class="hero-decoration"></div>
+        <div class="hero-decoration"></div>
+        <div class="hero-decoration"></div>
+      </div>
+
+      <!-- Main hero container -->
+      <div class="hero-container">
+        <!-- Left side - Just the big logo -->
+        <div class="hero-left">
+          <img src="images/text_logo.png" alt="SlimeClimb" class="hero-logo" />
+        </div>
+
+        <!-- Right side - Screenshots and download buttons -->
+        <div class="hero-right">
+          <!-- Screenshots -->
+          <div class="hero-screens">
+            <div class="triptych">
+              <div class="tript"><img src="images/AppStore_Boss_vertical.png" alt="Boss battle" loading="lazy" /></div>
+              <div class="tript"><img src="images/AppStore_Climb_vertical.png" alt="Climb gameplay" loading="lazy" />
+              </div>
+              <div class="tript"><img src="images/AppStore_Unlock_slimes_vertical.png" alt="Unlock slimes"
+                  loading="lazy" /></div>
+            </div>
+          </div>
+
+          <!-- Download buttons -->
+          <div class="dl-row">
+            <a href="https://apps.apple.com/us/app/slimeclimb-mobile/id6461645647" class="dl-btn" target="_blank"
+              rel="noopener" aria-label="Download on the App Store">
+              <img src="images/appstore-button.png" alt="Download on the App Store" />
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.Handtapstudios.SlimeClimb&utm_source=na_Med"
+              class="dl-btn" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+              <img src="images/googleplay-button.png" alt="Get it on Google Play" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <button class="scroll-cue" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})"
+        aria-label="Scroll down">
+        <span>MORE</span>
+        <div class="s-arrow"></div>
+      </button>
+    </section>
+
+
+    <!-- ═══ FEATURES (kawaii two-column layout) ═══ -->
+    <section id="features" class="sec0">
+      <!-- Top floor border -->
+      <div class="features-floor-top"></div>
+
+      <!-- Main features bar (Crossy Road style) -->
+      <div class="features-bar">
+        <!-- Main content with icon, title, description, and downloads -->
+        <div class="features-content">
+          <!-- Stamp icon -->
+          <img src="images/stamp-logo.png" alt="SlimeClimb stamp" class="features-icon" />
+
+          <!-- Game info section -->
+          <div class="features-info">
+              <p class="features-description">
+                Climb as high as you can in this colorfully unique 2D pixel adventure! Jump, backflip, and master the
+                climb through an infinitely generating dungeon. Unlock 50+ adorable slimes, face epic bosses, and build
+                your own levels.
+              </p>
+          </div>
+
+          <!-- Download buttons -->
+          <div class="features-downloads">
+            <a href="https://apps.apple.com/us/app/slimeclimb-mobile/id6461645647" class="dl-btn" target="_blank"
+              rel="noopener" aria-label="Download on the App Store">
+              <img src="images/appstore-button.png" alt="Download on the App Store" />
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.Handtapstudios.SlimeClimb&utm_source=na_Med"
+              class="dl-btn" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+              <img src="images/googleplay-button.png" alt="Get it on Google Play" />
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom floor border -->
+        <div class="features-floor-bottom"></div>
+    </section>
+
+        <!-- ═══ GAMEPLAY GALLERY SCROLL STRIP ═══ -->
+        <section id="gallery" class="sec">
+          <div class="box">
+            <div class="glass fade-up" style="padding: 32px var(--pad) 28px">
+              <div class="pill">📸 Gameplay Gallery</div>
+              <div class="gal-scroll" role="region" aria-label="Gameplay screenshots">
+                <div class="gal-item">
+                  <img src="images/gameplay-gallery-1.png" alt="Gameplay 1" loading="lazy" />
+                </div>
+                <div class="gal-item">
+                  <img src="images/gameplay-gallery-2.png" alt="Gameplay 2" loading="lazy" />
+                </div>
+                <div class="gal-item">
+                  <img src="images/gameplay-gallery-3.png" alt="Gameplay 3" loading="lazy" />
+                </div>
+                <div class="gal-item">
+                  <img src="images/gameplay-gallery-4.png" alt="Gameplay 4" loading="lazy" />
+                </div>
+                <div class="gal-item">
+                  <img src="images/gameplay-gallery-5.png" alt="Gameplay 5" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    <!-- ═══ PROMO BANNER ═══ -->
+    <section class="sec0">
+      <div class="box fade-up">
+        <div class="promo-wrap">
+          <img src="images/promo.png" alt="SlimeClimb promotional art" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ DOWNLOAD CTA ═══ -->
+    <section id="download" class="sec0">
+      <div class="box">
+        <div class="glass fade-up" style="text-align: center; padding: 52px var(--pad)">
+          <img src="images/icon.png" alt="SlimeClimb icon" class="dl-icon" loading="lazy" />
+          <div class="pill">🎉 It's Free!</div>
+          <h2 class="h-impact" style="margin-bottom: 10px">
+            Ready to <span class="hi">Climb?</span>
+          </h2>
+          <p class="chewy-sub" style="max-width: 480px; margin: 0 auto 28px">
+            Jump in, backflip off things, collect slimes, fight bosses. Free
+            on iOS & Android. No excuses! 🐛
+          </p>
+          <div class="dl-row" style="justify-content: center">
+            <a href="https://apps.apple.com/us/app/slimeclimb-mobile/id6461645647" class="dl-btn" target="_blank"
+              rel="noopener" aria-label="Download on the App Store">
+              <img src="images/appstore-button.png" alt="Download on the App Store" />
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.Handtapstudios.SlimeClimb&utm_source=na_Med"
+              class="dl-btn" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+              <img src="images/googleplay-button.png" alt="Get it on Google Play" />
+            </a>
+          </div>
+          <div class="free-tag">Free · iOS & Android · Ages 9+ · 168 countries</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+      <div class="box">
+        <div class="ft-grid">
+          <div class="ft-brand">
+            <img src="images/stamp-logo.png" alt="SlimeClimb stamp" class="ft-stamp" />
+            <div class="ft-name">SlimeClimb</div>
+            <p class="ft-tagline">
+              Cute 2D pixel parkour.<br />Made with
+              <img src="images/heart.png" alt="love" class="ft-heart" /> by
+              Handtap Studios.
+            </p>
+          </div>
+
+          <div class="ft-col">
+            <h4>Download</h4>
+            <ul class="ft-links">
+              <li>
+                <a href="https://apps.apple.com/us/app/slimeclimb-mobile/id6461645647" target="_blank"
+                  rel="noopener">App Store (iOS)</a>
+              </li>
+              <li>
+                <a href="https://play.google.com/store/apps/details?id=com.Handtapstudios.SlimeClimb&utm_source=na_Med"
+                  target="_blank" rel="noopener">Google Play (Android)</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="ft-col">
+            <h4>Info</h4>
+            <ul class="ft-links">
+              <li>
+                <a href="https://docs.google.com/document/u/2/d/e/2PACX-1vT_y4u08cQjRm9a9AO-VODXeE8oNLE3daeHitfsZhYZ3BEvpVE4AfxAIimHBjrVGZ5A2-kVVoZJ3iiJ/pub"
+                  target="_blank" rel="noopener">Privacy Policy</a>
+              </li>
+              <li><a href="presskit.html">Press Kit</a></li>
+              <li>
+                <a href="mailto:contact@handtapstudios.com">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="ft-col">
+            <h4>Follow Us</h4>
+            <div class="soc-row">
+              <a href="https://discord.gg/4jh5EmZjF9" target="_blank" rel="noopener" class="soc" aria-label="Discord">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                </svg>
+              </a>
+              <a href="https://www.youtube.com/channel/UCflv3KtCk_tY86wmIIFdyxw" target="_blank" rel="noopener"
+                class="soc" aria-label="YouTube">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.3 3.5-6.3 3.5z" />
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/slimeclimbgame/" target="_blank" rel="noopener" class="soc"
+                aria-label="Instagram">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.2c3.2 0 3.6 0 4.8.1 3.2.1 4.7 1.7 4.8 4.8.1 1.3.1 1.6.1 4.9 0 3.2 0 3.6-.1 4.8-.1 3.1-1.6 4.7-4.8 4.8-1.3.1-1.6.1-4.8.1-3.2 0-3.6 0-4.8-.1-3.2-.1-4.7-1.7-4.8-4.8C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8.1-3.2 1.7-4.7 4.8-4.8C8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7C24 15.7 24 15.3 24 12s0-3.7-.1-4.9c-.2-4.3-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z" />
+                </svg>
+              </a>
+              <a href="https://tiktok.com/@handtapstudios" target="_blank" rel="noopener" class="soc"
+                aria-label="TikTok">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M19.6 3.3A4.6 4.6 0 0 1 15.1 0h-3.4v16.6c0 1.5-1.3 2.8-2.9 2.8s-2.9-1.3-2.9-2.8 1.3-2.8 2.9-2.8c.3 0 .6 0 .9.1V10.4c-.3 0-.6-.1-.9-.1a6.5 6.5 0 0 0-6.5 6.3 6.5 6.5 0 0 0 6.5 6.3 6.5 6.5 0 0 0 6.5-6.3V8.4c1.3.8 2.7 1.2 4.2 1.2V6.2a4.6 4.6 0 0 1-2.9-2.9z" />
+                </svg>
+              </a>
+              <a href="https://bsky.app/profile/slimeclimbgame.bsky.social" target="_blank" rel="noopener" class="soc"
+                aria-label="Bluesky">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z" />
+                </svg>
+              </a>
+              <a href="https://www.reddit.com/r/SlimeClimb/" target="_blank" rel="noopener" class="soc"
+                aria-label="Reddit">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- /ft-grid -->
+
+        <div class="ft-bottom">
+          <p>© 2024 Handtap Studios. All rights reserved.</p>
+          <div class="ft-legal">
+            <a href="https://docs.google.com/document/u/2/d/e/2PACX-1vT_y4u08cQjRm9a9AO-VODXeE8oNLE3daeHitfsZhYZ3BEvpVE4AfxAIimHBjrVGZ5A2-kVVoZJ3iiJ/pub"
+              target="_blank" rel="noopener">Privacy Policy</a>
+            <a href="presskit.html">Press Kit</a>
+            <a href="mailto:contact@handtapstudios.com">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- /#page -->
+
+  <script>
+    (function () {
+      /* ── Sparkles: sparkle.png, 2× bigger than before ── */
+      var sc = document.getElementById("sparkles");
+      function mkS() {
+        var el = document.createElement("img");
+        el.src = "images/sparkle.png";
+        el.className = "sp";
+        /* size: 36–68px — roughly 2× the previous 18–34px range */
+        var sz = 36 + Math.random() * 32;
+        var dur = 5 + Math.random() * 5.5;
+        el.style.cssText =
+          "width:" +
+          sz +
+          "px;height:" +
+          sz +
+          "px;" +
+          "left:" +
+          Math.random() * 100 +
+          "%;" +
+          "bottom:" +
+          (5 + Math.random() * 78) +
+          "%;" +
+          "animation-duration:" +
+          dur +
+          "s;" +
+          "animation-delay:" +
+          Math.random() * 5 +
+          "s";
+        sc.appendChild(el);
+        setTimeout(function () {
+          el.remove();
+        }, (dur + 5.5) * 1000);
+      }
+      for (var i = 0; i < 12; i++) mkS();
+      setInterval(mkS, 360);
+
+      /* ── Navbar scroll state ── */
+      var nav = document.getElementById("topnav");
+      window.addEventListener(
+        "scroll",
+        function () {
+          nav.classList.toggle("on", window.scrollY > 55);
+        },
+        { passive: true }
+      );
+
+      /* ── Fade-up ── */
+      var fels = document.querySelectorAll(".fade-up");
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add("vis");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -24px 0px" }
+      );
+      fels.forEach(function (el) {
+        io.observe(el);
+      });
+    })();
+  </script>
+</body>
+
+</html>

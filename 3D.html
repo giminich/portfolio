@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Render & Animation — Artist Reel shoutout my ai helpers frrrr i dont know how to code websites</title>
+  <title>3D Render & Animation — Artist Reel & Freelance Services</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap"
@@ -352,6 +352,83 @@
       padding: 4px 10px;
     }
 
+    /* Mobile Image Carousel (replaces Services on mobile) */
+    .mobile-image-carousel {
+      display: none;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+      overflow-x: auto;
+      overflow-y: hidden; */
+      position: relative;
+      cursor: grab;
+      scrollbar-width: none;     /* Firefox */
+      -ms-overflow-style: none;  /* IE & Edge */
+    }
+
+    
+
+    .mobile-image-carousel:active {
+      cursor: grabbing;
+    }
+
+    .mobile-image-carousel.active {
+      cursor: grabbing;
+    }
+
+    .carousel-track {
+      display: flex;
+      animation: carouselScroll 30s linear infinite;
+      width: max-content;
+      padding: 0 1rem;
+    }
+
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    .carousel-item {
+      flex-shrink: 0;
+      width: 200px;
+      height: 120px;
+      margin-right: 1.5rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .carousel-item img,
+    .carousel-item video {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 0.5rem;
+    }
+
+    @keyframes carouselScroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
     /* ─── GALLERY ─── */
     .gallery-grid {
       display: grid;
@@ -369,7 +446,6 @@
       border-bottom: 1px solid var(--border);
       margin-top: 8px;
       contain: layout style;
-      /* Custom scrollbar styling */
       scrollbar-width: thin;
       scrollbar-color: var(--accent) var(--surface);
     }
@@ -399,7 +475,6 @@
       transform: translateZ(0);
       backface-visibility: hidden;
       padding: 0 4px;
-      /* Small padding to prevent cut-off */
     }
 
     .image-bar-item {
@@ -434,16 +509,6 @@
       width: auto;
       object-fit: contain;
       display: block;
-    }
-
-    @keyframes scroll-left {
-      0% {
-        transform: translateX(0);
-      }
-
-      100% {
-        transform: translateX(-calc(50% - 6px));
-      }
     }
 
     /* Each media card */
@@ -710,10 +775,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .diagonal-slider .after-image {
-      clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% 50%, 50% 0%);
     }
 
     .diagonal-line {
@@ -985,7 +1046,6 @@
       transition: all 0.3s ease;
       pointer-events: all;
       cursor: pointer;
-      /* Safari fixes */
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
       will-change: transform;
@@ -1005,7 +1065,6 @@
       height: 30px;
       object-fit: cover;
       border-radius: 50%;
-      /* Ensure crisp images on all devices */
       image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
     }
@@ -1095,7 +1154,6 @@
         height: 26px;
       }
 
-      /* Adjust positioning for smaller screens */
       .bubble-email {
         top: 15%;
         left: 8%;
@@ -1144,7 +1202,6 @@
         pointer-events: all;
       }
 
-      /* Remove individual positioning on mobile */
       .bubble-email,
       .bubble-linkedin,
       .bubble-discord,
@@ -1169,7 +1226,7 @@
       }
     }
 
-    /* Hide on smaller screens */
+    /* Hide floating bubbles on mobile (modal is used instead) */
     @media (max-width: 768px) {
       .contact-bubbles {
         display: none;
@@ -1520,66 +1577,77 @@
     .media-card {
       contain: layout style paint;
     }
-
-    /* ─── BEFORE/AFTER SLIDER ─── */
-    .before-after-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem 0;
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    header {
+      padding: 0.75rem 1.5rem;
     }
 
-    .before-after-slider {
+    .header-image {
+      width: 44px;
+      height: 44px;
+    }
+
+    /* Hide Services section on mobile */
+    .services-strip {
+      display: none !important;
+    }
+
+    /* Show mobile image carousel instead */
+    .mobile-image-carousel {
+      display: block !important;
+    }
+
+    /* Hide AppStore overhauls section on mobile */
+    .appstore-card,
+    .diagonal-card {
+      display: none !important;
+    }
+
+    .card-square,
+    .card-vertical,
+    .card-wide,
+    .card-sm,
+    .card-half,
+    .card-third {
+      grid-column: span 12;
+    }
+
+    .featured-short-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-video-col {
+      min-height: 240px;
       position: relative;
-      width: 100%;
-      aspect-ratio: 9/16;
-      /* Assuming vertical images */
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--surface);
     }
 
-    .before-image,
-    .after-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
+    .featured-video-col .yt-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
     }
 
-    .after-image {
-      clip-path: inset(0 0 0 50%);
+    .featured-info-col {
+      border-left: none;
+      border-top: 1px solid var(--border);
+      padding: 2rem;
     }
 
-    .slider-handle {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 4px;
-      height: 100%;
-      background: var(--accent);
-      cursor: ew-resize;
-      z-index: 10;
-      transform: translateX(-50%);
+    /* ── PRICING CARDS: Stack vertically on mobile ── */
+    .pricing-grid {
+      grid-template-columns: 1fr !important;   /* forces single column → each card stacked on top of the next */
+      gap: 1.5rem;                             /* clean vertical spacing between stacked cards */
     }
 
-    .slider-handle:hover {
-      background: var(--accent2);
+    .pricing-section {
+      padding: 2rem 1.5rem;
+      margin: 3rem auto;
     }
 
-    .slider-line {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 24px;
-      height: 24px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 3px solid var(--white);
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    .pricing-card {
+      padding: 2rem;                           /* slightly tighter padding for mobile */
     }
+  }
 
     /* ─── PRICING TABLE ─── */
     .pricing-section {
@@ -1720,69 +1788,6 @@
       text-align: center;
       letter-spacing: 0.1em;
     }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      header {
-        padding: 0.75rem 1.5rem;
-      }
-
-      .header-image {
-        width: 44px;
-        height: 44px;
-      }
-
-      .services-inner {
-        grid-template-columns: 1fr;
-      }
-
-      .service-item {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .service-item:last-child {
-        border-bottom: none;
-      }
-
-      .card-square,
-      .card-vertical,
-      .card-wide,
-      .card-sm,
-      .card-half,
-      .card-third {
-        grid-column: span 12;
-      }
-
-      .featured-short-inner {
-        grid-template-columns: 1fr;
-      }
-
-      .featured-video-col {
-        min-height: 240px;
-        position: relative;
-      }
-
-      .featured-video-col .yt-wrapper {
-        position: relative;
-        padding-bottom: 56.25%;
-      }
-
-      .featured-info-col {
-        border-left: none;
-        border-top: 1px solid var(--border);
-        padding: 2rem;
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pricing-section {
-        padding: 2rem 1.5rem;
-        margin: 3rem auto;
-      }
-    }
   </style>
 </head>
 
@@ -1827,6 +1832,50 @@
         <span class="service-tag">Marketing · Social</span>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ══ MOBILE IMAGE CAROUSEL ══ -->
+  <div class="mobile-image-carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Duplicate images for seamless loop -->
+      <div class="carousel-item">
+        <img src="images/3D Images/Render_HermitCrab_promo_scene.png" alt="3D iPhone render">
+      </div>
+      <div class="carousel-item">
+        <img src="images/3D Images/Render_SlurbStrong.png" alt="3D promos render">
+      </div>
+      <div class="carousel-item">
+        <img src="images/3D Images/Client/PizzaKid_SummerPromo.png" alt="3D iPhone render">
+      </div>
+      <div class="carousel-item">
+        <video autoplay loop muted playsinline>
+          <source src="images/3D Images/Video/iphone_MyNamePibble_transparent_video_spinningUP0001-0347.webm"
+            type="video/webm">
+        </video>
+      </div>
+      <div class="carousel-item">
+        <img src="images/3D Images/LookIn_still.png" alt="3D character render">
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="carousel-item">
+        <img src="images/3D Images/Verticals/Vertical_SlimeClimb_JUMP_AppStore.png" alt="3D iPhone render">
+      </div>
+      <div class="carousel-item">
+        <img src="images/3D Images/Verticals/Vertical_SlimeClimb_FIGHT_AppStore.png" alt="3D iPhone render">
+      </div>
+      <div class="carousel-item">
+        <img src="images/3D Images/Client/PizzaKid_SummerPromo.png" alt="3D promo render">
+      </div>
+      <div class="carousel-item">
+        <video autoplay loop muted playsinline>
+          <source src="images/3D Images/Video/iphone_MyNamePibble_transparent_video_spinningUP0001-0347.webm"
+            type="video/webm">
+        </video>
+      </div>
+      <div class="carousel-item">
+        <img src="images/3D Images/LookIn_still.png" alt="3D character render">
+      </div>
     </div>
   </div>
 
@@ -1884,7 +1933,7 @@
       <!-- HALF — promo art client 1 -->
       <div class="media-card card-half reveal">
         <div class="media-inner">
-          <image src="images/3D Images/Render_HermitCrab_promo_scene.png" alt="Client promo art with device">
+          <img src="images/3D Images/Render_HermitCrab_promo_scene.png" alt="Client promo art with device">
         </div>
         <div class="media-overlay"><span class="overlay-label">Client Promo — Game Art</span></div>
         <div class="card-meta">
@@ -1896,7 +1945,7 @@
       <!-- HALF — promo art client 2 -->
       <div class="media-card card-half reveal">
         <div class="media-inner">
-          <image src="images/3D Images/Render_HermitCrab_promo_full.png" alt="Client promo art with device">
+          <img src="images/3D Images/Render_HermitCrab_promo_full.png" alt="Client promo art with device">
         </div>
         <div class="media-overlay"><span class="overlay-label">Client Promo — 3D Device</span></div>
         <div class="card-meta">
@@ -1904,9 +1953,7 @@
           <span class="card-badge promo">Promo</span>
         </div>
       </div>
-      <!-- Pricings Table for Pixel to 3D Clients -->
 
-      <!-- AppStore Overhauls Section Start-->
       <!-- AppStore Showcase -->
       <div class="media-card card-wide reveal appstore-card">
         <div class="appstore-top">
@@ -1927,7 +1974,8 @@
           <span class="card-badge anim">AppStore Previews</span>
         </div>
       </div>
-      <!-- Comparison: Draft vs Final-->
+
+      <!-- Comparison: Draft vs Final -->
       <div class="media-card card-third reveal diagonal-card">
         <div class="media-inner" style="aspect-ratio: 9/16;">
           <div class="compare-slider-diagonal">
@@ -1944,14 +1992,10 @@
           <span class="card-badge promo">Comparison</span>
         </div>
       </div>
-      <!-- AppStore Overhauls Section End-->
 
       <!-- ══ IMAGE BAR ══ -->
       <div class="image-bar" id="imageBar">
         <div class="image-bar-track" id="imageBarTrack">
-          <!-- Copy these blocks to add more images/videos -->
-          <!-- Add class="vertical" for portrait/vertical videos -->
-
           <div class="image-bar-item vertical">
             <video autoplay loop muted playsinline>
               <source src="images/3D Images/Video/iphone_SlimeClimbtrailer_transparent_video0001-1517.webm"
@@ -1984,7 +2028,6 @@
               type="video/webm">
           </video>
         </div>
-
         <div class="media-overlay"><span class="overlay-label">3D iPhone — App Rotating</span></div>
         <div class="card-meta">
           <span class="card-meta-title">Device Mockup · Rotation</span>
@@ -1995,7 +2038,7 @@
       <!-- SM — device still -->
       <div class="media-card card-sm reveal">
         <div class="media-inner">
-          <image src="images/3D Images/Client_DeviceiPad_WhiteScene_SlimeClimb.png" alt="iPad still render">
+          <img src="images/3D Images/Client_DeviceiPad_WhiteScene_SlimeClimb.png" alt="iPad still render">
         </div>
         <div class="media-overlay"><span class="overlay-label">iPad Mockup Still W/ Scene</span></div>
         <div class="card-meta">
@@ -2004,13 +2047,10 @@
         </div>
       </div>
 
-
-
-
       <!-- HALF — promo art client 1 -->
       <div class="media-card card-half reveal">
         <div class="media-inner">
-          <image src="images/3D Images/Render_SWFL (2).png" alt="Client promo art with device">
+          <img src="images/3D Images/Render_SWFL (2).png" alt="Client promo art with device">
         </div>
         <div class="media-overlay"><span class="overlay-label">Mockup - Environment Scene</span></div>
         <div class="card-meta">
@@ -2022,7 +2062,7 @@
       <!-- HALF — promo art client 2 -->
       <div class="media-card card-half reveal">
         <div class="media-inner">
-          <image src="images/3D Images/Render_CD.png" alt="Client promo art with device">
+          <img src="images/3D Images/Render_CD.png" alt="Client promo art with device">
         </div>
         <div class="media-overlay"><span class="overlay-label">Client Promo — 3D Mock</span></div>
         <div class="card-meta">
@@ -2030,22 +2070,6 @@
           <span class="card-badge promo">Still</span>
         </div>
       </div>
-
-      <!-- FULL — second pixel character animation webm -->
-      <!-- <div class="media-card card-full reveal">
-      <div class="media-inner" style="aspect-ratio: 21/9;">
-        <div class="placeholder">
-          <div class="placeholder-icon">▶</div>
-          <div class="placeholder-label">Pixel Character Animation · Take 2 · .webm</div>
-        </div>
-      </div>
-      <div class="media-overlay"><span class="overlay-label">Pixel Character — Sound Design Included</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Character Animation w/ Original Sound</span>
-        <span class="card-badge anim">Animation</span>
-      </div>
-    </div> -->
-
 
     </div>
   </section>
@@ -2109,11 +2133,6 @@
             <li>3-5 day turnaround</li>
           </ul>
         </div>
-
-        <!-- <div class="pricing-card-image">
-          <img src="images/3D Images/Render_SlurbStrong.png" alt="Stills & GIFs Example"
-            onerror="this.parentElement.innerHTML='<div class=&quot;pricing-card-placeholder&quot;>Example Image</div>'">
-        </div> -->
       </div>
 
       <div class="pricing-card reveal">
@@ -2134,11 +2153,6 @@
             <li>5-7 day turnaround</li>
           </ul>
         </div>
-
-        <!-- <div class="pricing-card-image">
-          <img src="images/3D Images/Render_HermitCrab_promo_full.png" alt="Bigger Scope Example"
-            onerror="this.parentElement.innerHTML='<div class=&quot;pricing-card-placeholder&quot;>Example Image</div>'">
-        </div> -->
       </div>
 
       <div class="pricing-card reveal">
@@ -2157,11 +2171,6 @@
             <li>15-20 day turnaround</li>
           </ul>
         </div>
-
-        <!-- <div class="pricing-card-image">
-          <img src="images/3D Images/Client/PizzaKid_SummerPromo.png" alt="Full Promo Video Example"
-            onerror="this.parentElement.innerHTML='<div class=&quot;pricing-card-placeholder&quot;>Example Image</div>'">
-        </div> -->
       </div>
     </div>
   </section>
@@ -2260,13 +2269,13 @@
       lightboxImg.src = src;
       lightboxImg.style.display = 'block';
       lightboxVideo.style.display = 'none';
-      lightboxVideo.pause(); // Stop any playing video
+      lightboxVideo.pause();
       lightbox.classList.add('active');
     }
 
     function openVideoLightbox(src) {
       lightboxVideoSource.src = src;
-      lightboxVideo.load(); // Reload video with new source
+      lightboxVideo.load();
       lightboxVideo.style.display = 'block';
       lightboxImg.style.display = 'none';
       lightbox.classList.add('active');
@@ -2294,9 +2303,7 @@
       video.addEventListener('click', (e) => {
         e.stopPropagation();
         const source = video.querySelector('source');
-        if (source) {
-          openVideoLightbox(source.src);
-        }
+        if (source) openVideoLightbox(source.src);
       });
     });
 
@@ -2315,9 +2322,26 @@
       video.addEventListener('click', (e) => {
         e.stopPropagation();
         const source = video.querySelector('source');
-        if (source) {
-          openVideoLightbox(source.src);
-        }
+        if (source) openVideoLightbox(source.src);
+      });
+    });
+
+    // Add lightbox functionality to mobile carousel images
+    document.querySelectorAll('.carousel-item img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openImageLightbox(img.src);
+      });
+    });
+
+    // Add lightbox functionality to mobile carousel videos
+    document.querySelectorAll('.carousel-item video').forEach(video => {
+      video.style.cursor = 'zoom-in';
+      video.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const source = video.querySelector('source');
+        if (source) openVideoLightbox(source.src);
       });
     });
 
@@ -2337,29 +2361,26 @@
 
     function openContactModal() {
       contactModal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Prevent scrolling
+      document.body.style.overflow = 'hidden';
     }
 
     function closeContactModal() {
       contactModal.classList.remove('active');
-      document.body.style.overflow = ''; // Restore scrolling
+      document.body.style.overflow = '';
     }
 
-    // Open contact modal when clicking "Get in Touch"
     if (getInTouchBtn) {
       getInTouchBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default mailto behavior
+        e.preventDefault();
         openContactModal();
       });
     }
 
-    // Close modal events
     contactModal.addEventListener('click', (e) => {
       if (e.target === contactModal) closeContactModal();
     });
     contactModalClose.addEventListener('click', closeContactModal);
 
-    // Close modal with Escape key (includes both lightbox and contact modal)
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeLightbox();
@@ -2367,13 +2388,54 @@
       }
     });
 
-    // ── Image Bar Touch/Mouse Scroll Support ──
+    // ── Mobile Carousel Touch/Mouse Scroll Support ──
+    const mobileCarousel = document.querySelector('.mobile-image-carousel');
+    if (mobileCarousel) {
+      let isCarouselDown = false;
+      let carouselStartX;
+      let carouselScrollLeft;
+
+      mobileCarousel.addEventListener('mousedown', (e) => {
+        isCarouselDown = true;
+        mobileCarousel.classList.add('active');
+        carouselStartX = e.pageX - mobileCarousel.offsetLeft;
+        carouselScrollLeft = mobileCarousel.scrollLeft;
+        mobileCarousel.style.cursor = 'grabbing';
+        const track = mobileCarousel.querySelector('.carousel-track');
+        if (track) track.style.animationPlayState = 'paused';
+      });
+
+      mobileCarousel.addEventListener('mouseleave', () => {
+        isCarouselDown = false;
+        mobileCarousel.classList.remove('active');
+        mobileCarousel.style.cursor = 'grab';
+        const track = mobileCarousel.querySelector('.carousel-track');
+        if (track) track.style.animationPlayState = 'running';
+      });
+
+      mobileCarousel.addEventListener('mouseup', () => {
+        isCarouselDown = false;
+        mobileCarousel.classList.remove('active');
+        mobileCarousel.style.cursor = 'grab';
+        const track = mobileCarousel.querySelector('.carousel-track');
+        if (track) track.style.animationPlayState = 'running';
+      });
+
+      mobileCarousel.addEventListener('mousemove', (e) => {
+        if (!isCarouselDown) return;
+        e.preventDefault();
+        const x = e.pageX - mobileCarousel.offsetLeft;
+        const walk = (x - carouselStartX) * 2;
+        mobileCarousel.scrollLeft = carouselScrollLeft - walk;
+      });
+    }
+
+    // ── Image Bar Drag Support ──
     const imageBar = document.getElementById('imageBar');
     let isDown = false;
     let startX;
     let scrollLeft;
 
-    // Mouse events for desktop
     imageBar.addEventListener('mousedown', (e) => {
       isDown = true;
       imageBar.classList.add('active');
@@ -2406,7 +2468,10 @@
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const target = document.querySelector(a.getAttribute('href'));
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       });
     });
 
@@ -2416,40 +2481,13 @@
       entries.forEach(entry => {
         const video = entry.target;
         if (entry.isIntersecting) {
-          video.play().catch(() => { });
+          video.play().catch(() => {});
         } else {
           video.pause();
         }
       });
     }, { threshold: 0.1 });
     galleryVideos.forEach(video => videoObserver.observe(video));
-
-    // ── Performance Optimization: Scroll Bar ──
-    const scrollBar = document.getElementById('scrollBar');
-    const scrollTrack = document.getElementById('scrollTrack');
-    if (scrollBar && scrollTrack) {
-      const scrollVideos = scrollTrack.querySelectorAll('video');
-
-      const barObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // Start animation when visible
-            scrollTrack.classList.add('active');
-            scrollVideos.forEach(video => {
-              video.play().catch(() => { });
-            });
-          } else {
-            // Stop animation when not visible - major performance boost
-            scrollTrack.classList.remove('active');
-            scrollVideos.forEach(video => {
-              video.pause();
-            });
-          }
-        });
-      }, { threshold: 0.01 });
-
-      barObserver.observe(scrollBar);
-    }
 
     // ── Before/After Sliders ──
     document.querySelectorAll('.compare-slider').forEach(slider => {
@@ -2575,7 +2613,6 @@
 
       setDiagonal(progress);
     });
-
   </script>
 </body>
 

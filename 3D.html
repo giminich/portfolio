@@ -1,1339 +1,2038 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Render & Animation — Artist Reel shoutout my ai helpers frrrr i dont know how to code websites</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Render & Animation — Artist Reel shoutout my ai helpers frrrr i dont know how to code websites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap"
+    rel="stylesheet">
   <script src="https://www.youtube.com/iframe_api"></script>
-<style>
-  /* Custom font - Chewy */
-  @font-face {
-    font-family: 'Chewy';
-    src: url('fonts/Chewy.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  :root {
-    --bg: #0a0a0c;
-    --surface: #111114;
-    --surface2: #18181d;
-    --border: rgba(255,255,255,0.07);
-    --accent: #ab6bff;
-    --accent2: #9368ff;
-    --text: #e8e8e0;
-    --muted: #5a5a60;
-    --white: #f5f5f0;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-weight: 300;
-    font-size: 13px;
-    line-height: 1.7;
-    overflow-x: hidden;
-    cursor: crosshair;
-  }
-
-  /* GRAIN OVERLAY - Optimized */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.01;
-    pointer-events: none;
-    z-index: 9999;
-    mix-blend-mode: overlay;
-    will-change: auto;
-    backface-visibility: hidden;
-  }
-
-  /* ─── HERO ─── */
-  .hero {
-    min-height: 100svh;
-    display: grid;
-    place-items: center;
-    position: relative;
-    overflow: hidden;
-    padding: 6rem 2rem 4rem;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 20% 60%, rgba(200, 245, 66, 0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 40% at 80% 30%, rgba(66, 212, 245, 0.05) 0%, transparent 70%),
-      linear-gradient(180deg, #0a0a0c 0%, #0d0d10 100%);
-    z-index: 0;
-  }
-
-  .hero-grid-lines {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 80px 80px;
-    z-index: 0;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 900px;
-  }
-
-  .hero-eyebrow {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid rgba(200,245,66,0.3);
-    padding: 6px 16px;
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.2s ease forwards;
-  }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 12vw, 11rem);
-    line-height: 0.9;
-    letter-spacing: 0.01em;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.35s ease forwards;
-  }
-
-  .hero-title .accent-word {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--accent);
-  }
-
-  .hero-title .accent-word2 {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--accent2);
-  }
-
-  .hero-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(1rem, 2.5vw, 1.4rem);
-    color: var(--muted);
-    max-width: 560px;
-    margin: 0 auto 3rem;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.5s ease forwards;
-  }
-
-  .hero-cta {
-    display: inline-flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.65s ease forwards;
-  }
-
-  .btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 14px 28px;
-    border: 1px solid var(--border);
-    color: var(--text);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    background: none;
-  }
-
-  .btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateY(101%);
-    transition: transform 0.3s ease;
-    z-index: 0;
-  }
-
-  .btn:hover::before { transform: translateY(0); }
-  .btn:hover { color: #0a0a0c; border-color: var(--accent); }
-  .btn span { position: relative; z-index: 1; }
-
-  .btn-outline { border-color: rgba(93, 66, 245, 0.3); color: var(--accent2); }
-  .btn-outline::before { background: var(--accent2); }
-  .btn-outline:hover { color: #0a0a0c; }
-
-  .scroll-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    animation: fadeUp 1s 1.2s ease forwards;
-    z-index: 1;
-  }
-
-  .scroll-hint span {
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .scroll-line {
-    width: 1px;
-    height: 50px;
-    background: linear-gradient(to bottom, var(--muted), transparent);
-    animation: scrollPulse 2s infinite ease;
-  }
-
-  /* ─── SECTION COMMON ─── */
-  section {
-    padding: 6rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-size: 9px;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    line-height: 1;
-    color: var(--white);
-    margin-bottom: 1rem;
-    letter-spacing: 0.02em;
-  }
-
-  .section-desc {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 500px;
-    margin-bottom: 3.5rem;
-  }
-
-  /* ─── SERVICES STRIP ─── */
-  .services-strip {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 0;
-    max-width: 100%;
-    margin: 0;
-    overflow: hidden;
-  }
-
-  .services-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .service-item {
-    padding: 3rem 2rem;
-    border-right: 1px solid var(--border);
-    position: relative;
-    transition: background 0.3s;
-  }
-
-  .service-item:last-child { border-right: none; }
-  .service-item:hover { background: var(--surface2); }
-
-  .service-num {
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    margin-bottom: 1.2rem;
-  }
-
-  .service-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    letter-spacing: 0.05em;
-    color: var(--white);
-    margin-bottom: 0.8rem;
-    line-height: 1.1;
-  }
-
-  .service-desc {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-
-  .service-tag {
-    display: inline-block;
-    margin-top: 1.2rem;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    border: 1px solid rgba(114, 66, 245, 0.2);
-    padding: 4px 10px;
-  }
-
-  /* ─── GALLERY ─── */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 12px;
-  }
-
-  /* Scrolling Image Bar */
-  .image-scroll-bar {
-    grid-column: 1 / -1;
-    overflow: hidden;
-    padding: 12px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-top: 8px;
-    contain: layout style;
-  }
-
-  .image-scroll-track {
-    display: flex;
-    gap: 12px;
-    width: max-content;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-
-  .image-scroll-track.active {
-    animation: scroll-left 30s linear infinite;
-  }
-
-  .scroll-image-item {
-    flex-shrink: 0;
-    height: 120px;
-    width: auto;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    contain: layout style paint;
-    backface-visibility: hidden;
-  }
-
-  .scroll-image-item.vertical {
-    aspect-ratio: 9/16;
-    width: 70px;
-  }
-
-  .scroll-image-item img,
-  .scroll-image-item video {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
-    display: block;
-  }
-
-  @keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-calc(50% - 6px)); }
-  }
-
-  /* Each media card */
-  .media-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: border-color 0.3s ease, transform 0.3s ease;
-  }
-
-  .media-card:hover {
-    border-color: rgba(200,245,66,0.3);
-    transform: translateY(-2px);
-  }
-
-  /* layout slots */
-  .card-square   { grid-column: span 8; grid-row: span 2; }
-  .card-vertical { grid-column: span 4; grid-row: span 2; }
-  .card-wide { grid-column: span 7; }
-  .card-sm   { grid-column: span 5; }
-  .card-half { grid-column: span 6; }
-  .card-third { grid-column: span 4; }
-  .card-full { grid-column: span 12; }
-
-  .media-inner {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: var(--surface2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card-vertical .media-inner {
-    aspect-ratio: 9/16;
-    height: 100%;
-  }
-
-  .card-square .media-inner { aspect-ratio: unset; height: 100%; min-height: 300px; }
-
-  /* Placeholder visual — replace src with actual files */
-  .media-inner video,
-  .media-inner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Placeholder when no asset loaded */
-  .placeholder {
-    width: 100%;
-    height: 100%;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #111114 0%, #18181d 100%);
-  }
-
-  .placeholder-icon {
-    font-size: 2rem;
-    opacity: 0.2;
-  }
-
-  .placeholder-label {
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* Hover overlay */
-  .media-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    display: flex;
-    align-items: flex-end;
-    padding: 1.2rem;
-    pointer-events: none;
-  }
-
-  .media-card:hover .media-overlay { opacity: 1; }
-
-  .overlay-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--white);
-  }
-
-  /* Card meta bar */
-  .card-meta {
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-  }
-
-  .card-meta-title {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--text);
-    text-transform: uppercase;
-  }
-
-  .card-badge {
-    font-size: 8px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  .card-badge.anim  { border-color: rgba(135, 66, 245, 0.3); color: var(--accent); }
-  .card-badge.still { border-color: rgba(200, 66, 245, 0.2); color: var(--accent2); }
-  .card-badge.promo { border-color: rgba(255,160,80,0.3); color: #f5a042; }
-  .card-badge.short { border-color: rgba(255,80,120,0.3); color: #f55080; }
-
-  /* ─── YOUTUBE EMBED ─── */
-  .yt-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    background: #000;
-  }
-
-  .yt-wrapper iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: 0;
-  }
-
-  .yt-wrapper img {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    border: 0;
-  }
-
-  /* ─── BEFORE/AFTER SLIDER ─── */
-  .before-after-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .before-image, .after-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .after-image {
-    clip-path: inset(0 0 0 50%);
-  }
-
-  .slider-handle {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 4px;
-    height: 100%;
-    background: var(--accent);
-    cursor: ew-resize;
-    z-index: 10;
-    transform: translateX(-50%);
-  }
-
-  .slider-handle:hover {
-    background: var(--accent2);
-  }
-
-  .slider-line {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    background: var(--accent);
-    border-radius: 50%;
-    border: 2px solid var(--white);
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-  }
-
-  .compare-slider-diagonal {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .compare-slider-diagonal .before-image,
-  .compare-slider-diagonal .after-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .diagonal-slider .after-image {
-    clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% 50%, 50% 0%);
-  }
-
-  .diagonal-line {
-    position: absolute;
-    width: 220%;
-    height: 3px;
-    background: var(--accent);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(119deg);
-    transform-origin: center;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .diagonal-handle {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--white);
-    border: 2px solid var(--accent);
-    box-shadow: 0 0 12px rgba(0,0,0,0.35);
-    transform: translate(-50%, -50%);
-    z-index: 11;
-    cursor: grab;
-  }
-
-  .diagonal-handle:active {
-    cursor: grabbing;
-    background: var(--accent);
-  }
-
-  .appstore-card {
-    display: grid;
-    gap: 0.5rem;
-    overflow: hidden;
-  }
-
-  .appstore-top {
-    padding: 1.75rem 1.75rem 1.5rem;
-    background: var(--surface2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.75rem;
-    min-height: 220px;
-  }
-
-  .appstore-label {
-    font-size: 9px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .appstore-heading {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.6rem);
-    line-height: 1.05;
-    color: var(--white);
-    margin: 0;
-  }
-
-  .appstore-copy {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--muted);
-    line-height: 1.8;
-    max-width: 100%;
-    margin: 0;
-  }
-
-  .appstore-bottom {
-    background: var(--surface);
-    overflow: hidden;
-  }
-
-  .appstore-preview {
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-  }
-
-  .appstore-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .appstore-caption {
-    padding: 0.75rem 1rem;
-    color: var(--text);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    border-top: 1px solid var(--border);
-    background: var(--surface2);
-  }
-
-  /* ─── FEATURED SHORT ─── */
-  .featured-short {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    max-width: 100%;
-  }
-
-  .featured-short-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 420px;
-  }
-
-  .featured-video-col {
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .featured-video-col .yt-wrapper {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 0;
-    position: absolute;
-    inset: 0;
-  }
-
-  .featured-info-col {
-    padding: 3.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-left: 1px solid var(--border);
-  }
-
-  .featured-tag {
-    font-size: 9px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: #f55080;
-    border: 1px solid rgba(255,80,120,0.3);
-    display: inline-block;
-    padding: 5px 12px;
-    margin-bottom: 1.5rem;
-    width: fit-content;
-  }
-
-  .featured-heading {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.8rem;
-    line-height: 1;
-    color: var(--white);
-    margin-bottom: 1rem;
-    letter-spacing: 0.03em;
-  }
-
-  .featured-body {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.9;
-    margin-bottom: 2rem;
-  }
-
-  /* ─── MARQUEE STRIP ─── */
-  .marquee-section {
-    max-width: 100%;
-    padding: 0;
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 22s linear infinite;
-  }
-
-  .marquee-item {
-    padding: 1.2rem 3rem;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-  }
-
-  .marquee-dot {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    background: var(--accent);
-    border-radius: 50%;
-  }
-
-  /* ─── CTA ─── */
-  .cta-section {
-    text-align: center;
-    padding: 8rem 2rem;
-    max-width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(245, 66, 197, 0.04) 0%, transparent 70%);
-  }
-
-  .cta-inner { position: relative; }
-
-  .cta-title {
-    font-family: 'Chewy', cursive;
-    font-size: clamp(3rem, 8vw, 8rem);
-    line-height: 0.95;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.01em;
-  }
-
-  .cta-sub {
-    font-family: 'Chewy', serif;
-    font-style: italic;
-    font-size: 1.2rem;
-    color: var(--muted);
-    margin-bottom: 2.5rem;
-  }
-
-  /* ─── HEADER ─── */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    min-width: 0;
-    flex: 1;
-  }
-
-  .header-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-
-  .header-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .header-brand {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(0.9rem, 3vw, 1.2rem);
-    letter-spacing: 0.1em;
-    color: var(--white);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .header-about {
-    font-family: 'DM Mono', monospace;
-    font-size: clamp(8px, 2vw, 10px);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: clamp(8px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
-    border: 1px solid var(--border);
-    color: var(--text);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .header-about::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateY(101%);
-    transition: transform 0.3s ease;
-    z-index: 0;
-  }
-
-  .header-about:hover::before { transform: translateY(0); }
-  .header-about:hover { color: #0a0a0c; border-color: var(--accent); }
-  .header-about span { position: relative; z-index: 1; }
-
-  /* ─── FOOTER ─── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .footer-brand {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem;
-    letter-spacing: 0.1em;
-    color: var(--white);
-  }
-
-  .footer-note {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-
-  /* ─── LIGHTBOX ─── */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(5,5,7,0.96);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    padding: 2rem;
-    cursor: zoom-out;
-  }
-
-  .lightbox.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .lightbox-media {
-    max-width: 90vw;
-    max-height: 85vh;
-    object-fit: contain;
-    border: 1px solid var(--border);
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    cursor: pointer;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 6px 14px;
-    transition: all 0.2s;
-  }
-
-  .lightbox-close:hover { color: var(--white); border-color: var(--text); }
-
-  /* ─── DIVIDER ─── */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0 2rem;
-  }
-
-  /* ─── KEYFRAMES ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; }
-    50%       { opacity: 1; }
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  /* Scroll reveal - optimized for performance */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    will-change: opacity, transform;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-    will-change: auto;
-  }
-
-  /* Media cards - reduce paint operations */
-  .media-card {
-    contain: layout style paint;
-  }
-
-  /* ─── BEFORE/AFTER SLIDER ─── */
-  .before-after-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 0;
-  }
-
-  .before-after-slider {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 9/16; /* Assuming vertical images */
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .before-image, .after-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .after-image {
-    clip-path: inset(0 0 0 50%);
-  }
-
-  .slider-handle {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 4px;
-    height: 100%;
-    background: var(--accent);
-    cursor: ew-resize;
-    z-index: 10;
-    transform: translateX(-50%);
-  }
-
-  .slider-handle:hover {
-    background: var(--accent2);
-  }
-
-  .slider-line {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 24px;
-    height: 24px;
-    background: var(--accent);
-    border-radius: 50%;
-    border: 3px solid var(--white);
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 900px) {
-    header { padding: 0.75rem 1.5rem; }
-    .header-image { width: 44px; height: 44px; }
-
-    .services-inner { grid-template-columns: 1fr; }
-    .service-item { border-right: none; border-bottom: 1px solid var(--border); }
-    .service-item:last-child { border-bottom: none; }
-
-    .card-square, .card-vertical, .card-wide, .card-sm, .card-half, .card-third { grid-column: span 12; }
-
-    .featured-short-inner { grid-template-columns: 1fr; }
-    .featured-video-col { min-height: 240px; position: relative; }
-    .featured-video-col .yt-wrapper { position: relative; padding-bottom: 56.25%; }
-    .featured-info-col { border-left: none; border-top: 1px solid var(--border); padding: 2rem; }
-  }
-</style>
+  <style>
+    /* Custom font - Chewy */
+    @font-face {
+      font-family: 'Chewy';
+      src: url('fonts/Chewy.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --bg: #0a0a0c;
+      --surface: #111114;
+      --surface2: #18181d;
+      --border: rgba(255, 255, 255, 0.07);
+      --accent: #ab6bff;
+      --accent2: #9368ff;
+      --text: #e8e8e0;
+      --muted: #5a5a60;
+      --white: #f5f5f0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* GRAIN OVERLAY - Optimized */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.01;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: overlay;
+      will-change: auto;
+      backface-visibility: hidden;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 60%, rgba(200, 245, 66, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 30%, rgba(66, 212, 245, 0.05) 0%, transparent 70%),
+        linear-gradient(180deg, #0a0a0c 0%, #0d0d10 100%);
+      z-index: 0;
+    }
+
+    .hero-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(200, 245, 66, 0.3);
+      padding: 6px 16px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 12vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.01em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s ease forwards;
+    }
+
+    .hero-title .accent-word {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--accent);
+    }
+
+    .hero-title .accent-word2 {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--accent2);
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s ease forwards;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s ease forwards;
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: none;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateY(101%);
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+
+    .btn:hover::before {
+      transform: translateY(0);
+    }
+
+    .btn:hover {
+      color: #0a0a0c;
+      border-color: var(--accent);
+    }
+
+    .btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-outline {
+      border-color: rgba(93, 66, 245, 0.3);
+      color: var(--accent2);
+    }
+
+    .btn-outline::before {
+      background: var(--accent2);
+    }
+
+    .btn-outline:hover {
+      color: #0a0a0c;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s ease forwards;
+      z-index: 1;
+    }
+
+    .scroll-hint span {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollPulse 2s infinite ease;
+    }
+
+    /* ─── SECTION COMMON ─── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ─── SERVICES STRIP ─── */
+    .services-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+      max-width: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .services-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .service-item {
+      padding: 3rem 2rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .service-item:last-child {
+      border-right: none;
+    }
+
+    .service-item:hover {
+      background: var(--surface2);
+    }
+
+    .service-num {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .service-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      line-height: 1.1;
+    }
+
+    .service-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid rgba(114, 66, 245, 0.2);
+      padding: 4px 10px;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    /* Image Bar */
+    .image-bar {
+      grid-column: 1 / -1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-top: 8px;
+      contain: layout style;
+      /* Custom scrollbar styling */
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--surface);
+    }
+
+    .image-bar::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .image-bar::-webkit-scrollbar-track {
+      background: var(--surface);
+      border-radius: 4px;
+    }
+
+    .image-bar::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .image-bar::-webkit-scrollbar-thumb:hover {
+      background: var(--accent2);
+    }
+
+    .image-bar-track {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      padding: 0 4px;
+      /* Small padding to prevent cut-off */
+    }
+
+    .image-bar-item {
+      flex-shrink: 0;
+      height: 120px;
+      width: auto;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      contain: layout style paint;
+      backface-visibility: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .image-bar-item:hover {
+      border-color: rgba(171, 107, 255, 0.5);
+      transform: scale(1.02);
+    }
+
+    .image-bar-item.vertical {
+      aspect-ratio: 9/16;
+      width: 70px;
+    }
+
+    .image-bar-item img,
+    .image-bar-item video {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-calc(50% - 6px));
+      }
+    }
+
+    /* Each media card */
+    .media-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .media-card:hover {
+      border-color: rgba(200, 245, 66, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* layout slots */
+    .card-square {
+      grid-column: span 8;
+      grid-row: span 2;
+    }
+
+    .card-vertical {
+      grid-column: span 4;
+      grid-row: span 2;
+    }
+
+    .card-wide {
+      grid-column: span 7;
+    }
+
+    .card-sm {
+      grid-column: span 5;
+    }
+
+    .card-half {
+      grid-column: span 6;
+    }
+
+    .card-third {
+      grid-column: span 4;
+    }
+
+    .card-full {
+      grid-column: span 12;
+    }
+
+    .media-inner {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-vertical .media-inner {
+      aspect-ratio: 9/16;
+      height: 100%;
+    }
+
+    .card-square .media-inner {
+      aspect-ratio: unset;
+      height: 100%;
+      min-height: 300px;
+    }
+
+    /* Placeholder visual — replace src with actual files */
+    .media-inner video,
+    .media-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Placeholder when no asset loaded */
+    .placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #111114 0%, #18181d 100%);
+    }
+
+    .placeholder-icon {
+      font-size: 2rem;
+      opacity: 0.2;
+    }
+
+    .placeholder-label {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Hover overlay */
+    .media-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+      pointer-events: none;
+    }
+
+    .media-card:hover .media-overlay {
+      opacity: 1;
+    }
+
+    .overlay-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    /* Card meta bar */
+    .card-meta {
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-meta-title {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .card-badge {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .card-badge.anim {
+      border-color: rgba(135, 66, 245, 0.3);
+      color: var(--accent);
+    }
+
+    .card-badge.still {
+      border-color: rgba(200, 66, 245, 0.2);
+      color: var(--accent2);
+    }
+
+    .card-badge.promo {
+      border-color: rgba(255, 160, 80, 0.3);
+      color: #f5a042;
+    }
+
+    .card-badge.short {
+      border-color: rgba(255, 80, 120, 0.3);
+      color: #f55080;
+    }
+
+    /* ─── YOUTUBE EMBED ─── */
+    .yt-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .yt-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .yt-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 0;
+    }
+
+    /* ─── BEFORE/AFTER SLIDER ─── */
+    .before-after-slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .before-image,
+    .after-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .after-image {
+      clip-path: inset(0 0 0 50%);
+    }
+
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+      cursor: ew-resize;
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+
+    .slider-handle:hover {
+      background: var(--accent2);
+    }
+
+    .slider-line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .compare-slider-diagonal {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .compare-slider-diagonal .before-image,
+    .compare-slider-diagonal .after-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .diagonal-slider .after-image {
+      clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% 50%, 50% 0%);
+    }
+
+    .diagonal-line {
+      position: absolute;
+      width: 220%;
+      height: 3px;
+      background: var(--accent);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(119deg);
+      transform-origin: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .diagonal-handle {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+      transform: translate(-50%, -50%);
+      z-index: 11;
+      cursor: grab;
+    }
+
+    .diagonal-handle:active {
+      cursor: grabbing;
+      background: var(--accent);
+    }
+
+    .appstore-card {
+      display: grid;
+      gap: 0.5rem;
+      overflow: hidden;
+    }
+
+    .appstore-top {
+      padding: 1.75rem 1.75rem 1.5rem;
+      background: var(--surface2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.75rem;
+      min-height: 220px;
+    }
+
+    .appstore-label {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .appstore-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+      line-height: 1.05;
+      color: var(--white);
+      margin: 0;
+    }
+
+    .appstore-copy {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .appstore-bottom {
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .appstore-preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .appstore-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .appstore-caption {
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    /* ─── FEATURED SHORT ─── */
+    .featured-short {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      max-width: 100%;
+    }
+
+    .featured-short-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+    }
+
+    .featured-video-col {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-video-col .yt-wrapper {
+      width: 100%;
+      height: 100%;
+      padding-bottom: 0;
+      position: absolute;
+      inset: 0;
+    }
+
+    .featured-info-col {
+      padding: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 1px solid var(--border);
+    }
+
+    .featured-tag {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #f55080;
+      border: 1px solid rgba(255, 80, 120, 0.3);
+      display: inline-block;
+      padding: 5px 12px;
+      margin-bottom: 1.5rem;
+      width: fit-content;
+    }
+
+    .featured-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+    }
+
+    .featured-body {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 2rem;
+    }
+
+    /* ─── MARQUEE STRIP ─── */
+    .marquee-section {
+      max-width: 100%;
+      padding: 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 22s linear infinite;
+    }
+
+    .marquee-item {
+      padding: 1.2rem 3rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .marquee-dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      text-align: center;
+      padding: 8rem 2rem;
+      max-width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, rgba(245, 66, 197, 0.04) 0%, transparent 70%);
+    }
+
+    .cta-inner {
+      position: relative;
+    }
+
+    .cta-title {
+      font-family: 'Chewy', cursive;
+      font-size: clamp(3rem, 8vw, 8rem);
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .cta-sub {
+      font-family: 'Chewy', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ─── CONTACT BUBBLES ─── */
+    .cta-inner {
+      position: relative;
+    }
+
+    .contact-bubbles {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .contact-bubble {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      pointer-events: all;
+      cursor: pointer;
+      /* Safari fixes */
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .contact-bubble:hover {
+      border-color: var(--accent);
+      transform: scale(1.1) translateZ(0);
+      -webkit-transform: scale(1.1) translateZ(0);
+      background: var(--surface2);
+    }
+
+    .contact-bubble img {
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      border-radius: 50%;
+      /* Ensure crisp images on all devices */
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    /* Bubble positioning and animations */
+    .bubble-email {
+      top: 20%;
+      left: 15%;
+      animation: floatLeft 6s ease-in-out infinite;
+    }
+
+    .bubble-linkedin {
+      top: 70%;
+      left: 10%;
+      animation: floatLeft 8s ease-in-out infinite reverse;
+    }
+
+    .bubble-discord {
+      top: 25%;
+      right: 15%;
+      animation: floatRight 7s ease-in-out infinite;
+    }
+
+    .bubble-twitter {
+      top: 65%;
+      right: 10%;
+      animation: floatRight 9s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatLeft {
+
+      0%,
+      100% {
+        transform: translateX(0) translateY(0) translateZ(0);
+        -webkit-transform: translateX(0) translateY(0) translateZ(0);
+      }
+
+      25% {
+        transform: translateX(-15px) translateY(-10px) translateZ(0);
+        -webkit-transform: translateX(-15px) translateY(-10px) translateZ(0);
+      }
+
+      50% {
+        transform: translateX(-10px) translateY(-15px) translateZ(0);
+        -webkit-transform: translateX(-10px) translateY(-15px) translateZ(0);
+      }
+
+      75% {
+        transform: translateX(-20px) translateY(-5px) translateZ(0);
+        -webkit-transform: translateX(-20px) translateY(-5px) translateZ(0);
+      }
+    }
+
+    @keyframes floatRight {
+
+      0%,
+      100% {
+        transform: translateX(0) translateY(0) translateZ(0);
+        -webkit-transform: translateX(0) translateY(0) translateZ(0);
+      }
+
+      25% {
+        transform: translateX(15px) translateY(-10px) translateZ(0);
+        -webkit-transform: translateX(15px) translateY(-10px) translateZ(0);
+      }
+
+      50% {
+        transform: translateX(10px) translateY(-15px) translateZ(0);
+        -webkit-transform: translateX(10px) translateY(-15px) translateZ(0);
+      }
+
+      75% {
+        transform: translateX(20px) translateY(-5px) translateZ(0);
+        -webkit-transform: translateX(20px) translateY(-5px) translateZ(0);
+      }
+    }
+
+    /* Mobile/Tablet adjustments */
+    @media (max-width: 1024px) {
+      .contact-bubble {
+        width: 45px;
+        height: 45px;
+      }
+
+      .contact-bubble img {
+        width: 26px;
+        height: 26px;
+      }
+
+      /* Adjust positioning for smaller screens */
+      .bubble-email {
+        top: 15%;
+        left: 8%;
+      }
+
+      .bubble-linkedin {
+        top: 75%;
+        left: 5%;
+      }
+
+      .bubble-discord {
+        top: 20%;
+        right: 8%;
+      }
+
+      .bubble-twitter {
+        top: 70%;
+        right: 5%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .contact-bubble {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        animation: none;
+        margin: 0.5rem;
+      }
+
+      .contact-bubble img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .contact-bubbles {
+        position: static;
+        transform: none;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2rem;
+        width: auto;
+        height: auto;
+        pointer-events: all;
+      }
+
+      /* Remove individual positioning on mobile */
+      .bubble-email,
+      .bubble-linkedin,
+      .bubble-discord,
+      .bubble-twitter {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        animation: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contact-bubble {
+        width: 36px;
+        height: 36px;
+      }
+
+      .contact-bubble img {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    /* Hide on smaller screens */
+    @media (max-width: 768px) {
+      .contact-bubbles {
+        display: none;
+      }
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .header-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .header-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .header-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      letter-spacing: 0.1em;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-about {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(8px, 2vw, 10px);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: clamp(8px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .header-about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateY(101%);
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+
+    .header-about:hover::before {
+      transform: translateY(0);
+    }
+
+    .header-about:hover {
+      color: #0a0a0c;
+      border-color: var(--accent);
+    }
+
+    .header-about span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+
+    .footer-note {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 7, 0.96);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-media {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border: 1px solid var(--border);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      transition: all 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: var(--white);
+      border-color: var(--text);
+    }
+
+    /* ─── CONTACT MODAL ─── */
+    .contact-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 7, 0.96);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 2rem;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .contact-modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .contact-modal.active .contact-modal-content {
+      transform: scale(1);
+    }
+
+    .contact-modal-item {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .contact-modal-item:hover {
+      border-color: var(--accent);
+      transform: scale(1.1);
+      background: var(--surface);
+    }
+
+    .contact-modal-item img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .contact-modal-close {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+
+    .contact-modal-text {
+      position: absolute;
+      bottom: -3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--text);
+      text-transform: uppercase;
+      padding: 6px 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .contact-modal-close:hover {
+      color: var(--white);
+      border-color: var(--accent);
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .contact-modal-content {
+        padding: 1.5rem;
+        margin: 1rem;
+        gap: 1.5rem;
+      }
+
+      .contact-modal-item {
+        width: 50px;
+        height: 50px;
+      }
+
+      .contact-modal-item img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 2rem;
+    }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scrollPulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Scroll reveal - optimized for performance */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      will-change: auto;
+    }
+
+    /* Media cards - reduce paint operations */
+    .media-card {
+      contain: layout style paint;
+    }
+
+    /* ─── BEFORE/AFTER SLIDER ─── */
+    .before-after-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .before-after-slider {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9/16;
+      /* Assuming vertical images */
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .before-image,
+    .after-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .after-image {
+      clip-path: inset(0 0 0 50%);
+    }
+
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+      cursor: ew-resize;
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+
+    .slider-handle:hover {
+      background: var(--accent2);
+    }
+
+    .slider-line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ─── PRICING TABLE ─── */
+    .pricing-section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 3rem 2rem;
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .pricing-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    .pricing-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 2rem;
+    }
+
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card:hover {
+      background: var(--surface2);
+      border-color: rgba(171, 107, 255, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card-tier {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .pricing-card-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .pricing-card-starting {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-card-description {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-card-features {
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-card-features ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pricing-card-features li {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .pricing-card-features li:before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .pricing-card-image {
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: auto;
+    }
+
+    .pricing-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .pricing-card-placeholder {
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      header {
+        padding: 0.75rem 1.5rem;
+      }
+
+      .header-image {
+        width: 44px;
+        height: 44px;
+      }
+
+      .services-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .service-item {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .service-item:last-child {
+        border-bottom: none;
+      }
+
+      .card-square,
+      .card-vertical,
+      .card-wide,
+      .card-sm,
+      .card-half,
+      .card-third {
+        grid-column: span 12;
+      }
+
+      .featured-short-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-video-col {
+        min-height: 240px;
+        position: relative;
+      }
+
+      .featured-video-col .yt-wrapper {
+        position: relative;
+        padding-bottom: 56.25%;
+      }
+
+      .featured-info-col {
+        border-left: none;
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-section {
+        padding: 2rem 1.5rem;
+        margin: 3rem auto;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ══ HEADER ══ -->
-<header>
-  <div class="header-left">
-    <div class="header-image">
-      <img src="images/About me/Portfolio_Headshot.png" alt="Giulian Minichiello">
+  <!-- ══ HEADER ══ -->
+  <header>
+    <div class="header-left">
+      <div class="header-image">
+        <img src="images/About me/Portfolio_Headshot.png" alt="Giulian Minichiello">
+      </div>
+      <div class="header-brand">Giulian Minichiello · 3D Designer</div>
     </div>
-    <div class="header-brand">Giulian Minichiello · 3D Designer</div>
+    <a href="index.html" class="header-about"><span>About Me</span></a>
+  </header>
+
+  <!-- ══ SERVICES ══ -->
+  <div class="services-strip">
+    <div class="services-inner">
+
+      <div class="service-item reveal">
+        <div class="service-num">01</div>
+        <div class="service-name">Pixel Sprites<br>in 3D</div>
+        <div class="service-desc">Your 2D sprite, rebuilt and animated in a full 3D environment. Promo shots, cinematic
+          stills, and animation loops for your game's marketing.</div>
+        <span class="service-tag">Indie Games</span>
+      </div>
+
+      <div class="service-item reveal">
+        <div class="service-num">02</div>
+        <div class="service-name">App &amp; Game<br>Mockups & 3D Renders</div>
+        <div class="service-desc">Photorealistic iPhone and iPad renders with your app or game running on screen :
+          rotating, animating, or posed exactly as you need it.</div>
+        <span class="service-tag">Mobile · App Store</span>
+      </div>
+
+      <div class="service-item reveal">
+        <div class="service-num">03</div>
+        <div class="service-name">Promo Art<br>& Marketing</div>
+        <div class="service-desc">Polished promotional artwork combining your brand, characters, and devices into a
+          single studio-quality visual ready for storefronts and social media.</div>
+        <span class="service-tag">Marketing · Social</span>
+      </div>
+
+    </div>
   </div>
-  <a href="index.html" class="header-about"><span>About Me</span></a>
-</header>
 
-<!-- ══ SERVICES ══ -->
-<div class="services-strip">
-  <div class="services-inner">
-
-    <div class="service-item reveal">
-      <div class="service-num">01</div>
-      <div class="service-name">Pixel Sprites<br>in 3D</div>
-      <div class="service-desc">Your 2D sprite, rebuilt and animated in a full 3D environment. Promo shots, cinematic stills, and animation loops for your game's marketing.</div>
-      <span class="service-tag">Indie Games</span>
+  <!-- ══ MARQUEE ══ -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item">3D Animation<span class="marquee-dot"></span> Pixel Art <span
+          class="marquee-dot"></span> Device Mockups <span class="marquee-dot"></span> Promo Art <span
+          class="marquee-dot"></span> Sound Design <span class="marquee-dot"></span> Indie Game Renders <span
+          class="marquee-dot"></span> iPhones · iPads <span class="marquee-dot"></span> 2D Characters <span
+          class="marquee-dot"></span></div>
+      <div class="marquee-item">3D Animation<span class="marquee-dot"></span> Pixel Art <span
+          class="marquee-dot"></span> Device Mockups <span class="marquee-dot"></span> Promo Art <span
+          class="marquee-dot"></span> Sound Design <span class="marquee-dot"></span> Indie Game Renders <span
+          class="marquee-dot"></span> iPhones · iPads <span class="marquee-dot"></span> 2D Characters <span
+          class="marquee-dot"></span></div>
     </div>
-
-    <div class="service-item reveal">
-      <div class="service-num">02</div>
-      <div class="service-name">App &amp; Game<br>Mockups & 3D Renders</div>
-      <div class="service-desc">Photorealistic iPhone and iPad renders with your app or game running on screen : rotating, animating, or posed exactly as you need it.</div>
-      <span class="service-tag">Mobile · App Store</span>
-    </div>
-
-    <div class="service-item reveal">
-      <div class="service-num">03</div>
-      <div class="service-name">Promo<br>Art</div>
-      <div class="service-desc">Polished promotional artwork combining your brand, characters, and devices into a single studio-quality visual ready for storefronts and social.</div>
-      <span class="service-tag">Marketing · Social</span>
-    </div>
-
   </div>
-</div>
 
-<!-- ══ MARQUEE ══ -->
-<div class="marquee-section">
-  <div class="marquee-track">
-    <div class="marquee-item">3D Animation<span class="marquee-dot"></span> Pixel Art <span class="marquee-dot"></span> Device Mockups <span class="marquee-dot"></span> Promo Art <span class="marquee-dot"></span> Sound Design <span class="marquee-dot"></span> Indie Game Renders <span class="marquee-dot"></span> iPhones · iPads <span class="marquee-dot"></span> 2D Characters <span class="marquee-dot"></span></div>
-    <div class="marquee-item">3D Animation<span class="marquee-dot"></span> Pixel Art <span class="marquee-dot"></span> Device Mockups <span class="marquee-dot"></span> Promo Art <span class="marquee-dot"></span> Sound Design <span class="marquee-dot"></span> Indie Game Renders <span class="marquee-dot"></span> iPhones · iPads <span class="marquee-dot"></span> 2D Characters <span class="marquee-dot"></span></div>
-  </div>
-</div>
+  <!-- ══ GALLERY ══ -->
+  <section id="gallery">
+    <div class="section-label reveal">My Favorites (no ai)</div>
+    <p class="section-desc reveal">Animations, stills, and promos ~ made using Blender and Unreal Engine 5.</p>
 
-<!-- ══ GALLERY ══ -->
-<section id="gallery">
-  <div class="section-label reveal">My Favorites (no ai)</div>
-  <p class="section-desc reveal">Animations, stills, and promos ~ made using Blender and Unreal Engine 5.</p>
+    <div class="gallery-grid">
 
-  <div class="gallery-grid">
-
-    <!-- LARGE HERO CARD — pixel character animation webm -->
-    <div class="media-card card-square reveal">
-      <div class="media-inner">
-        <video loop muted playsinline webkit-playsinline>
-          <source src="images/3D Images/Video/SlimeClimb_SlurbPromoLogoOnly_noAudio.webm" type="video/webm">
-        </video>
-      </div>
-      <div class="media-overlay"><span class="overlay-label">Realistic Pixel Pet — Hermit Crab Tank</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Pixel Character Reel</span>
-        <span class="card-badge anim">Animation</span>
-      </div>
-    </div>
-
-    <!-- TALL CARD — portrait / phone aspect -->
-    <div class="media-card card-vertical reveal">
-      <div class="media-inner">
-        <video loop muted playsinline webkit-playsinline>
-          <source src="images/3D Images/Video/HermitCrab_LookIn_NoVoice.webm" type="video/webm">
-        </video>
-      </div>
-      <div class="media-overlay"><span class="overlay-label">Character Still</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Pixel Character Still</span>
-        <span class="card-badge still">Still</span>
-      </div>
-    </div>
-
-    <!-- HALF — promo art client 1 -->
-    <div class="media-card card-half reveal">
-      <div class="media-inner">
-        <image src="images/3D Images/Render_HermitCrab_promo_scene.png" alt="Client promo art with device">
-      </div>
-      <div class="media-overlay"><span class="overlay-label">Client Promo — Game Art</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Client - Full Scene Render</span>
-        <span class="card-badge promo">Promo</span>
-      </div>
-    </div>
-
-    <!-- HALF — promo art client 2 -->
-    <div class="media-card card-half reveal">
-      <div class="media-inner">
-        <image src="images/3D Images/Render_HermitCrab_promo_full.png" alt="Client promo art with device">
-      </div>
-      <div class="media-overlay"><span class="overlay-label">Client Promo — 3D Device</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Client Promo Art w/ Photoshop</span>
-        <span class="card-badge promo">Promo</span>
-      </div>
-    </div>
-
-<!-- AppStore Overhauls Section Start-->
-    <!-- AppStore Showcase -->
-    <div class="media-card card-wide reveal appstore-card">
-      <div class="appstore-top">
-        <span class="appstore-label">AppStore Overhauls</span>
-        <h3 class="appstore-heading">App store images, rebuilt in 3D</h3>
-        <p class="appstore-copy">Make your app a clean app store preview that feels premium and ready for discovery.</p>
-      </div>
-      <div class="appstore-bottom">
-        <div class="appstore-preview">
-          <img src="images/3D Images/Client/Client_CookShelf_Final_InApp_Image_BeforeAfter.png" alt="AppStore screenshot redone in 3D">
-        </div>
-        <div class="appstore-caption">Before & After</div>
-      </div>
-      <div class="card-meta">
-        <span class="card-meta-title">AppStore Preview Design w/ Photoshop</span>
-        <span class="card-badge anim">AppStore Previews</span>
-      </div>
-    </div>
-    <!-- Comparison: Draft vs Final-->
-    <div class="media-card card-third reveal diagonal-card">
-      <div class="media-inner" style="aspect-ratio: 9/16;">
-        <div class="compare-slider-diagonal">
-          <img src="images/3D Images/Client/Client_CookShelf_Final_InApp_Image.png" alt="Before" class="before-image">
-          <img src="images/3D Images/Client/Client_CookShelf_Reference_InApp_Image.png" alt="After" class="after-image">
-          <div class="diagonal-line"></div>
-          <button class="diagonal-handle" aria-label="Slide diagonal comparison"></button>
-        </div>
-      </div>
-      <div class="media-overlay"><span class="overlay-label">Before/After</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">AppStore Overhauls : Drag to Compare</span>
-        <span class="card-badge promo">Comparison</span>
-      </div>
-    </div>
-    <!-- AppStore Overhauls Section End-->
-
-    <!-- ══ SCROLLING IMAGE BAR ══ -->
-    <div class="image-scroll-bar" id="scrollBar">
-      <div class="image-scroll-track" id="scrollTrack">
-        <!-- Copy these blocks to add more images/videos -->
-        <!-- Add class="vertical" for portrait/vertical videos -->
-
-        <div class="scroll-image-item vertical">
-          <video loop muted playsinline>
-            <source src="images/3D Images/Video/iphone_SlimeClimbtrailer_transparent_video0001-1517.webm" type="video/webm">
-          </video>|
-        </div>
-        <div class="scroll-image-item">
-          <video loop muted playsinline>
-            <source src="images/3D Images/Video/iphone_MyNamePibble_transparent_video_spinningUP0001-0347.webm" type="video/webm">
+      <!-- LARGE HERO CARD — pixel character animation webm -->
+      <div class="media-card card-square reveal">
+        <div class="media-inner">
+          <video loop muted playsinline webkit-playsinline>
+            <source src="images/3D Images/Video/SlimeClimb_SlurbPromoLogoOnly_noAudio.webm" type="video/webm">
           </video>
         </div>
-        <div class="scroll-image-item">
-          <image src="images/3D Images/Verticals/Vertical_SlimeClimb_JUMP_AppStore.png" alt="iPhone still render">
-        </div>
-        <div class="scroll-image-item">
-          <image src="images/3D Images/Verticals/Vertical_SlimeClimb_FIGHT_AppStore.png" alt="iPhone still render">
-        </div>
-        <div class="scroll-image-item">
-          <image src="images/3D Images/Verticals/Vertical_SlimeClimb_BUILD_AppStore.png" alt="iPhone still render">
+        <div class="media-overlay"><span class="overlay-label">Realistic Pixel Pet — Hermit Crab Tank</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Pixel Character Reel</span>
+          <span class="card-badge anim">Animation</span>
         </div>
       </div>
-    </div>
 
-    <!-- WIDE — iPhone rotating animation webm -->
-    <div class="media-card card-wide reveal">
-      <div class="media-inner">
-        <video autoplay loop muted playsinline webkit-playsinline>
-          <source src="images/3D Images/Video/iphone_MyNamePibble_transparent_video_spinningUP0001-0347.webm" type="video/webm">
-        </video>
+      <!-- TALL CARD — portrait / phone aspect -->
+      <div class="media-card card-vertical reveal">
+        <div class="media-inner">
+          <video loop muted playsinline webkit-playsinline>
+            <source src="images/3D Images/Video/HermitCrab_LookIn_NoVoice.webm" type="video/webm">
+          </video>
+        </div>
+        <div class="media-overlay"><span class="overlay-label">Character Still</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Pixel Character Still</span>
+          <span class="card-badge still">Still</span>
+        </div>
       </div>
-      
-      <div class="media-overlay"><span class="overlay-label">3D iPhone — App Rotating</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Device Mockup · Rotation</span>
-        <span class="card-badge anim">Animation</span>
-      </div>
-    </div>
 
-    <!-- SM — device still -->
-    <div class="media-card card-sm reveal">
-      <div class="media-inner">
-        <image src="images/3D Images/Client_DeviceiPad_WhiteScene_SlimeClimb.png" alt="iPad still render">
+      <!-- HALF — promo art client 1 -->
+      <div class="media-card card-half reveal">
+        <div class="media-inner">
+          <image src="images/3D Images/Render_HermitCrab_promo_scene.png" alt="Client promo art with device">
+        </div>
+        <div class="media-overlay"><span class="overlay-label">Client Promo — Game Art</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Client - Full Scene Render</span>
+          <span class="card-badge promo">Promo</span>
+        </div>
       </div>
-      <div class="media-overlay"><span class="overlay-label">iPad Mockup Still W/ Scene</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">iPad Device Still : Full Backing Scene</span>
-        <span class="card-badge still">Still</span>
+
+      <!-- HALF — promo art client 2 -->
+      <div class="media-card card-half reveal">
+        <div class="media-inner">
+          <image src="images/3D Images/Render_HermitCrab_promo_full.png" alt="Client promo art with device">
+        </div>
+        <div class="media-overlay"><span class="overlay-label">Client Promo — 3D Device</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Client Promo Art w/ Photoshop</span>
+          <span class="card-badge promo">Promo</span>
+        </div>
       </div>
-    </div>
+      <!-- Pricings Table for Pixel to 3D Clients -->
+
+      <!-- AppStore Overhauls Section Start-->
+      <!-- AppStore Showcase -->
+      <div class="media-card card-wide reveal appstore-card">
+        <div class="appstore-top">
+          <span class="appstore-label">AppStore Overhauls</span>
+          <h3 class="appstore-heading">App store images, rebuilt in 3D</h3>
+          <p class="appstore-copy">Make your app a clean app store preview that feels premium and ready for discovery.
+          </p>
+        </div>
+        <div class="appstore-bottom">
+          <div class="appstore-preview">
+            <img src="images/3D Images/Client/Client_CookShelf_Final_InApp_Image_BeforeAfter.png"
+              alt="AppStore screenshot redone in 3D">
+          </div>
+          <div class="appstore-caption">Before & After</div>
+        </div>
+        <div class="card-meta">
+          <span class="card-meta-title">AppStore Preview Design w/ Photoshop</span>
+          <span class="card-badge anim">AppStore Previews</span>
+        </div>
+      </div>
+      <!-- Comparison: Draft vs Final-->
+      <div class="media-card card-third reveal diagonal-card">
+        <div class="media-inner" style="aspect-ratio: 9/16;">
+          <div class="compare-slider-diagonal">
+            <img src="images/3D Images/Client/Client_CookShelf_Final_InApp_Image.png" alt="Before" class="before-image">
+            <img src="images/3D Images/Client/Client_CookShelf_Reference_InApp_Image.png" alt="After"
+              class="after-image">
+            <div class="diagonal-line"></div>
+            <button class="diagonal-handle" aria-label="Slide diagonal comparison"></button>
+          </div>
+        </div>
+        <div class="media-overlay"><span class="overlay-label">Before/After</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">AppStore Overhauls : Drag to Compare</span>
+          <span class="card-badge promo">Comparison</span>
+        </div>
+      </div>
+      <!-- AppStore Overhauls Section End-->
+
+      <!-- ══ IMAGE BAR ══ -->
+      <div class="image-bar" id="imageBar">
+        <div class="image-bar-track" id="imageBarTrack">
+          <!-- Copy these blocks to add more images/videos -->
+          <!-- Add class="vertical" for portrait/vertical videos -->
+
+          <div class="image-bar-item vertical">
+            <video autoplay loop muted playsinline>
+              <source src="images/3D Images/Video/iphone_SlimeClimbtrailer_transparent_video0001-1517.webm"
+                type="video/webm">
+            </video>
+          </div>
+          <div class="image-bar-item">
+            <video autoplay loop muted playsinline>
+              <source src="images/3D Images/Video/iphone_MyNamePibble_transparent_video_spinningUP0001-0347.webm"
+                type="video/webm">
+            </video>
+          </div>
+          <div class="image-bar-item">
+            <img src="images/3D Images/Verticals/Vertical_SlimeClimb_JUMP_AppStore.png" alt="iPhone still render">
+          </div>
+          <div class="image-bar-item">
+            <img src="images/3D Images/Verticals/Vertical_SlimeClimb_FIGHT_AppStore.png" alt="iPhone still render">
+          </div>
+          <div class="image-bar-item">
+            <img src="images/3D Images/Client/PizzaKid_SummerPromo.png" alt="iPhone still render">
+          </div>
+        </div>
+      </div>
+
+      <!-- WIDE — iPhone rotating animation webm -->
+      <div class="media-card card-wide reveal">
+        <div class="media-inner">
+          <video autoplay loop muted playsinline webkit-playsinline>
+            <source src="images/3D Images/Video/iphone_MyNamePibble_transparent_video_spinningUP0001-0347.webm"
+              type="video/webm">
+          </video>
+        </div>
+
+        <div class="media-overlay"><span class="overlay-label">3D iPhone — App Rotating</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Device Mockup · Rotation</span>
+          <span class="card-badge anim">Animation</span>
+        </div>
+      </div>
+
+      <!-- SM — device still -->
+      <div class="media-card card-sm reveal">
+        <div class="media-inner">
+          <image src="images/3D Images/Client_DeviceiPad_WhiteScene_SlimeClimb.png" alt="iPad still render">
+        </div>
+        <div class="media-overlay"><span class="overlay-label">iPad Mockup Still W/ Scene</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">iPad Device Still : Full Backing Scene</span>
+          <span class="card-badge still">Still</span>
+        </div>
+      </div>
 
 
 
 
-    <!-- HALF — promo art client 1 -->
-    <div class="media-card card-half reveal">
-      <div class="media-inner">
-        <image src="images/3D Images/Render_SWFL (2).png" alt="Client promo art with device">
+      <!-- HALF — promo art client 1 -->
+      <div class="media-card card-half reveal">
+        <div class="media-inner">
+          <image src="images/3D Images/Render_SWFL (2).png" alt="Client promo art with device">
+        </div>
+        <div class="media-overlay"><span class="overlay-label">Mockup - Environment Scene</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Mockup - Environment Scene Render</span>
+          <span class="card-badge still">Environments</span>
+        </div>
       </div>
-      <div class="media-overlay"><span class="overlay-label">Mockup - Environment Scene</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Mockup - Environment Scene Render</span>
-        <span class="card-badge still">Environments</span>
-      </div>
-    </div>
 
-    <!-- HALF — promo art client 2 -->
-    <div class="media-card card-half reveal">
-      <div class="media-inner">
-        <image src="images/3D Images/Render_CD.png" alt="Client promo art with device">
+      <!-- HALF — promo art client 2 -->
+      <div class="media-card card-half reveal">
+        <div class="media-inner">
+          <image src="images/3D Images/Render_CD.png" alt="Client promo art with device">
+        </div>
+        <div class="media-overlay"><span class="overlay-label">Client Promo — 3D Mock</span></div>
+        <div class="card-meta">
+          <span class="card-meta-title">Client Promo - 3D Mock</span>
+          <span class="card-badge promo">Still</span>
+        </div>
       </div>
-      <div class="media-overlay"><span class="overlay-label">Client Promo — 3D Mock</span></div>
-      <div class="card-meta">
-        <span class="card-meta-title">Client Promo - 3D Mock</span>
-        <span class="card-badge promo">Still</span>
-      </div>
-    </div>
 
-    <!-- FULL — second pixel character animation webm -->
-    <!-- <div class="media-card card-full reveal">
+      <!-- FULL — second pixel character animation webm -->
+      <!-- <div class="media-card card-full reveal">
       <div class="media-inner" style="aspect-ratio: 21/9;">
         <div class="placeholder">
           <div class="placeholder-icon">▶</div>
@@ -1348,272 +2047,536 @@
     </div> -->
 
 
-  </div>
-</section>
+    </div>
+  </section>
 
-<hr class="divider">
+  <hr class="divider">
 
-<!-- ══ FEATURED SHORT ══ -->
-<section id="short">
-  <div class="section-label reveal">Featured Short</div>
-  <h2 class="section-title reveal">Slurbs Nap</h2>
-  <p class="section-desc reveal">A vertical short film showcasing the full pipeline : 3D render, pixel character, original sound design, one of my favorites for sure.</p>
+  <!-- ══ FEATURED SHORT ══ -->
+  <section id="short">
+    <div class="section-label reveal">Featured Short</div>
+    <h2 class="section-title reveal">Slurbs Nap</h2>
+    <p class="section-desc reveal">A vertical short film showcasing the full pipeline : 3D render, pixel character,
+      original sound design, one of my favorites for sure.</p>
 
-  <div class="featured-short reveal">
-    <div class="featured-short-inner">
-      <div class="featured-video-col">
-        <div class="yt-wrapper">
-          <a href="https://youtube.com/shorts/nZdfHJYNAlc" target="_blank">
-            <img src="images/3D Images/LookIn_still.png" alt="Pixel Character Short Film">
-          </a>
+    <div class="featured-short reveal">
+      <div class="featured-short-inner">
+        <div class="featured-video-col">
+          <div class="yt-wrapper">
+            <a href="https://youtube.com/shorts/nZdfHJYNAlc" target="_blank">
+              <img src="images/3D Images/LookIn_still.png" alt="Pixel Character Short Film">
+            </a>
+          </div>
+        </div>
+        <div class="featured-info-col">
+          <span class="featured-tag">Short Film</span>
+          <h3 class="featured-heading">Pixel Art<br>in the Real World</h3>
+          <p class="featured-body">
+            A realistic pixel-art slime named slurb living in a hermit crab tank, shot as a vertical iPhone recording,
+            fully rendered in 3D. Sound design self recorded and mixed.
+          </p>
+          <a href="https://youtube.com/shorts/nZdfHJYNAlc" target="_blank" rel="noopener" class="btn btn-outline"
+            style="width: fit-content;"><span>Watch on YouTube</span></a>
         </div>
       </div>
-      <div class="featured-info-col">
-        <span class="featured-tag">Short Film</span>
-        <h3 class="featured-heading">Pixel Art<br>in the Real World</h3>
-        <p class="featured-body">
-          A realistic pixel-art slime named slurb living in a hermit crab tank, shot as a vertical iPhone recording, fully rendered in 3D. Sound design self recorded and mixed.
-        </p>
-        <a href="https://youtube.com/shorts/nZdfHJYNAlc" target="_blank" rel="noopener" class="btn btn-outline" style="width: fit-content;"><span>Watch on YouTube</span></a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ PRICING ══ -->
+  <section class="pricing-section reveal">
+    <div class="pricing-header">
+      <h2 class="pricing-title">Game Characters to 3D Rates</h2>
+      <p class="pricing-subtitle"> Pricing for bringing your 2D pixels/game characters to life in immersive 3D
+        environments.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-card-tier">Stills & Quick GIFS</div>
+        <div class="pricing-card-price">$250</div>
+        <div class="pricing-card-starting">Starting at</div>
+        <p class="pricing-card-description">Simple environment still shots with your characters + small camera
+          movements. Perfect for quick GIFs or graphic designs for pictures.</p>
+
+        <div class="pricing-card-features">
+          <ul>
+            <li>Basic environment setup</li>
+            <li>Character positioning & lighting</li>
+            <li>Simple camera movements</li>
+            <li>GIF or still image delivery</li>
+            <li>3-5 day turnaround</li>
+          </ul>
+        </div>
+
+        <!-- <div class="pricing-card-image">
+          <img src="images/3D Images/Render_SlurbStrong.png" alt="Stills & GIFs Example"
+            onerror="this.parentElement.innerHTML='<div class=&quot;pricing-card-placeholder&quot;>Example Image</div>'">
+        </div> -->
+      </div>
+
+      <div class="pricing-card reveal">
+        <div class="pricing-card-tier">Bigger Scope Shots</div>
+        <div class="pricing-card-price">$500</div>
+        <div class="pricing-card-starting">Starting at</div>
+        <p class="pricing-card-description">More in-depth environment & video editing or graphic design. More props and
+          camera movements.
+          Ideal for game marketing.</p>
+
+        <div class="pricing-card-features">
+          <ul>
+            <li>Complex environment design</li>
+            <li>Animated 3D sprite sequences</li>
+            <li>In-depth camera movements + shots</li>
+            <li>Enhanced lighting & effects</li>
+            <li>Graphic Designs included</li>
+            <li>5-7 day turnaround</li>
+          </ul>
+        </div>
+
+        <!-- <div class="pricing-card-image">
+          <img src="images/3D Images/Render_HermitCrab_promo_full.png" alt="Bigger Scope Example"
+            onerror="this.parentElement.innerHTML='<div class=&quot;pricing-card-placeholder&quot;>Example Image</div>'">
+        </div> -->
+      </div>
+
+      <div class="pricing-card reveal">
+        <div class="pricing-card-tier">Full Promo Video</div>
+        <div class="pricing-card-price">$1,500</div>
+        <div class="pricing-card-starting">Starting at</div>
+        <p class="pricing-card-description">Complete promo video with environment, story beat, editing, and
+          call-to-action. Bundles everything above into one package for the highest quality promotion.</p>
+
+        <div class="pricing-card-features">
+          <ul>
+            <li>Full cinematic production</li>
+            <li>Story & narrative structure</li>
+            <li>Professional editing & sound sfx</li>
+            <li>Call-to-action integration</li>
+            <li>15-20 day turnaround</li>
+          </ul>
+        </div>
+
+        <!-- <div class="pricing-card-image">
+          <img src="images/3D Images/Client/PizzaKid_SummerPromo.png" alt="Full Promo Video Example"
+            onerror="this.parentElement.innerHTML='<div class=&quot;pricing-card-placeholder&quot;>Example Image</div>'">
+        </div> -->
+      </div>
+    </div>
+  </section>
+  <hr class="divider">
+
+  <!-- ══ CTA ══ -->
+  <div class="cta-section" id="contact">
+    <div class="cta-bg"></div>
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">Wanna<br>collab?</h2>
+      <p class="cta-sub">Send me your idea, your app, whatever and I'll make something pretty sweet.</p>
+      <a href="mailto:giulianminichiello@gmail.com" class="btn"><span>Get in Touch</span></a>
+
+      <!-- Contact Bubbles -->
+      <div class="contact-bubbles">
+        <a href="mailto:giulianminichiello@gmail.com" class="contact-bubble bubble-email">
+          <img src="images/Logos/gmail_logo.png" alt="Email" onerror="this.style.display='none'">
+        </a>
+
+        <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank"
+          class="contact-bubble bubble-linkedin">
+          <img src="images/Logos/linkedin_logo.png" alt="LinkedIn" onerror="this.style.display='none'">
+        </a>
+
+        <a href="https://discord.com/users/944008738690453575" target="_blank" class="contact-bubble bubble-discord">
+          <img src="images/Logos/discord_logo.jpg" alt="Discord" onerror="this.style.display='none'">
+        </a>
+
+        <a href="https://x.com/giminich_" target="_blank" class="contact-bubble bubble-twitter">
+          <img src="images/Logos/x_logo.png" alt="Twitter" onerror="this.style.display='none'">
+        </a>
       </div>
     </div>
   </div>
-</section>
 
-<hr class="divider">
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-brand">Giulian Minichiello · 3D Artist</div>
+    <div class="footer-note"> 2026 · 100% Human · All renders &amp; animations original work</div>
+  </footer>
 
-
-<hr class="divider">
-
-<!-- ══ CTA ══ -->
-<div class="cta-section" id="contact">
-  <div class="cta-bg"></div>
-  <div class="cta-inner reveal">
-    <h2 class="cta-title">Wanna<br>collab?</h2>
-    <p class="cta-sub">Send me your idea, your app, whatever and I'll make something pretty sweet.</p>
-    <a href="mailto:giulianminichiello@gmail.com" class="btn"><span>Get in Touch</span></a>
+  <!-- ══ LIGHTBOX ══ -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">[ CLOSE ]</button>
+    <img class="lightbox-media" id="lightboxImg" src="" alt="" style="display: none;">
+    <video class="lightbox-media" id="lightboxVideo" controls autoplay loop muted style="display: none;">
+      <source id="lightboxVideoSource" src="" type="video/webm">
+    </video>
   </div>
-</div>
 
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-brand">Giulian Minichiello · 3D Artist</div>
-  <div class="footer-note"> 2026 · 100% Human · All renders &amp; animations original work</div>
-</footer>
+  <!-- ══ CONTACT MODAL ══ -->
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-modal-content">
+      <div class="contact-modal-text">Send me a message</div>
+      <button class="contact-modal-close" id="contactModalClose">[ CLOSE ]</button>
 
-<!-- ══ LIGHTBOX ══ -->
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose">[ CLOSE ]</button>
-  <img class="lightbox-media" id="lightboxImg" src="" alt="">
-</div>
+      <a href="mailto:giulianminichiello@gmail.com" class="contact-modal-item">
+        <img src="images/Logos/gmail_logo.png" alt="Email" onerror="this.parentElement.innerHTML='✉'">
+      </a>
 
-<script>
-  // ── Scroll reveal ──
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
+      <a href="https://www.linkedin.com/in/giulian-minichiello-31a836333" target="_blank" class="contact-modal-item">
+        <img src="images/Logos/linkedin_logo.png" alt="LinkedIn" onerror="this.parentElement.innerHTML='💼'">
+      </a>
 
-  // ── Lightbox for still images ──
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxClose = document.getElementById('lightboxClose');
+      <a href="https://discord.com/users/944008738690453575" target="_blank" class="contact-modal-item">
+        <img src="images/Logos/discord_logo.jpg" alt="Discord" onerror="this.parentElement.innerHTML='💬'">
+      </a>
 
-  document.querySelectorAll('.media-card img').forEach(img => {
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', (e) => {
-      e.stopPropagation();
-      lightboxImg.src = img.src;
-      lightbox.classList.add('active');
-    });
-  });
+      <a href="https://x.com/giminich_" target="_blank" class="contact-modal-item">
+        <img src="images/Logos/x_logo.png" alt="Twitter" onerror="this.parentElement.innerHTML='🐦'">
+      </a>
+    </div>
+  </div>
 
-  lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
-  lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') lightbox.classList.remove('active');
-  });
-
-  // ── Smooth anchor ──
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-    });
-  });
-
-  // ── Performance Optimization: Gallery Videos ──
-  const galleryVideos = document.querySelectorAll('.media-card video');
-  const videoObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target;
-      if (entry.isIntersecting) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-  }, { threshold: 0.1 });
-  galleryVideos.forEach(video => videoObserver.observe(video));
-
-  // ── Performance Optimization: Scroll Bar ──
-  const scrollBar = document.getElementById('scrollBar');
-  const scrollTrack = document.getElementById('scrollTrack');
-  if (scrollBar && scrollTrack) {
-    const scrollVideos = scrollTrack.querySelectorAll('video');
-    
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Start animation when visible
-          scrollTrack.classList.add('active');
-          scrollVideos.forEach(video => {
-            video.play().catch(() => {});
-          });
-        } else {
-          // Stop animation when not visible - major performance boost
-          scrollTrack.classList.remove('active');
-          scrollVideos.forEach(video => {
-            video.pause();
-          });
+  <script>
+    // ── Scroll reveal ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.01 });
-    
-    barObserver.observe(scrollBar);
-  }
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
 
-  // ── Before/After Sliders ──
-  document.querySelectorAll('.compare-slider').forEach(slider => {
-    const handle = slider.querySelector('.slider-handle');
-    const afterImage = slider.querySelector('.after-image');
-    let isDragging = false;
+    // ── Enhanced Lightbox for Images and Videos ──
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxVideo = document.getElementById('lightboxVideo');
+    const lightboxVideoSource = document.getElementById('lightboxVideoSource');
+    const lightboxClose = document.getElementById('lightboxClose');
 
-    function updateSlider(clientX) {
-      const rect = slider.getBoundingClientRect();
-      let x = clientX - rect.left;
-      x = Math.max(0, Math.min(x, rect.width));
-      const percent = (x / rect.width) * 100;
-      handle.style.left = percent + '%';
-      afterImage.style.clipPath = `inset(0 0 0 ${percent}%)`;
+    function openImageLightbox(src) {
+      lightboxImg.src = src;
+      lightboxImg.style.display = 'block';
+      lightboxVideo.style.display = 'none';
+      lightboxVideo.pause(); // Stop any playing video
+      lightbox.classList.add('active');
     }
 
-    function handleMouseMove(e) {
-      if (!isDragging) return;
-      updateSlider(e.clientX);
+    function openVideoLightbox(src) {
+      lightboxVideoSource.src = src;
+      lightboxVideo.load(); // Reload video with new source
+      lightboxVideo.style.display = 'block';
+      lightboxImg.style.display = 'none';
+      lightbox.classList.add('active');
     }
 
-    function handleTouchMove(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      updateSlider(e.touches[0].clientX);
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      lightboxVideo.pause();
+      lightboxImg.style.display = 'none';
+      lightboxVideo.style.display = 'none';
     }
 
-    function stopDragging() {
-      isDragging = false;
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', stopDragging);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', stopDragging);
-    }
-
-    handle.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      updateSlider(e.clientX);
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', stopDragging);
-      e.preventDefault();
+    // Add lightbox functionality to media card images
+    document.querySelectorAll('.media-card img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openImageLightbox(img.src);
+      });
     });
 
-    handle.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      updateSlider(e.touches[0].clientX);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', stopDragging);
-      e.preventDefault();
+    // Add lightbox functionality to media card videos
+    document.querySelectorAll('.media-card video').forEach(video => {
+      video.style.cursor = 'zoom-in';
+      video.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const source = video.querySelector('source');
+        if (source) {
+          openVideoLightbox(source.src);
+        }
+      });
     });
-  });
 
-  // ── Diagonal Comparison Sliders ──
-  document.querySelectorAll('.compare-slider-diagonal').forEach(slider => {
-    const handle = slider.querySelector('.diagonal-handle');
-    const afterImage = slider.querySelector('.after-image');
-    const line = slider.querySelector('.diagonal-line');
-    let isDragging = false;
-    let progress = 0.5;
+    // Add lightbox functionality to image bar images
+    document.querySelectorAll('.image-bar-item img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openImageLightbox(img.src);
+      });
+    });
 
-    function setDiagonal(progressValue) {
-      progress = Math.max(0, Math.min(1, progressValue));
-      const x = progress * 100;
-      const y = progress * 100;
-      handle.style.left = x + '%';
-      handle.style.top = y + '%';
-      line.style.left = x + '%';
-      line.style.top = y + '%';
+    // Add lightbox functionality to image bar videos
+    document.querySelectorAll('.image-bar-item video').forEach(video => {
+      video.style.cursor = 'zoom-in';
+      video.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const source = video.querySelector('source');
+        if (source) {
+          openVideoLightbox(source.src);
+        }
+      });
+    });
 
-      const sum = progress * 2;
-      if (sum <= 1) {
-        afterImage.style.clipPath = `polygon(${sum*100}% 0%, 100% 0%, 100% 100%, 0% 100%, 0% ${sum*100}%)`;
-      } else {
-        const remainSum = sum - 1;
-        afterImage.style.clipPath = `polygon(${remainSum*100}% 100%, 100% 100%, 100% ${remainSum*100}%)`;
+    // Lightbox close events
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    lightboxClose.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // ── Contact Modal ──
+    const contactModal = document.getElementById('contactModal');
+    const contactModalClose = document.getElementById('contactModalClose');
+    const getInTouchBtn = document.querySelector('a[href="mailto:giulianminichiello@gmail.com"].btn');
+
+    function openContactModal() {
+      contactModal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeContactModal() {
+      contactModal.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    // Open contact modal when clicking "Get in Touch"
+    if (getInTouchBtn) {
+      getInTouchBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default mailto behavior
+        openContactModal();
+      });
+    }
+
+    // Close modal events
+    contactModal.addEventListener('click', (e) => {
+      if (e.target === contactModal) closeContactModal();
+    });
+    contactModalClose.addEventListener('click', closeContactModal);
+
+    // Close modal with Escape key (includes both lightbox and contact modal)
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeContactModal();
       }
-    }
-
-    function updateDiagonal(clientX, clientY) {
-      const rect = slider.getBoundingClientRect();
-      let x = clientX - rect.left;
-      let y = clientY - rect.top;
-      x = Math.max(0, Math.min(x, rect.width));
-      y = Math.max(0, Math.min(y, rect.height));
-      const normalized = ((x / rect.width) + (y / rect.height)) / 2;
-      setDiagonal(normalized);
-    }
-
-    function handleMouseMove(e) {
-      if (!isDragging) return;
-      updateDiagonal(e.clientX, e.clientY);
-    }
-
-    function handleTouchMove(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      updateDiagonal(e.touches[0].clientX, e.touches[0].clientY);
-    }
-
-    function stopDragging() {
-      isDragging = false;
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', stopDragging);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', stopDragging);
-    }
-
-    handle.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      updateDiagonal(e.clientX, e.clientY);
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', stopDragging);
-      e.preventDefault();
     });
 
-    handle.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      updateDiagonal(e.touches[0].clientX, e.touches[0].clientY);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', stopDragging);
-      e.preventDefault();
+    // ── Image Bar Touch/Mouse Scroll Support ──
+    const imageBar = document.getElementById('imageBar');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // Mouse events for desktop
+    imageBar.addEventListener('mousedown', (e) => {
+      isDown = true;
+      imageBar.classList.add('active');
+      startX = e.pageX - imageBar.offsetLeft;
+      scrollLeft = imageBar.scrollLeft;
+      imageBar.style.cursor = 'grabbing';
     });
 
-    setDiagonal(progress);
-  });
+    imageBar.addEventListener('mouseleave', () => {
+      isDown = false;
+      imageBar.classList.remove('active');
+      imageBar.style.cursor = '';
+    });
 
-</script>
+    imageBar.addEventListener('mouseup', () => {
+      isDown = false;
+      imageBar.classList.remove('active');
+      imageBar.style.cursor = '';
+    });
+
+    imageBar.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - imageBar.offsetLeft;
+      const walk = (x - startX) * 2;
+      imageBar.scrollLeft = scrollLeft - walk;
+    });
+
+    // ── Smooth anchor ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    // ── Performance Optimization: Gallery Videos ──
+    const galleryVideos = document.querySelectorAll('.media-card video');
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          video.play().catch(() => { });
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+    galleryVideos.forEach(video => videoObserver.observe(video));
+
+    // ── Performance Optimization: Scroll Bar ──
+    const scrollBar = document.getElementById('scrollBar');
+    const scrollTrack = document.getElementById('scrollTrack');
+    if (scrollBar && scrollTrack) {
+      const scrollVideos = scrollTrack.querySelectorAll('video');
+
+      const barObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Start animation when visible
+            scrollTrack.classList.add('active');
+            scrollVideos.forEach(video => {
+              video.play().catch(() => { });
+            });
+          } else {
+            // Stop animation when not visible - major performance boost
+            scrollTrack.classList.remove('active');
+            scrollVideos.forEach(video => {
+              video.pause();
+            });
+          }
+        });
+      }, { threshold: 0.01 });
+
+      barObserver.observe(scrollBar);
+    }
+
+    // ── Before/After Sliders ──
+    document.querySelectorAll('.compare-slider').forEach(slider => {
+      const handle = slider.querySelector('.slider-handle');
+      const afterImage = slider.querySelector('.after-image');
+      let isDragging = false;
+
+      function updateSlider(clientX) {
+        const rect = slider.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+        const percent = (x / rect.width) * 100;
+        handle.style.left = percent + '%';
+        afterImage.style.clipPath = `inset(0 0 0 ${percent}%)`;
+      }
+
+      function handleMouseMove(e) {
+        if (!isDragging) return;
+        updateSlider(e.clientX);
+      }
+
+      function handleTouchMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        updateSlider(e.touches[0].clientX);
+      }
+
+      function stopDragging() {
+        isDragging = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', stopDragging);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', stopDragging);
+      }
+
+      handle.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        updateSlider(e.clientX);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', stopDragging);
+        e.preventDefault();
+      });
+
+      handle.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        updateSlider(e.touches[0].clientX);
+        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchend', stopDragging);
+        e.preventDefault();
+      });
+    });
+
+    // ── Diagonal Comparison Sliders ──
+    document.querySelectorAll('.compare-slider-diagonal').forEach(slider => {
+      const handle = slider.querySelector('.diagonal-handle');
+      const afterImage = slider.querySelector('.after-image');
+      const line = slider.querySelector('.diagonal-line');
+      let isDragging = false;
+      let progress = 0.5;
+
+      function setDiagonal(progressValue) {
+        progress = Math.max(0, Math.min(1, progressValue));
+        const x = progress * 100;
+        const y = progress * 100;
+        handle.style.left = x + '%';
+        handle.style.top = y + '%';
+        line.style.left = x + '%';
+        line.style.top = y + '%';
+
+        const sum = progress * 2;
+        if (sum <= 1) {
+          afterImage.style.clipPath = `polygon(${sum * 100}% 0%, 100% 0%, 100% 100%, 0% 100%, 0% ${sum * 100}%)`;
+        } else {
+          const remainSum = sum - 1;
+          afterImage.style.clipPath = `polygon(${remainSum * 100}% 100%, 100% 100%, 100% ${remainSum * 100}%)`;
+        }
+      }
+
+      function updateDiagonal(clientX, clientY) {
+        const rect = slider.getBoundingClientRect();
+        let x = clientX - rect.left;
+        let y = clientY - rect.top;
+        x = Math.max(0, Math.min(x, rect.width));
+        y = Math.max(0, Math.min(y, rect.height));
+        const normalized = ((x / rect.width) + (y / rect.height)) / 2;
+        setDiagonal(normalized);
+      }
+
+      function handleMouseMove(e) {
+        if (!isDragging) return;
+        updateDiagonal(e.clientX, e.clientY);
+      }
+
+      function handleTouchMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        updateDiagonal(e.touches[0].clientX, e.touches[0].clientY);
+      }
+
+      function stopDragging() {
+        isDragging = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', stopDragging);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', stopDragging);
+      }
+
+      handle.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        updateDiagonal(e.clientX, e.clientY);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', stopDragging);
+        e.preventDefault();
+      });
+
+      handle.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        updateDiagonal(e.touches[0].clientX, e.touches[0].clientY);
+        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchend', stopDragging);
+        e.preventDefault();
+      });
+
+      setDiagonal(progress);
+    });
+
+  </script>
 </body>
+
 </html>
